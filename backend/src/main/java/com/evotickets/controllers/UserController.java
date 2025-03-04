@@ -41,8 +41,11 @@ public class UserController {
         return ResponseEntity.status(200).body(userService.login(user));
     }
     
-
-    
+    @GetMapping("/logout")
+    public String logout(@RequestBody UserDTO user) {
+        
+        return "Prueba logout";
+    }
 
 
 }
