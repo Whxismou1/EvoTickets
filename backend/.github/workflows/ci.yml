@@ -1,0 +1,36 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+
+      - name: Verificar dependencias
+        run: mvn dependency:resolve
+
+      - name: Compilar el proyecto
+        run: mvn clean package
+
+      - name: Ejecutar pruebas
+        run: mvn test
+
+      - name: Analizar con SpotBugs (linter estático para Java)
+        run: mvn spotbugs:check || true
+
+      - name: Verificar formato de código con Checkstyle
+        run: mvn checkstyle:check || true
