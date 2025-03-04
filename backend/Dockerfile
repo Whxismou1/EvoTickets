@@ -1,9 +1,9 @@
 FROM maven:3.8.7-openjdk-18-slim AS backend-build
 
-WORKDIR /app/backend
+WORKDIR /app
 
-COPY backend/pom.xml backend/pom.xml
-COPY backend/src/ backend/src/
+COPY pom.xml /app/pom.xml
+COPY src/ /app/src/
 
 RUN mvn clean package -DskipTests
 
@@ -11,7 +11,7 @@ FROM openjdk:17-jdk-slim AS final
 
 WORKDIR /app
 
-COPY --from=backend-build /app/backend/target/backend-0.0.1-SNAPSHOT.jar /app/backend.jar
+COPY --from=backend-build /app/target/backend-0.0.1-SNAPSHOT.jar /app/backend.jar
 
 EXPOSE 8080
 
