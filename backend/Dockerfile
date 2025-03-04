@@ -1,4 +1,4 @@
-FROM maven:3.8.6-openjdk-17-slim AS backend-build
+FROM maven:3.8.7-openjdk-18-slim AS backend-build
 
 WORKDIR /app/backend
 
