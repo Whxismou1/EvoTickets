@@ -21,7 +21,7 @@ public class UserDTO {
     private String email;
     private String password;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
     private UserRole userRole = UserRole.CLIENT;
