@@ -1,4 +1,5 @@
-import { Button, Input, Checkbox, Link, Form } from "@heroui/react";
+import { Button, Input, Checkbox, Form } from "@heroui/react";
+import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { login } from "../services/authService";
@@ -17,7 +18,12 @@ export default function Component() {
     try {
       const data = await login(email, password);
       console.log(data);
-      navigate("/home");
+
+      if (data) {
+        navigate("/home");
+      } else {
+        alert("Login failed");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -84,10 +90,9 @@ export default function Component() {
             Log In
           </Button>
         </Form>
-        <p className="text-center text-small">
-          <Link href="/register">Register</Link>
-        </p>
       </div>
+
+      <Link to="/register">Register</Link>
     </div>
   );
 }

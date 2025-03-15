@@ -1,6 +1,8 @@
-import { Button, Input, Form, DatePicker } from "@heroui/react";
+import { Button, Input, Form, DateInput } from "@heroui/react";
+import { CalendarDate } from "@internationalized/date";
+
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { register } from "../services/authService";
 
 function Register() {
@@ -14,9 +16,21 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const data = await register(username, email, password, dateOfBirth.toString());
+      const data = await register(
+        username,
+        email,
+        password,
+        dateOfBirth.toString()
+      );
+
+      if (!data) {
+        alert("Register failed");
+        return;
+      }
+
       console.log(data);
-      navigate("/login");
+
+      navigate("/verifyAccount", { state: { email } });
     } catch (error) {
       console.error(error);
     }
@@ -45,14 +59,18 @@ function Register() {
           type="password"
           onChange={(event) => setPassword(event.target.value)}
         />
-        <DatePicker
+        <DateInput
           name="dateOfBirth"
-          label="Date of Birth"
+          className="max-w-sm"
+          label={"Birth date"}
           onChange={(date) => setDateOfBirth(date)}
+          placeholderValue={new CalendarDate(1995, 11, 6)}
         />
-
         <Button type="submit">Register</Button>
       </Form>
+      <p className="text-center text-small">
+        <Link to="/login">LogIn</Link>
+      </p>
     </div>
   );
 }

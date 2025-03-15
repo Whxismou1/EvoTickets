@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 function LandingPage() {
   return (
     <div>
+
+      <NavBar />
+
       LandingPage
       <nav>
         <ul>
