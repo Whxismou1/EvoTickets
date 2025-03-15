@@ -36,6 +36,7 @@ export default function Component() {
           Log In
           <span aria-label="emoji" className="ml-2" role="img">
             👋
+            
           </span>
         </p>
         <Form
