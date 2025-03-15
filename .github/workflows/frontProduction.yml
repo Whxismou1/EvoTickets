@@ -10,11 +10,21 @@ on:
       - main
     paths:
       - 'frontend/**'
+
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias
+        run: npm install
+        working-directory: frontend 
 
       - name: Vercel CLI
         run: npm install -g vercel
@@ -22,7 +32,7 @@ jobs:
       - name: Pull Vercel env
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Build aritfacts
+      - name: Build artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy projects Artifacts
