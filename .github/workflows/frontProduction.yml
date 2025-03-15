@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      - 'frontend/**'
+      - "frontend/**"
 
 jobs:
   Deploy-Production:
@@ -20,11 +20,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Instalar dependencias
-        run: npm install
-        working-directory: frontend 
+        run: |
+          cd frontend
+          npm install
 
       - name: Vercel CLI
         run: npm install -g vercel
