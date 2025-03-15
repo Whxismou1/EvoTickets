@@ -42,7 +42,7 @@ public class UserController {
     }
     
     @GetMapping("/logout")
-    public String logout(@RequestBody UserDTO user) {
+    public String logout() {
         return "Prueba logout";
     }
 

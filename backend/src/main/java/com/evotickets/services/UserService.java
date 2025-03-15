@@ -31,6 +31,9 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    
+
+
     public UserDTO registerUser(UserDTO user) {
         UserEntity userEntity = mapper.toEntity(user);
 
