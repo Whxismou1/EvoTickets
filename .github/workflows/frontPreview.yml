@@ -9,15 +9,27 @@ on:
     branches-ignore:
       - main
     paths:
-      - 'frontend/**'
+      - "frontend/**"
 
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - uses: actions/checkout@v3
 
-      - name: Vercel CLI
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Instalar Vercel CLI
         run: npm install -g vercel
 
       - name: Pull Vercel env
@@ -28,3 +40,4 @@ jobs:
 
       - name: Deploy project artifacts
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+

@@ -14,6 +14,10 @@ on:
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - uses: actions/checkout@v3
 
@@ -23,11 +27,9 @@ jobs:
           node-version: "22"
 
       - name: Instalar dependencias
-        run: |
-          cd frontend
-          npm install
+        run: npm install
 
-      - name: Vercel CLI
+      - name: Instalar Vercel CLI
         run: npm install -g vercel
 
       - name: Pull Vercel env
@@ -38,3 +40,4 @@ jobs:
 
       - name: Deploy projects Artifacts
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
