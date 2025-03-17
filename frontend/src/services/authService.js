@@ -2,6 +2,7 @@ import { useAuthStore } from "../store/authStore";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL + "/api/v1/auth";
 export const login = async (email, password) => {
+  console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
   try {
     const res = await fetch(`${BASE_URL}/login`, {
       method: "POST",
