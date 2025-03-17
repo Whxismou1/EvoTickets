@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Account</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4; 
+            margin: 0; 
+            padding: 0; 
+        }
+        .email-container { 
+            max-width: 600px; 
+            margin: 20px auto; 
+            background: #ffffff; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        }
+        .logo-container {
+            text-align: center;
+            padding: 10px 0;
+        }
+        .logo-container img {
+            width: 150px;
+        }
+        h2 { 
+            color: #333; 
+            text-align: center; 
+        }
+        p { 
+            color: #555; 
+            font-size: 16px; 
+            text-align: center;
+        }
+        .code-box {
+            background: #007bff;
+            color: #fff;
+            font-size: 22px;
+            font-weight: bold;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            width: fit-content;
+            margin: 20px auto;
+            letter-spacing: 2px;
+        }
+        .verify-button {
+            display: block;
+            width: fit-content;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 20px auto;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .verify-button:hover {
+            background: #218838;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="email-container">
+        <div class="logo-container">
+            <img src="" alt="Evotickets Logo">
+        </div>
+
+        <h2>Verify Your Email Address</h2>
+        <p>Thank you for signing up with <strong>Evotickets</strong>! To complete your registration, please use the verification code below:</p>
+
+        <div class="code-box">{{VERIFICATION_CODE}}</div>
+
+
+        <p>If you did not request this email, please ignore it.</p>
+
+        <div class="footer">
+            <p>&copy; 2024 Evotickets. All rights reserved.</p>
+        </div>
+    </div>
+
+</body>
+</html>

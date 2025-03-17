@@ -16,23 +16,10 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const data = await register(
-        username,
-        email,
-        password,
-        dateOfBirth.toString()
-      );
-
-      if (!data) {
-        alert("Register failed");
-        return;
-      }
-
-      console.log(data);
-
+      await register(username, email, password, dateOfBirth.toString());
       navigate("/verifyAccount", { state: { email } });
     } catch (error) {
-      console.error(error);
+      alert(error.message);
     }
   };
   return (

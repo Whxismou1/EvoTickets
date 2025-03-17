@@ -10,7 +10,7 @@ function Home() {
 
   return (
     <div>
-      Welcome Home
+      Welcome
       <Button onPress={handleLogOut}>Log Out</Button>
     </div>
   );

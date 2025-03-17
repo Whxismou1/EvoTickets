@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +14,10 @@ import com.evotickets.dtos.UserLoginDTO;
 import com.evotickets.dtos.UserRegisterDTO;
 import com.evotickets.dtos.UserVerifyDTO;
 import com.evotickets.entities.UserEntity;
+import com.evotickets.enums.EmailType;
+import com.evotickets.exceptions.EmailSendingException;
+import com.evotickets.exceptions.InvalidCredentialsException;
+import com.evotickets.exceptions.InvalidVerificationTokenException;
 import com.evotickets.repositories.UserRepository;
 
 import jakarta.mail.MessagingException;
@@ -55,10 +58,10 @@ public class AuthService {
 
     public UserEntity login(UserLoginDTO input) {
         UserEntity user = userRepository.findByEmail(input.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
 
         if (!user.isEnabled()) {
-            throw new RuntimeException("Account not verified");
+            throw new InvalidCredentialsException("Account not verified");
         }
 
         authenticationManager
@@ -67,24 +70,20 @@ public class AuthService {
     }
 
     public void verifyUser(UserVerifyDTO input) {
-        Optional<UserEntity> optUser = userRepository.findByEmail(input.getEmail());
-        if (optUser.isPresent()) {
-            UserEntity user = optUser.get();
-            if (user.getVerificationTokenExpiresAt().isBefore(LocalDateTime.now())) {
-                throw new RuntimeException("Verification token has expired");
-            }
-
-            if (user.getVerificationToken().equals(input.getVerificationToken())) {
-                user.setAccountActivated(true);
-                user.setVerificationToken(null);
-                user.setVerificationTokenExpiresAt(null);
-                userRepository.save(user);
-            } else {
-                throw new RuntimeException("Invalid verification token");
-            }
-        } else {
-            throw new RuntimeException("User not found");
+        UserEntity user = userRepository.findByEmail(input.getEmail())
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
+        if (user.getVerificationTokenExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new InvalidVerificationTokenException("Verification token has expired");
         }
+
+        if (!user.getVerificationToken().equals(input.getVerificationToken())) {
+            throw new InvalidVerificationTokenException("Invalid verification token");
+        }
+
+        user.setAccountActivated(true);
+        user.setVerificationToken(null);
+        user.setVerificationTokenExpiresAt(null);
+        userRepository.save(user);
     }
 
     public void resendVerificationTokenEmail(String email) {
@@ -95,7 +94,7 @@ public class AuthService {
             UserEntity user = optUser.get();
 
             if (user.isEnabled()) {
-                throw new RuntimeException("Account already verified");
+                throw new InvalidCredentialsException("Account already verified");
             }
             user.setVerificationToken(generateVerificationToken());
             user.setVerificationTokenExpiresAt(LocalDateTime.now().plusMinutes(15));
@@ -104,30 +103,17 @@ public class AuthService {
 
             userRepository.save(user);
         } else {
-            throw new RuntimeException("User not found");
+            throw new InvalidCredentialsException("Invalid credentials");
         }
     }
 
     public void sendVerificationEmail(UserEntity user) {
-        String subject = "Evotickets - Verify your account";
-        String verificationToken = user.getVerificationToken();
-        String msg = "<html>"
-                + "<body style=\"font-family: Arial, sans-serif;\">"
-                + "<div style=\"background-color: #f5f5f5; padding: 20px;\">"
-                + "<h2 style=\"color: #333;\">Welcome to our app!</h2>"
-                + "<p style=\"font-size: 16px;\">Please enter the verification code below to continue:</p>"
-                + "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
-                + "<h3 style=\"color: #333;\">Verification Code:</h3>"
-                + "<p style=\"font-size: 18px; font-weight: bold; color: #007bff;\">" + verificationToken + "</p>"
-                + "</div>"
-                + "</div>"
-                + "</body>"
-                + "</html>";
+
         try {
-            emailService.sedVerificationEmail(user.getEmail(), subject, msg);
+            emailService.sedVerificationEmail(user.getEmail(), EmailType.VERIFICATION, user.getVerificationToken());
 
         } catch (MessagingException e) {
-            e.printStackTrace();
+            throw new EmailSendingException("Error sending email: " + e.getMessage());
         }
     }
 
@@ -140,7 +126,7 @@ public class AuthService {
 
     public UserDetails loadUserByEmail(String username) {
         return userRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new InvalidCredentialsException("User not found"));
     }
 
 }

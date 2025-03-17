@@ -16,16 +16,10 @@ export default function Component() {
     event.preventDefault();
 
     try {
-      const data = await login(email, password);
-      console.log(data);
-
-      if (data) {
-        navigate("/home");
-      } else {
-        alert("Login failed");
-      }
+      await login(email, password);
+      navigate("/home");
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 
@@ -36,7 +30,6 @@ export default function Component() {
           Log In
           <span aria-label="emoji" className="ml-2" role="img">
             👋
-            
           </span>
         </p>
         <Form
