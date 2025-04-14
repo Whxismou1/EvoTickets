@@ -1,4 +1,4 @@
-name: SonarQube
+name: SonarQube Backend
 on:
   push:
     branches:
@@ -45,4 +45,4 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_B }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=EvoTickets_Backend
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=evoticketsorg_EvoTickets
