@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import VerifyAccount from "./pages/VerifyAccount";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <Route path="/home" element={<Home />} />
         </Route>
 
-        <Route path="*" element={<div>Not Found</div>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

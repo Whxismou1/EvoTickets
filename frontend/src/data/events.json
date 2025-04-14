@@ -1,0 +1,57 @@
+[
+    {
+      "id": 1,
+      "title": "Festival de Música Urbana",
+      "date": "15-17 Oct, 2023",
+      "location": "Madrid, España",
+      "price": "Desde 45€",
+      "category": "Música",
+      "image": "/placeholder.svg?height=400&width=600"
+    },
+    {
+      "id": 2,
+      "title": "Conferencia Tech Innovation",
+      "date": "8-10 Jul, 2023",
+      "location": "Barcelona, España",
+      "price": "Desde 120€",
+      "category": "Tecnología",
+      "image": "/placeholder.svg?height=400&width=600"
+    },
+    {
+      "id": 3,
+      "title": "Exposición de Arte Moderno",
+      "date": "22-24 Sep, 2023",
+      "location": "Valencia, España",
+      "price": "Desde 15€",
+      "category": "Arte",
+      "image": "/placeholder.svg?height=400&width=600"
+    },
+    {
+      "id": 4,
+      "title": "Feria Gastronómica Internacional",
+      "date": "5-7 Ago, 2023",
+      "location": "Sevilla, España",
+      "price": "Desde 25€",
+      "category": "Gastronomía",
+      "image": "/placeholder.svg?height=400&width=600"
+    },
+    {
+      "id": 5,
+      "title": "Partido Liga de Campeones",
+      "date": "12 Nov, 2023",
+      "location": "Madrid, España",
+      "price": "Desde 60€",
+      "category": "Deportes",
+      "image": "/placeholder.svg?height=400&width=600"
+    },
+    {
+      "id": 6,
+      "title": "Festival de Cine Independiente",
+      "date": "3-9 Oct, 2023",
+      "location": "Málaga, España",
+      "price": "Desde 30€",
+      "category": "Cine",
+      "image": "/placeholder.svg?height=400&width=600"
+    }
+  ]
+  
