@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button, Input } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
 import { Ticket, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import Nav from "../components/Navbar";
@@ -167,6 +168,10 @@ export default function LoginPage() {
               <Button
                 type="button"
                 variant="outline"
+                onClick={() => {
+                  console.log("Google login clicked");
+                }
+                }
                 className="w-full border-[#A28CD4] text-[#5C3D8D] hover:bg-[#A28CD4]/10 mb-4"
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">

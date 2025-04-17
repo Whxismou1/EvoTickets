@@ -70,8 +70,9 @@ public class AuthController {
     }
 
     @PostMapping("/resendVerificationToken")
-    public ResponseEntity<?> resendVerificationCode(@RequestParam String emal) {
-        authService.resendVerificationTokenEmail(emal);
+    public ResponseEntity<?> resendVerificationCode(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        authService.resendVerificationTokenEmail(email);
         return ResponseEntity.ok("Verification code sent");
     }
 

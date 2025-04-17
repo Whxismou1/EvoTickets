@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@heroui/react";
+import { Button } from "@heroui/button";
 import { useTranslation } from "react-i18next";
 
 import Navbar from "../components/Navbar";

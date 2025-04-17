@@ -107,7 +107,7 @@ public class AuthService {
         }
     }
 
-    public void sendVerificationEmail(UserEntity user) {
+    private void sendVerificationEmail(UserEntity user) {
 
         try {
             emailService.sedVerificationEmail(user.getEmail(), EmailType.VERIFICATION, user.getVerificationToken());
