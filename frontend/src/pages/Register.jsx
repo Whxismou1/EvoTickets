@@ -1,4 +1,7 @@
-import { Button, Input, Form, DateInput } from "@heroui/react";
+import { DateInput } from "@heroui/date-input";
+import { Form } from "@heroui/form";
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
 import { CalendarDate } from "@internationalized/date";
 
 import { useState } from "react";

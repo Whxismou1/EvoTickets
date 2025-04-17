@@ -76,6 +76,21 @@
     "googleButton": "Continuar con Google",
     "noAccount": "¿No tienes una cuenta?",
     "registerLink": "Regístrate"
+  },
+  "verifyAccount": {
+    "title": "Verifica tu cuenta",
+    "subtitle": "Hemos enviado un código de verificación a",
+    "inputLabel": "Ingresa el código de 6 dígitos",
+    "buttonVerify": "Verificar cuenta",
+    "buttonVerifying": "Verificando...",
+    "successTitle": "¡Verificación exitosa!",
+    "successMessage": "Tu cuenta ha sido verificada correctamente. Redirigiendo...",
+    "resendPrompt": "¿No recibiste el código? Reenviar",
+    "resendCountdown": "Reenviar código en ",
+    "errorDefault": "Código de verificación inválido. Por favor, inténtalo de nuevo.",
+    "backToLogin": "Volver a inicio de sesión",
+    "needHelp": "¿Necesitas ayuda?",
+    "contactUs": "Contáctanos",
+    "errorResend": "Error al reenviar el código."
   }
-
 }
