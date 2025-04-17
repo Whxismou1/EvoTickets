@@ -69,3 +69,25 @@ export const verifyAccount = async (verificationToken, email) => {
     throw new Error(error.error || "Verification failed");
   }
 };
+
+export const resendVerificationCode = async (email) => {
+  try {
+    const res = await fetch(`${BASE_URL}/resendVerificationToken`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Resend failed");
+    }
+
+    const data = await res.text();
+    return data;
+  } catch (error) {
+    throw new Error(error.message || "Resend failed");
+  }
+};

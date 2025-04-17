@@ -3,7 +3,7 @@
 import { Link } from "react-router-dom"
 import { ArrowLeft, MapPin } from "lucide-react"
 import { motion } from "framer-motion"
-import { Button } from "@heroui/react"
+import { Button } from "@heroui/button"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import { useTranslation } from "react-i18next"

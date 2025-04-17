@@ -1,4 +1,4 @@
-import { Button } from "@heroui/react";
+import { Button } from "@heroui/button";
 import { useAuthStore } from "../store/authStore";
 
 function Home() {

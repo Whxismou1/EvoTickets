@@ -55,13 +55,13 @@
   },
   "not_found": {
     "title": "404",
-      "subtitle": "Page not found",
-      "description": "It looks like you've lost your way to the event. The page you're looking for doesn't exist or has been moved.",
-      "backToHome": "Back to Home",
-      "exploreEvents": "Explore Events",
-      "needHelp": "Need help?",
-      "contactUs": "Contact us"
-    },
+    "subtitle": "Page not found",
+    "description": "It looks like you've lost your way to the event. The page you're looking for doesn't exist or has been moved.",
+    "backToHome": "Back to Home",
+    "exploreEvents": "Explore Events",
+    "needHelp": "Need help?",
+    "contactUs": "Contact us"
+  },
   "loginPage": {
     "loginTitle": "Log In",
     "emailPlaceholder": "your@email.com",
@@ -76,6 +76,21 @@
     "googleButton": "Continue with Google",
     "noAccount": "Don't have an account?",
     "registerLink": "Sign up"
-  }  
+  },
+  "verifyAccount": {
+    "title": "Verify your account",
+    "subtitle": "We've sent a verification code to",
+    "inputLabel": "Enter the 6-digit code",
+    "buttonVerify": "Verify account",
+    "buttonVerifying": "Verifying...",
+    "successTitle": "Verification successful!",
+    "successMessage": "Your account has been successfully verified. Redirecting...",
+    "resendPrompt": "Didn't receive the code? Resend",
+    "resendCountdown": "Resend code in ",
+    "errorDefault": "Invalid verification code. Please try again.",
+    "backToLogin": "Back to login",
+    "needHelp": "Need help?",
+    "contactUs": "Contact us",
+    "errorResend": "Error resending the code."
   }
-  
+}

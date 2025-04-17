@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import VerifyAccount from "./pages/VerifyAccount";
 import ProtectedRoute from "./components/ProtectedRoute";
+import VerifyAccountGuard from "./components/VerifyAccountGuard";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -16,6 +17,15 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verifyAccount" element={<VerifyAccount />} />
+
+        {/* <Route
+          path="/verifyAccount"
+          element={
+            <VerifyAccountGuard>
+              <VerifyAccount />
+            </VerifyAccountGuard>
+          }
+        /> */}
 
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
