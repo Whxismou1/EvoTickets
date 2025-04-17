@@ -10,14 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@heroui/button": "^2.2.17",
-    "@heroui/calendar": "^2.2.17",
-    "@heroui/checkbox": "^2.3.16",
-    "@heroui/date-input": "^2.3.16",
-    "@heroui/form": "^2.1.16",
-    "@heroui/input": "^2.4.17",
-    "@heroui/input-otp": "^2.1.16",
-    "@heroui/react": "^2.7.6",
+    "@heroui/react": "^2.8.0-beta.1",
+    "@tailwindcss/vite": "^4.1.4",
     "framer-motion": "^12.4.10",
     "i18next": "^24.2.3",
     "i18next-browser-languagedetector": "^8.0.4",
@@ -26,7 +20,7 @@
     "react-dom": "^19.0.0",
     "react-i18next": "^15.4.1",
     "react-router-dom": "^7.3.0",
-    "tailwindcss-animate": "^1.0.7",
+    "tailwindcss": "^4.1.4",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -35,14 +29,11 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
-    "autoprefixer": "^10.4.20",
     "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^3.4.17",
     "vite": "^6.1.0"
   }
 }
