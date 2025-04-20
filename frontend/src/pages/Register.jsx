@@ -18,6 +18,7 @@ function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    //if los campos !validos le paso el username ... pues hago un alert o un return
     try {
       await register(username, email, password, dateOfBirth.toString());
       navigate("/verifyAccount", { state: { email } });
