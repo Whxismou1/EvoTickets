@@ -10,19 +10,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.evotickets.entities.enums.UserRole;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
+@Data
+@Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-@Entity
-@ToString
 @Table(name = "users")
 public class UserEntity implements UserDetails{
 
@@ -40,13 +45,18 @@ public class UserEntity implements UserDetails{
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "profile_picture", length = 250)
+    private String profilePicture;
+
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
+    @Builder.Default
     private UserRole userRole = UserRole.CLIENT;
-
+    
+    @Builder.Default
     @Column(name = "account_activated", nullable = false)
     private boolean accountActivated = false;
 
@@ -67,11 +77,6 @@ public class UserEntity implements UserDetails{
         return List.of();
     }
 
-    // @Override
-    // public boolean isAccountNonExpired() {
-    //     return true;
-    // }
-
     @Override
     public boolean isAccountNonLocked() {
         return accountActivated;
@@ -87,4 +92,13 @@ public class UserEntity implements UserDetails{
         return accountActivated;
     }
 
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
 }
