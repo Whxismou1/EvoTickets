@@ -3,6 +3,7 @@ package com.evotickets.services;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -129,4 +130,62 @@ public class AuthService {
                 .orElseThrow(() -> new InvalidCredentialsException("User not found"));
     }
 
+    public void forgotPassword(String email) {
+        Optional<UserEntity> userExist = userRepository.findByEmail(email);
+
+        if(userExist.isEmpty()){
+            throw new InvalidCredentialsException("Error invalid credentials in forgot password");
+        }
+
+        UserEntity user = userExist.get();
+        String token = UUID.randomUUID().toString();
+        user.setResetPasswordToken(token);
+        user.setResetPasswordTokenExpiresAt(LocalDateTime.now().plusMinutes(30));
+        userRepository.save(user);
+
+        try {
+            String url = "https://www.evotickets.tech/resetPassword/" + token;
+            emailService.sendForgotPasswordEmail(email, EmailType.PASSWORD_RESET, url);
+
+        } catch (MessagingException e) {
+
+            throw new EmailSendingException("Error sending email: " + e.getMessage());
+
+        }
+    }
+
+    public void validateResetToken(String token) {
+        Optional<UserEntity> userOpt = userRepository.findByResetPasswordToken(token);
+
+        if(userOpt.isEmpty()){
+            throw new InvalidCredentialsException("Error invalid token in reset password");
+        }
+
+        UserEntity user = userOpt.get();
+
+        if(user.getResetPasswordToken() == null || user.getResetPasswordTokenExpiresAt().isBefore(LocalDateTime.now())){
+            throw new InvalidCredentialsException("Error expired token in reset password");
+        }
+
+    }
+
+    public void resetPassword(String token, String password) {
+        Optional<UserEntity> userOpt = userRepository.findByResetPasswordToken(token);
+
+        if(userOpt.isEmpty()){
+            throw new InvalidCredentialsException("Error invalid token in reset password");
+        }
+
+        UserEntity user = userOpt.get();
+
+        if(user.getResetPasswordToken() == null || user.getResetPasswordTokenExpiresAt().isBefore(LocalDateTime.now())){
+            throw new InvalidCredentialsException("Error expired token in reset password");
+        }
+
+        user.setPassword(passEncoder.encode(password));
+        user.setResetPasswordToken(null);
+        user.setResetPasswordTokenExpiresAt(null);
+        userRepository.save(user);
+
+    }
 }

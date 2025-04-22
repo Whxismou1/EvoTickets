@@ -4,18 +4,19 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@heroui/button"
 import { Input } from "@heroui/input"
-import { Ticket, CheckCircle, AlertCircle, Eye, EyeOff } from "lucide-react"
+import { Ticket, CheckCircle, Eye, EyeOff } from "lucide-react"
 import { Link, useParams, useNavigate } from "react-router-dom"
 import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import { useTranslation } from "react-i18next"
+import axios from "axios"
+import { validateResetToken } from "../services/authService"
 
 export default function ResetPassword() {
   const { t } = useTranslation()
   const { token } = useParams()
   const navigate = useNavigate()
 
-  const [isValidToken, setIsValidToken] = useState(true)
   const [formData, setFormData] = useState({ password: "", confirmPassword: "" })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -25,13 +26,19 @@ export default function ResetPassword() {
 
   useEffect(() => {
     const verifyToken = async () => {
-      if (!token || token === "invalid") {
-        setIsValidToken(false)
-        setError(t("resetPassword.errorInvalidLink"))
+      try {
+        await validateResetToken(token)
+      } catch (err) {
+        navigate("/not-found")
       }
     }
-    verifyToken()
-  }, [token, t])
+
+    if (token) {
+      verifyToken()
+    } else {
+      navigate("/not-found")
+    }
+  }, [token, navigate])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -85,27 +92,7 @@ export default function ResetPassword() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            {!isValidToken ? (
-              <motion.div
-                className="flex flex-col items-center text-center"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <AlertCircle className="h-16 w-16 text-red-500 mb-4" />
-                <h2 className="text-2xl font-bold text-[#2E1A47] mb-2">
-                  {t("resetPassword.invalidLinkTitle")}
-                </h2>
-                <p className="text-[#5C3D8D] mb-6">
-                  {error || t("resetPassword.errorInvalidLink")}
-                </p>
-                <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
-                  <Link to="/forgot-password" className="text-white">
-                    {t("resetPassword.requestNewLink")}
-                  </Link>
-                </Button>
-              </motion.div>
-            ) : !isSubmitted ? (
+            {!isSubmitted ? (
               <>
                 <div className="flex flex-col items-center mb-6">
                   <Ticket className="h-12 w-12 text-[#5C3D8D] mb-2" />
