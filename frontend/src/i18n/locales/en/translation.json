@@ -92,5 +92,39 @@
     "needHelp": "Need help?",
     "contactUs": "Contact us",
     "errorResend": "Error resending the code."
+  },
+  "forgotPassword": {
+    "title": "Reset Password",
+    "description": "Enter your email and we’ll send you a link to reset your password",
+    "emailLabel": "Email",
+    "placeholder": "your@email.com",
+    "button": {
+      "send": "Send Recovery Link",
+      "loading": "Sending..."
+    },
+    "backToLogin": "Back to login",
+    "successTitle": "Email Sent!",
+    "successMessage": "We’ve sent a recovery link to {{email}}. Please check your inbox and follow the instructions.",
+    "checkSpam": "If you don't receive the email within a few minutes, check your spam or junk folder."
+  },
+  "resetPassword": {
+    "title": "Create New Password",
+    "subtitle": "Enter your new password to regain access to your account",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "passwordPlaceholder": "Enter your new password",
+    "confirmPasswordPlaceholder": "Confirm your new password",
+    "passwordHelp": "Password must be at least 8 characters long",
+    "errorShortPassword": "Password must be at least 8 characters long.",
+    "errorMismatch": "Passwords do not match.",
+    "errorInvalidLink": "The reset link is invalid or has expired.",
+    "errorGeneral": "An error occurred while resetting the password. Please try again.",
+    "invalidLinkTitle": "Invalid Link",
+    "requestNewLink": "Request a new link",
+    "buttonReset": "Reset Password",
+    "buttonLoading": "Resetting...",
+    "successTitle": "Password Reset Successfully!",
+    "successMessage": "Your password has been reset successfully. You can now log in with your new password.",
+    "loginButton": "Log In"
   }
 }

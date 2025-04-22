@@ -92,5 +92,40 @@
     "needHelp": "¿Necesitas ayuda?",
     "contactUs": "Contáctanos",
     "errorResend": "Error al reenviar el código."
+  },
+  "forgotPassword": {
+    "title": "Recuperar contraseña",
+    "description": "Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+    "emailLabel": "Email",
+    "placeholder": "tu@email.com",
+    "button": {
+      "send": "Enviar Enlace de Recuperación",
+      "loading": "Enviando..."
+    },
+    "backToLogin": "Volver al inicio de sesión",
+    "successTitle": "¡Correo Enviado!",
+    "successMessage": "Hemos enviado un enlace de recuperación a {{email}}. Por favor, revisa tu bandeja de entrada y sigue las instrucciones.",
+    "checkSpam": "Si no recibes el correo en unos minutos, revisa tu carpeta de spam o correo no deseado."
+  },
+  "resetPassword":{
+    "title": "Crear nueva contraseña",
+    "subtitle": "Introduce tu nueva contraseña para restablecer el acceso a tu cuenta",
+    "newPassword": "Nueva Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "passwordPlaceholder": "Introduce tu nueva contraseña",
+    "confirmPasswordPlaceholder": "Confirma tu nueva contraseña",
+    "passwordHelp": "La contraseña debe tener al menos 8 caracteres",
+    "errorShortPassword": "La contraseña debe tener al menos 8 caracteres.",
+    "errorMismatch": "Las contraseñas no coinciden.",
+    "errorInvalidLink": "El enlace de restablecimiento no es válido o ha expirado.",
+    "errorGeneral": "Ha ocurrido un error al restablecer la contraseña. Inténtalo de nuevo.",
+    "invalidLinkTitle": "Enlace Inválido",
+    "requestNewLink": "Solicitar un nuevo enlace",
+    "buttonReset": "Restablecer Contraseña",
+    "buttonLoading": "Restableciendo...",
+    "successTitle": "¡Contraseña Restablecida!",
+    "successMessage": "Tu contraseña ha sido restablecida correctamente. Ya puedes iniciar sesión con tu nueva contraseña.",
+    "loginButton": "Iniciar Sesión"
   }
+
 }
