@@ -9,8 +9,7 @@ import { Link, useParams, useNavigate } from "react-router-dom"
 import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import { useTranslation } from "react-i18next"
-import axios from "axios"
-import { validateResetToken } from "../services/authService"
+import { validateResetToken, resetPassword } from "../services/authService"
 
 export default function ResetPassword() {
   const { t } = useTranslation()
@@ -23,11 +22,13 @@ export default function ResetPassword() {
   const [error, setError] = useState("")
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(true)
 
   useEffect(() => {
     const verifyToken = async () => {
       try {
         await validateResetToken(token)
+        setIsVerifying(false)
       } catch (err) {
         navigate("/not-found")
       }
@@ -69,10 +70,7 @@ export default function ResetPassword() {
 
     setIsLoading(true)
     try {
-      await axios.post("/api/reset-password", {
-        token,
-        password: formData.password,
-      })
+      await resetPassword(token, formData.password)
       setIsSubmitted(true)
     } catch (error) {
       setError(error.response?.data?.messageKey || "resetPassword.errorGeneral")
@@ -80,6 +78,8 @@ export default function ResetPassword() {
       setIsLoading(false)
     }
   }
+
+  if (isVerifying) return null
 
   return (
     <>

@@ -151,3 +151,22 @@ export const validateResetToken = async (token) => {
     throw new Error(error.message || "Token erroneo");
   }
 };
+
+export const resetPassword  = async (token, password) => {
+  try {
+    const res = await fetch(`${BASE_URL}/resetPassword`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, password }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error  || "Reset fallido");
+    }
+
+    return await res.text();
+  } catch (error) {
+    throw new Error(error.message ||  "Reset fallido");
+  }
+};
