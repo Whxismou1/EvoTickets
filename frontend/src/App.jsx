@@ -8,6 +8,8 @@ import VerifyAccount from "./pages/VerifyAccount";
 import ProtectedRoute from "./components/ProtectedRoute";
 import VerifyAccountGuard from "./components/VerifyAccountGuard";
 import NotFound from "./pages/NotFound";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verifyAccount" element={<VerifyAccount />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="/resetPassword/:token" element={<ResetPassword />} />
 
         {/* <Route
           path="/verifyAccount"
