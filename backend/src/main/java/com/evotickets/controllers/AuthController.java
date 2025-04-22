@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.evotickets.dtos.ForgotPasswordDTO;
+import com.evotickets.dtos.ResetPasswordDTO;
 import com.evotickets.dtos.UserLoginDTO;
 import com.evotickets.dtos.UserRegisterDTO;
 import com.evotickets.dtos.UserVerifyDTO;
+import com.evotickets.dtos.ValidateTokenDTO;
 import com.evotickets.entities.UserEntity;
 import com.evotickets.exceptions.InvalidInputException;
 import com.evotickets.exceptions.InvalidRefreshTokenException;
@@ -65,6 +68,25 @@ public class AuthController {
         LoginResponse loginResponse = new LoginResponse(token, jwtService.getJwtExpirationTime());
 
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordDTO forgotPassReq) {
+        authService.forgotPassword(forgotPassReq.getEmail());
+        return ResponseEntity.ok("Se ha enviado correctamente");
+    }
+
+    @PostMapping("/validateResetToken")
+    public ResponseEntity<?> validateResetToken(@RequestBody ValidateTokenDTO validateTokenReq) {
+        authService.validateResetToken(validateTokenReq.getToken());
+        return ResponseEntity.ok("Acceso autorizado");
+    }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO resetPasswordReq) {
+        authService.resetPassword(resetPasswordReq.getToken(), resetPasswordReq.getPassword());
+        return ResponseEntity.ok("Contraseña cambiada correctamente");
+
     }
 
     private void validateRegisterDTO(UserRegisterDTO dto) {
