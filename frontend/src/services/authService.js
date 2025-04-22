@@ -110,3 +110,63 @@ export const resendVerificationCode = async (email) => {
     throw new Error(error.message || "Reenvío fallido");
   }
 };
+
+export const forgotPassword = async (email) => {
+  email = sanitizeInput(email);
+  throwIfInvalid(isValidEmail(email), "Email no válido");
+
+  try {
+    const res = await fetch(`${BASE_URL}/forgotPassword`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Envío fallido");
+    }
+
+    return await res.text();
+  } catch (error) {
+    throw new Error(error.message || "Envío fallido");
+  }
+};
+
+export const validateResetToken = async (token) => {
+  try {
+    const res = await fetch(`${BASE_URL}/validateResetToken`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Token erroneo");
+    }
+
+    return await res.text();
+  } catch (error) {
+    throw new Error(error.message || "Token erroneo");
+  }
+};
+
+export const resetPassword  = async (token, password) => {
+  try {
+    const res = await fetch(`${BASE_URL}/resetPassword`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, password }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error  || "Reset fallido");
+    }
+
+    return await res.text();
+  } catch (error) {
+    throw new Error(error.message ||  "Reset fallido");
+  }
+};

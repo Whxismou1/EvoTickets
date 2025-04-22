@@ -37,10 +37,28 @@ public class EmailService {
 
     }
 
+    public void sendForgotPasswordEmail(String to, EmailType emailType, String url)
+            throws MessagingException {
+        String templateName = getTemplateName(emailType);
+        String subject = getSubject(emailType);
+
+        String emailContent = emailTemplateService.loadTemplate(templateName);
+        emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{URL}}",
+                url);
+
+        MimeMessage msg = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(emailContent, true);
+        javaMailSender.send(msg);
+
+    }
+
     private String getTemplateName(EmailType emailType) {
         return switch (emailType) {
             case VERIFICATION -> "verificationEmail.html";
-            case PASSWORD_RESET -> "passwordReset.html";
+            case PASSWORD_RESET -> "forgotPassword.html";
         };
     }
 
