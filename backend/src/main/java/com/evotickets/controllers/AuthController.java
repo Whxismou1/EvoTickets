@@ -1,20 +1,20 @@
 package com.evotickets.controllers;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Map;
-import java.time.LocalDate;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.evotickets.dtos.ForgotPasswordDTO;
 import com.evotickets.dtos.ResetPasswordDTO;
 import com.evotickets.dtos.UserLoginDTO;
+import com.evotickets.dtos.UserLoginGoogleDTO;
 import com.evotickets.dtos.UserRegisterDTO;
 import com.evotickets.dtos.UserVerifyDTO;
 import com.evotickets.dtos.ValidateTokenDTO;
@@ -90,29 +90,54 @@ public class AuthController {
     }
 
     private void validateRegisterDTO(UserRegisterDTO dto) {
-        if (isNullOrEmpty(dto.getUsername()) || isNullOrEmpty(dto.getEmail()) || isNullOrEmpty(dto.getPassword()) || dto.getDateOfBirth() == null) {
+        if (isNullOrEmpty(dto.getUsername()) || isNullOrEmpty(dto.getEmail()) || isNullOrEmpty(dto.getPassword())
+                || dto.getDateOfBirth() == null) {
             throw new InvalidInputException("Todos los campos son obligatorios");
         }
-    
+
         if (!isValidEmail(dto.getEmail())) {
             throw new InvalidInputException("Email no válido");
         }
-    
+
         if (!isStrongPassword(dto.getPassword())) {
             throw new InvalidInputException(
-                "La contraseña debe tener mínimo 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales"
-            );
+                    "La contraseña debe tener mínimo 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales");
         }
-    
+
         LocalDate birthDate = dto.getDateOfBirth();
         LocalDate minDate = LocalDate.of(1920, 1, 1);
         LocalDate today = LocalDate.now();
-    
+
         if (birthDate.isBefore(minDate) || birthDate.isAfter(today)) {
             throw new InvalidInputException("La fecha de nacimiento debe estar entre 01/01/1920 y hoy");
         }
     }
-    
+
+    @PostMapping("/loginWithGoogle")
+    public ResponseEntity<LoginResponse> firebaseLogin(@RequestBody UserLoginGoogleDTO body,  HttpServletResponse response) {
+
+        String firebaseToken = body.getToken();
+
+        if (firebaseToken == null || firebaseToken.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        UserEntity user = authService.loginWithGoogle(firebaseToken, body.getDateOfBirth());
+
+        String token = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60);
+        response.addCookie(refreshTokenCookie);
+
+        LoginResponse loginResponse = new LoginResponse(token, jwtService.getJwtExpirationTime());
+
+        return ResponseEntity.ok(loginResponse);
+    }
 
     private void validateLoginDTO(UserLoginDTO dto) {
         if (isNullOrEmpty(dto.getEmail()) || isNullOrEmpty(dto.getPassword())) {

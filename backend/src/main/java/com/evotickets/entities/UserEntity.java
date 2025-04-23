@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class UserEntity implements UserDetails{
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +55,7 @@ public class UserEntity implements UserDetails{
     @Column(name = "user_role", nullable = false)
     @Builder.Default
     private UserRole userRole = UserRole.CLIENT;
-    
+
     @Builder.Default
     @Column(name = "account_activated", nullable = false)
     private boolean accountActivated = false;
@@ -78,12 +78,10 @@ public class UserEntity implements UserDetails{
     @Column(name = "failed_login_attempts", nullable = false)
     private int failedLoginAttempts = 0;
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of((GrantedAuthority) () -> "ROLE_" + this.userRole.name());
     }
-
 
     @Override
     public boolean isAccountNonLocked() {
@@ -92,7 +90,6 @@ public class UserEntity implements UserDetails{
         }
         return accountActivated;
     }
-
 
     @Override
     public boolean isCredentialsNonExpired() {
