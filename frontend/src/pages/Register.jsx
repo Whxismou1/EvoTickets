@@ -3,10 +3,9 @@ import { Form } from "@heroui/form";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { CalendarDate } from "@internationalized/date";
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { register } from "../services/authService";
+import { register, loginWithGoogle } from "../services/authService";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -15,6 +14,16 @@ function Register() {
   const [dateOfBirth, setDateOfBirth] = useState("");
 
   const navigate = useNavigate();
+
+    const handleGoogleLogin = async () => {
+      try {
+        await loginWithGoogle();
+        navigate("/home");
+      } catch (err) {
+        console.error("Error al iniciar sesión con Google:", err);
+      }
+    };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -59,6 +68,11 @@ function Register() {
         />
         <Button type="submit">Register</Button>
       </Form>
+
+      <Button onPress={handleGoogleLogin}>
+        Continua con Google
+      </Button>
+
       <p className="text-center text-small">
         <Link to="/login">LogIn</Link>
       </p>

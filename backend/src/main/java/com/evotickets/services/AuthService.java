@@ -1,12 +1,12 @@
 package com.evotickets.services;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,15 @@ import com.evotickets.dtos.UserLoginDTO;
 import com.evotickets.dtos.UserRegisterDTO;
 import com.evotickets.dtos.UserVerifyDTO;
 import com.evotickets.entities.UserEntity;
+import com.evotickets.entities.enums.UserRole;
 import com.evotickets.enums.EmailType;
 import com.evotickets.exceptions.EmailSendingException;
 import com.evotickets.exceptions.InvalidCredentialsException;
 import com.evotickets.exceptions.InvalidVerificationTokenException;
 import com.evotickets.repositories.UserRepository;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 
 import jakarta.mail.MessagingException;
 
@@ -30,29 +34,27 @@ public class AuthService {
 
     private BCryptPasswordEncoder passEncoder;
 
-    private final AuthenticationManager authenticationManager;
-
     private final EmailService emailService;
 
     public AuthService(UserRepository userRepository, BCryptPasswordEncoder passEncoder,
-            AuthenticationManager authenticationManager, EmailService emailService) {
+            EmailService emailService) {
         this.userRepository = userRepository;
         this.passEncoder = passEncoder;
-        this.authenticationManager = authenticationManager;
         this.emailService = emailService;
     }
 
     public UserEntity register(UserRegisterDTO input) {
-        UserEntity user = new UserEntity();
-        user.setEmail(input.getEmail());
-        user.setPassword(passEncoder.encode(input.getPassword()));
-        user.setUsername(input.getUsername());
-        user.setDateOfBirth(input.getDateOfBirth());
-        user.setAccountActivated(false);
-        user.setVerificationToken(generateVerificationToken());
-        user.setVerificationTokenExpiresAt(LocalDateTime.now().plusMinutes(15));
+        UserEntity user = UserEntity.builder()
+                .email(input.getEmail())
+                .password(passEncoder.encode(input.getPassword()))
+                .username(input.getUsername())
+                .dateOfBirth(input.getDateOfBirth())
+                .accountActivated(false)
+                .verificationToken(generateVerificationToken())
+                .verificationTokenExpiresAt(LocalDateTime.now().plusMinutes(15))
+                .build();
 
-        //sendVerificationEmail(user);
+        sendVerificationEmail(user);
 
         return userRepository.save(user);
     }
@@ -149,7 +151,7 @@ public class AuthService {
     public void forgotPassword(String email) {
         Optional<UserEntity> userExist = userRepository.findByEmail(email);
 
-        if(userExist.isEmpty()){
+        if (userExist.isEmpty()) {
             throw new InvalidCredentialsException("Error invalid credentials in forgot password");
         }
 
@@ -173,13 +175,14 @@ public class AuthService {
     public void validateResetToken(String token) {
         Optional<UserEntity> userOpt = userRepository.findByResetPasswordToken(token);
 
-        if(userOpt.isEmpty()){
+        if (userOpt.isEmpty()) {
             throw new InvalidCredentialsException("Error invalid token in reset password");
         }
 
         UserEntity user = userOpt.get();
 
-        if(user.getResetPasswordToken() == null || user.getResetPasswordTokenExpiresAt().isBefore(LocalDateTime.now())){
+        if (user.getResetPasswordToken() == null
+                || user.getResetPasswordTokenExpiresAt().isBefore(LocalDateTime.now())) {
             throw new InvalidCredentialsException("Error expired token in reset password");
         }
 
@@ -188,13 +191,14 @@ public class AuthService {
     public void resetPassword(String token, String password) {
         Optional<UserEntity> userOpt = userRepository.findByResetPasswordToken(token);
 
-        if(userOpt.isEmpty()){
+        if (userOpt.isEmpty()) {
             throw new InvalidCredentialsException("Error invalid token in reset password");
         }
 
         UserEntity user = userOpt.get();
 
-        if(user.getResetPasswordToken() == null || user.getResetPasswordTokenExpiresAt().isBefore(LocalDateTime.now())){
+        if (user.getResetPasswordToken() == null
+                || user.getResetPasswordTokenExpiresAt().isBefore(LocalDateTime.now())) {
             throw new InvalidCredentialsException("Error expired token in reset password");
         }
 
@@ -203,5 +207,30 @@ public class AuthService {
         user.setResetPasswordTokenExpiresAt(null);
         userRepository.save(user);
 
+    }
+
+    public UserEntity loginWithGoogle(String firebaseToken, LocalDate dateOfBirth) {
+        FirebaseToken decodedToken;
+        try {
+            decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
+        } catch (FirebaseAuthException e) {
+            throw new InvalidCredentialsException("Token de Firebase no válido");
+        }
+
+        String email = decodedToken.getEmail();
+        String name = decodedToken.getName();
+
+        return userRepository.findByEmail(email)
+                .orElseGet(() -> {
+                    UserEntity newUser = UserEntity.builder()
+                    .email(email)
+                    .username(name)
+                    .password(passEncoder.encode(UUID.randomUUID().toString()))
+                    .userRole(UserRole.CLIENT)
+                    .dateOfBirth(dateOfBirth)
+                    .accountActivated(true)
+                    .build();
+                    return userRepository.save(newUser);
+                });
     }
 }
