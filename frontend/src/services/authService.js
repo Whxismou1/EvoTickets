@@ -1,4 +1,6 @@
 import { useAuthStore } from "../store/authStore";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth, provider } from "../config/firebaseConfig";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL + "/api/v1/auth";
 
@@ -168,5 +170,59 @@ export const resetPassword  = async (token, password) => {
     return await res.text();
   } catch (error) {
     throw new Error(error.message ||  "Reset fallido");
+  }
+};
+
+export const loginWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const idToken = await result.user.getIdToken();
+
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const accessToken = credential.accessToken;
+
+    let dateOfBirth = null;
+
+    if (accessToken) {
+      const profileRes = await fetch(
+        "https://people.googleapis.com/v1/people/me?personFields=birthdays",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (profileRes.ok) {
+        const profileData = await profileRes.json();
+        const birthdayObj = profileData.birthdays?.[0]?.date;
+        if (birthdayObj) {
+          const { year, month, day } = birthdayObj;
+          if (year && month && day) {
+            dateOfBirth = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+          }
+        }
+      } else {
+        console.warn("No se pudo obtener fecha de nacimiento desde People API");
+      }
+    }
+
+
+    const res = await fetch(`${BASE_URL}/loginWithGoogle`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: idToken, dateOfBirth }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Login con Google fallido");
+    }
+
+    const data = await res.json();
+    useAuthStore.getState().setToken(data.token);
+    return data;
+  } catch (error) {
+    throw new Error(error.message || "Login con Google fallido");
   }
 };

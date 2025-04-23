@@ -9,6 +9,9 @@ import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.evotickets.entities.enums.UserRole;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -33,10 +36,15 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails user) {
-        return generateToken(new HashMap<>(), user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", user.getAuthorities().stream()
+                     .findFirst()
+                     .map(Object::toString)
+                     .orElse(UserRole.CLIENT.toString()));
+        return generateToken(claims, user);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails user) {
+    private String generateToken(Map<String, Object> extraClaims, UserDetails user) {
         return buildToken(extraClaims, user, jwtExpirationTime);
     }
 
