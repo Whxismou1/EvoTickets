@@ -72,15 +72,27 @@ public class UserEntity implements UserDetails{
     @Column(name = "reset_password_token_expires_at")
     private LocalDateTime resetPasswordTokenExpiresAt;
 
+    @Column(name = "suspended_until")
+    private LocalDateTime suspendedUntil;
+
+    @Column(name = "failed_login_attempts", nullable = false)
+    private int failedLoginAttempts = 0;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
 
+
     @Override
     public boolean isAccountNonLocked() {
+        if (suspendedUntil != null && suspendedUntil.isAfter(LocalDateTime.now())) {
+            return false;
+        }
         return accountActivated;
     }
+
 
     @Override
     public boolean isCredentialsNonExpired() {
