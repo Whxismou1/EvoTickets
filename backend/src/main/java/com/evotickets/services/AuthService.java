@@ -52,21 +52,37 @@ public class AuthService {
         user.setVerificationToken(generateVerificationToken());
         user.setVerificationTokenExpiresAt(LocalDateTime.now().plusMinutes(15));
 
-        sendVerificationEmail(user);
+        //sendVerificationEmail(user);
 
         return userRepository.save(user);
     }
 
     public UserEntity login(UserLoginDTO input) {
         UserEntity user = userRepository.findByEmail(input.getEmail())
-                .orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
+                .orElseThrow(() -> new InvalidCredentialsException("Credenciales inválidas"));
 
-        if (!user.isEnabled()) {
-            throw new InvalidCredentialsException("Account not verified");
+        if (user.getSuspendedUntil() != null && user.getSuspendedUntil().isAfter(LocalDateTime.now())) {
+            throw new InvalidCredentialsException("Cuenta suspendida hasta " + user.getSuspendedUntil());
         }
 
-        authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(input.getEmail(), input.getPassword()));
+        boolean passwordCorrecta = passEncoder.matches(input.getPassword(), user.getPassword());
+
+        if (!passwordCorrecta) {
+            int attempts = user.getFailedLoginAttempts() + 1;
+            user.setFailedLoginAttempts(attempts);
+
+            if (attempts >= 5) {
+                user.setSuspendedUntil(LocalDateTime.now().plusMinutes(15));
+            }
+
+            userRepository.save(user);
+            throw new InvalidCredentialsException("Credenciales inválidas");
+        }
+
+        user.setFailedLoginAttempts(0);
+        user.setSuspendedUntil(null);
+        userRepository.save(user);
+
         return user;
     }
 
