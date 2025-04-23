@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to EvoTickets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #f8f8f9;
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .header {
+        background: linear-gradient(to right, #5C3D8D, #2E1A47);
+        padding: 30px 20px;
+        text-align: center;
+        color: white;
+      }
+      
+      .logo-container {
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+      
+      .logo-text {
+        font-size: 24px;
+        font-weight: 700;
+        background: linear-gradient(to right, #D7A6F3, #A28CD4);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 10px;
+      }
+      
+      .content {
+        padding: 40px 30px;
+        background-color: #f3f0fa;
+      }
+      
+      .title {
+        color: #5C3D8D;
+        font-size: 28px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      
+      .message {
+        color: #555;
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 30px;
+        line-height: 1.8;
+      }
+      
+      .button-container {
+        text-align: center;
+        margin: 30px 0;
+      }
+      
+      .button {
+        display: inline-block;
+        background: linear-gradient(to right, #5C3D8D, #2E1A47);
+        color: white;
+        padding: 14px 32px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(92, 61, 141, 0.3);
+      }
+      
+      .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(92, 61, 141, 0.4);
+      }
+      
+      .features {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin: 30px 0;
+      }
+      
+      .feature {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        width: calc(50% - 10px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        text-align: center;
+      }
+      
+      .feature-title {
+        font-weight: 600;
+        margin: 10px 0;
+        color: #2E1A47;
+      }
+      
+      .feature-text {
+        font-size: 14px;
+        color: #808389;
+      }
+      
+      .divider {
+        height: 1px;
+        background-color: #5C3D8D;
+        margin: 30px 0;
+        opacity: 0.2;
+      }
+      
+      .support {
+        text-align: center;
+        font-size: 14px;
+        color: #808389;
+      }
+      
+      .support a {
+        color: #5C3D8D;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      
+      .support a:hover {
+        text-decoration: underline;
+      }
+      
+      .footer {
+        background-color: #2E1A47;
+        padding: 20px;
+        text-align: center;
+        color: #A28CD4;
+        font-size: 14px;
+      }
+      
+      .footer p {
+        margin: 5px 0;
+      }
+      
+      .automated-message {
+        font-size: 12px;
+        color: #999;
+        text-align: center;
+        margin-top: 15px;
+        font-style: italic;
+      }
+      
+      @media only screen and (max-width: 600px) {
+        .email-container {
+          width: 100%;
+          border-radius: 0;
+        }
+        
+        .content {
+          padding: 30px 20px;
+        }
+        
+        .title {
+          font-size: 24px;
+        }
+        
+        .feature {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div style="padding: 20px;">
+      <div class="email-container">
+        <div class="header">
+          <div class="logo-container">
+            <!-- Imagen del ticket como base64 para mayor compatibilidad -->
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABYUlEQVR4nO2WTU7DMBCFPxDiBFyAA3AFWLFkBRdgwYIDsOIUXIFDsGHDFVixYMmSBQIJqUgI8SNEQrQUNXHiJqTQRZzEb/LGM/P8PDOxA39dI2AB2IAHpMAncA9cAQfAGKiRUQNYA+6AHHgHboEzYBfYBjaAVWAeaAILwDJwDJwDj8AH8AKcAF1KqgVcAG/AI3AKbAHzZdYCOsAu8AS8AlfAEhXUBB6Ad+AQmKvCeQxsAjPAFLADvALnVDg7FeBbwDQwCewDz5ScjRSwGZwvAk/AHhXPRgr4JDifAR6BDgVnIwXcC84XgRsKzkYKOAjOp4FrCs5GCrgMzueAGwrORgo4Cc5ngCsKzkYKuA3OW8A+BWcjBbwF5y3ggIKzkQJmg/M2cEjB2UgBG8H5EnBKwdlIAdeD8w5wRMHZSAGHwfkqcEbB2UgBe8H5JnBMwdlIAefB+TpwSsHZSAGXwfkacE/B2fxr/QDwcgwUVp94vwAAAABJRU5ErkJggg==" alt="Ticket Icon" style="width: 40px; height: 40px; vertical-align: middle;">
+            <span class="logo-text">🎟️ EvoTickets</span>
+          </div>
+        </div>
+        
+        <div class="content">
+          <h1 class="title">Account Verified Successfully!</h1>
+          <p class="message">
+            Thank you for verifying your account. Your EvoTickets journey begins now! You now have full access to discover and book exclusive events tailored to your interests.
+          </p>
+          
+          <div class="button-container">
+            <a href="https://evotickets.com/explore" class="button">Explore Events</a>
+          </div>
+          
+          <div class="features">
+            <div class="feature">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABOElEQVR4nO2WQU7DMBBFX1FVcQIuAAfoCboCVizZcQF2bDgAK07BFTgEGzZcAXbsWCIhIVUCIUAIUYmIUNTEiZuQQhdxEr/JG8/M8/PMxA78dY2ABdiBB6TAJ3APXAEHwBhokFMDWAPugBx4B26BM2AX2AY2gFVgHmgBC8AycAycA4/AB/ACnABdKqoFXABvwCNwCmwB82XWAjrALvAEvAJXwBIV1QQegHfgEJir43wMbAIzwBSwA7wC51Q8OzXgW8A0MAnsA89UPBs54FvB+SLwBOxR82zkgE+C8xngEehQcjZywCfB+SJwQ8nZyAGH4HwauKbkbOSAS+F8DrhBzNnIAafC+QxwhZizkQNuhfMWcICYs5EDXoXzFnCImLORA2bFeRs4QszZyAEbwvkScIqYs5ED9oTzTeAYMWcjB5wL5+vAKWLO5l/rB/YyDBQDFu+jAAAAAElFTkSuQmCC" alt="Calendar Icon" style="width: 40px; height: 40px;">
+              <h3 class="feature-title">Discover Events</h3>
+              <p class="feature-text">Find events that match your interests</p>
+            </div>
+            <div class="feature">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABYUlEQVR4nO2WTU7DMBCFPxDiBFyAA3AFWLFkBRdgwYIDsOIUXIFDsGHDFVixYMmSBQIJqUgI8SNEQrQUNXHiJqTQRZzEb/LGM/P8PDOxA39dI2AB2IAHpMAncA9cAQfAGKiRUQNYA+6AHHgHboEzYBfYBjaAVWAeaAILwDJwDJwDj8AH8AKcAF1KqgVcAG/AI3AKbAHzZdYCOsAu8AS8AlfAEhXUBB6Ad+AQmKvCeQxsAjPAFLADvALnVDg7FeBbwDQwCewDz5ScjRSwGZwvAk/AHhXPRgr4JDifAR6BDgVnIwXcC84XgRsKzkYKOAjOp4FrCs5GCrgMzueAGwrORgo4Cc5ngCsKzkYKuA3OW8A+BWcjBbwF5y3ggIKzkQJmg/M2cEjB2UgBG8H5EnBKwdlIAdeD8w5wRMHZSAGHwfkqcEbB2UgBe8H5JnBMwdlIAefB+TpwSsHZSAGXwfkacE/B2fxr/QDwcgwUVp94vwAAAABJRU5ErkJggg==" alt="Ticket Icon" style="width: 40px; height: 40px;">
+              <h3 class="feature-title">Digital Tickets</h3>
+              <p class="feature-text">Access your tickets anytime, anywhere</p>
+            </div>
+          </div>
+          
+          <div class="divider"></div>
+          
+          <div class="support">
+            Need help? Contact our support team at
+            <a href="mailto:s.evotickets@gmail.com">s.evotickets@gmail.com</a>
+          </div>
+          
+          <p class="automated-message">
+            This is an automated message. Please do not reply directly to this email.
+          </p>
+        </div>
+        
+        <div class="footer">
+          <p>© 2025 EvoTickets. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  
+  </body></html>
