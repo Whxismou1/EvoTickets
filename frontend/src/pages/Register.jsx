@@ -67,7 +67,8 @@ export default function RegisterPage() {
 
     try {
       setIsLoading(true)
-      await register(formData.firstName, formData.lastName, formData.username, formData.email, formData.password, formData.dateOfBirth.toString())
+      const response = await register(formData.firstName, formData.lastName, formData.username, formData.email, formData.password, formData.dateOfBirth.toString())
+      useAuthStore.getState().setToken(response.token);
       navigate("/verifyAccount", { state: { email: formData.email } })
     } catch (error) {
       setError(error.message || "Error al crear la cuenta")
