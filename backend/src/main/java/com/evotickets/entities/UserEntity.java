@@ -36,6 +36,12 @@ public class UserEntity implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(nullable = false, length = 50)
+    private String firstName;
+
+    @Column(nullable = false, length = 50)
+    private String lastName;
+
     @Column(nullable = false, unique = true, length = 25)
     private String username;
 
@@ -75,6 +81,7 @@ public class UserEntity implements UserDetails {
     @Column(name = "suspended_until")
     private LocalDateTime suspendedUntil;
 
+    @Builder.Default
     @Column(name = "failed_login_attempts", nullable = false)
     private int failedLoginAttempts = 0;
 
