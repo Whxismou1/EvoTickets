@@ -75,6 +75,7 @@ public class UserEntity implements UserDetails {
     @Column(name = "suspended_until")
     private LocalDateTime suspendedUntil;
 
+    @Builder.Default
     @Column(name = "failed_login_attempts", nullable = false)
     private int failedLoginAttempts = 0;
 
