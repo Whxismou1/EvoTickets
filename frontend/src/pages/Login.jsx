@@ -12,6 +12,7 @@ import { login } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { loginWithGoogle } from "../services/authService";
+import { useAuthStore } from "../store/authStore";
 
 export default function LoginPage() {
   const { t } = useTranslation();
@@ -25,7 +26,8 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
     try {
-      await loginWithGoogle();
+      const response = await loginWithGoogle();
+      useAuthStore.getState().setToken(response.token);
       navigate("/home");
     } catch (err) {
       console.error("Error al iniciar sesión con Google:", err);
@@ -44,7 +46,8 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      await login(email, password);
+      const response = await login(email, password);
+      useAuthStore.getState().setToken(response.token);
       navigate("/home");
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
