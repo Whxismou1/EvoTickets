@@ -38,11 +38,11 @@ export const login = async (email, password) => {
   }
 };
 
-export const register = async (username, email, password, dateOfBirth) => {
+export const register = async (firstName, lastName, username, email, password, dateOfBirth) => {
   username = sanitizeInput(username);
   email = sanitizeInput(email);
 
-  throwIfInvalid(username && email && password && dateOfBirth, "Todos los campos son obligatorios");
+  throwIfInvalid(firstName && lastName && username && email && password && dateOfBirth, "Todos los campos son obligatorios");
   throwIfInvalid(isValidEmail(email), "Email no válido");
   const isStrongPassword = (password) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#+\-_=])[A-Za-z\d@$!%*?&#+\-_=]{8,}$/.test(password);
@@ -57,7 +57,7 @@ export const register = async (username, email, password, dateOfBirth) => {
     const res = await fetch(`${BASE_URL}/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password, dateOfBirth }),
+      body: JSON.stringify({firstName, lastName, username, email, password, dateOfBirth }),
     });
 
     if (!res.ok) {
