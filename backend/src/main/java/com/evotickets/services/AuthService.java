@@ -45,6 +45,8 @@ public class AuthService {
 
     public UserEntity register(UserRegisterDTO input) {
         UserEntity user = UserEntity.builder()
+                .firstName(input.getFirstName())
+                .lastName(input.getLastName())
                 .email(input.getEmail())
                 .password(passEncoder.encode(input.getPassword()))
                 .username(input.getUsername())
@@ -223,13 +225,13 @@ public class AuthService {
         return userRepository.findByEmail(email)
                 .orElseGet(() -> {
                     UserEntity newUser = UserEntity.builder()
-                    .email(email)
-                    .username(name)
-                    .password(passEncoder.encode(UUID.randomUUID().toString()))
-                    .userRole(UserRole.CLIENT)
-                    .dateOfBirth(dateOfBirth)
-                    .accountActivated(true)
-                    .build();
+                            .email(email)
+                            .username(name)
+                            .password(passEncoder.encode(UUID.randomUUID().toString()))
+                            .userRole(UserRole.CLIENT)
+                            .dateOfBirth(dateOfBirth)
+                            .accountActivated(true)
+                            .build();
                     return userRepository.save(newUser);
                 });
     }

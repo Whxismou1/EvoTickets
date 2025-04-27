@@ -85,6 +85,10 @@ public class UserEntity implements UserDetails {
     @Column(name = "failed_login_attempts", nullable = false)
     private int failedLoginAttempts = 0;
 
+    @Column(name = "notifications_enabled", nullable = false)
+    @Builder.Default
+    private boolean notificationsEnabled = true;    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of((GrantedAuthority) () -> "ROLE_" + this.userRole.name());
@@ -116,5 +120,9 @@ public class UserEntity implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public boolean isNotificationsEnabled() {
+        return notificationsEnabled;
     }
 }
