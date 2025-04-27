@@ -69,4 +69,20 @@ public class EmailService {
         };
     }
 
+    public void sendCustomNotificationEmail(String to, String emailType, String message) {
+        System.out.println("Sending custom notification email to: " + to);
+        try {
+            MimeMessage msg = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+
+            helper.setTo(to);
+            helper.setSubject(emailType);
+            helper.setText(message, true);
+
+            javaMailSender.send(msg);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send custom notification email", e);
+        }
+    }
+
 }
