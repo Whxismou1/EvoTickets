@@ -25,6 +25,9 @@ public class LocationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "location_id")
     private Long id;
+
+    @Column(nullable = false, length = 100)
+    private String name;
     
     @Column(nullable = false)
     private Double latitude;
@@ -32,6 +35,5 @@ public class LocationEntity {
     @Column(nullable = false)
     private Double longitude;
     
-    @Column(nullable = false, length = 100)
-    private String name;
+    
 }
