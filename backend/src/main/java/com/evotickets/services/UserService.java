@@ -1,17 +1,15 @@
 package com.evotickets.services;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.evotickets.dtos.UserDTO;
 import com.evotickets.entities.UserEntity;
-import com.evotickets.mappers.UserMapper;
+import com.evotickets.exceptions.CustomException;
 import com.evotickets.repositories.UserRepository;
+import com.evotickets.utils.ImageUploader;
 
 @Service
 public class UserService {
@@ -20,43 +18,29 @@ public class UserService {
     private UserRepository userRepo;
 
     @Autowired
-    private UserMapper mapper;
+    private ImageUploader imageUploader;
 
-    @Autowired
-    private BCryptPasswordEncoder passEncoder;
-
-    public List<UserDTO> getAllUsers() {
-        return userRepo.findAll().stream()
-                .map(mapper::toDTO)
-                .collect(Collectors.toList());
+    public UserEntity getUserByID(Long id) {
+        return userRepo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
     }
 
-    
-
-
-    public UserDTO registerUser(UserDTO user) {
-        UserEntity userEntity = mapper.toEntity(user);
-
-        userEntity.setPassword(passEncoder.encode(user.getPassword()));
-
-        System.out.println(userEntity.toString());
-        return mapper.toDTO(userRepo.save(userEntity));
-    }
-
-    public UserDTO login(UserDTO user) {
-        Optional<UserEntity> optionalUser = userRepo.findByEmail(user.getEmail());
-
-        if (optionalUser.isEmpty()) {
-            throw new RuntimeException("Wrong credentials. (user)");
+    public String uploadProfilePicture(Long userId, MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new CustomException("El archivo está vacío");
         }
 
-        UserEntity userOnDB = optionalUser.get();
+        UserEntity user = userRepo.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
 
-        if (!passEncoder.matches(user.getPassword(), userOnDB.getPassword())) {
-            throw new RuntimeException("Wrong credentials!");
+        try {
+            String imageUrl = imageUploader.uploadImage(file);
+            user.setProfilePicture(imageUrl);
+            userRepo.save(user);
+            return imageUrl;
+        } catch (Exception e) {
+            throw new CustomException("Error al subir la imagen: " + e.getMessage());
         }
-
-        return mapper.toDTO(userOnDB);
     }
 
 }

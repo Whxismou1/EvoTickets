@@ -31,9 +31,6 @@ public class NotificationService {
         List<UserEntity> users = userRepository.findAllById(payload.getUserIds());
 
         for (UserEntity user : users) {
-            if (!user.isNotificationsEnabled())
-                continue;
-
             NotificationEntity notification = NotificationEntity.builder()
                     .user(user)
                     .sendAt(LocalDateTime.now())
@@ -45,13 +42,16 @@ public class NotificationService {
 
             notificationRepository.save(notification);
 
-            webSocketService.sendToUser(user.getId(), notification);
+            if (user.isNotificationsEnabled()) {
+                webSocketService.sendToUser(user.getId(), notification);
 
-            if (payload.isSendEmail()) {
-                try {
-                    emailService.sendCustomNotificationEmail(user.getEmail(), payload.getTitle(), payload.getMessage());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (payload.isSendEmail()) {
+                    try {
+                        emailService.sendCustomNotificationEmail(user.getEmail(), payload.getTitle(),
+                                payload.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

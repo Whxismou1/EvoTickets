@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.evotickets.enums.EmailType;
+import com.evotickets.exceptions.EmailSendingException;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -21,38 +22,44 @@ public class EmailService {
 
     public void sedVerificationEmail(String to, EmailType emailType, String verificationToken)
             throws MessagingException {
-        String templateName = getTemplateName(emailType);
-        String subject = getSubject(emailType);
+        try {
+            String templateName = getTemplateName(emailType);
+            String subject = getSubject(emailType);
 
-        String emailContent = emailTemplateService.loadTemplate(templateName);
-        emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{VERIFICATION_CODE}}",
-                verificationToken);
+            String emailContent = emailTemplateService.loadTemplate(templateName);
+            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{VERIFICATION_CODE}}",
+                    verificationToken);
 
-        MimeMessage msg = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(emailContent, true);
-        javaMailSender.send(msg);
-
+            MimeMessage msg = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(emailContent, true);
+            javaMailSender.send(msg);
+        } catch (Exception e) {
+            throw new EmailSendingException("Error sending verification email: " + e.getMessage());
+        }
     }
 
     public void sendForgotPasswordEmail(String to, EmailType emailType, String url)
             throws MessagingException {
-        String templateName = getTemplateName(emailType);
-        String subject = getSubject(emailType);
+        try {
+            String templateName = getTemplateName(emailType);
+            String subject = getSubject(emailType);
 
-        String emailContent = emailTemplateService.loadTemplate(templateName);
-        emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{URL}}",
-                url);
+            String emailContent = emailTemplateService.loadTemplate(templateName);
+            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{URL}}",
+                    url);
 
-        MimeMessage msg = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(emailContent, true);
-        javaMailSender.send(msg);
-
+            MimeMessage msg = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(emailContent, true);
+            javaMailSender.send(msg);
+        } catch (Exception e) {
+            throw new EmailSendingException("Error sending forgot password email: " + e.getMessage());
+        }
     }
 
     private String getTemplateName(EmailType emailType) {
@@ -70,7 +77,6 @@ public class EmailService {
     }
 
     public void sendCustomNotificationEmail(String to, String emailType, String message) {
-        System.out.println("Sending custom notification email to: " + to);
         try {
             MimeMessage msg = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(msg, true);
@@ -80,8 +86,8 @@ public class EmailService {
             helper.setText(message, true);
 
             javaMailSender.send(msg);
-        } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send custom notification email", e);
+        } catch (Exception e) {
+            throw new EmailSendingException("Error sending custom notification email: " + e.getMessage());
         }
     }
 

@@ -1,4 +1,4 @@
-name: Java CI
+name: Backend CI
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
         run: mvn clean package
 
       - name: Ejecutar pruebas
-        run: mvn test
+        run: mvn test -Dspring.profiles.active=test
 
       - name: Analizar con SpotBugs (linter estático para Java)
         run: mvn spotbugs:check || true
