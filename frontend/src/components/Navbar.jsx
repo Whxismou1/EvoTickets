@@ -1,9 +1,7 @@
-"use client";
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@heroui/button";
-import { Menu, Moon, Sun, Ticket, X } from "lucide-react";
+import { Menu, Moon, Sun, Ticket, X, User, Bell, Settings, LogOut } from 'lucide-react';
 import { useTheme } from "../context/ThemeContext";
 import { useTranslation } from "react-i18next";
 
@@ -12,18 +10,19 @@ const languages = [
   { code: "en", name: "English", flag: "https://flagcdn.com/gb.svg" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ isAuthenticated = false }) {
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  // Detectar idioma actual desde i18next
   const currentLangCode = i18n.language || "es";
   const currentLanguage = languages.find((l) => l.code === currentLangCode) || languages[0];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleLanguageMenu = () => setIsLanguageMenuOpen(!isLanguageMenuOpen);
+  const toggleUserMenu = () => setIsUserMenuOpen(!isUserMenuOpen);
 
   const changeLanguage = (language) => {
     i18n.changeLanguage(language.code);
@@ -66,7 +65,7 @@ export default function Navbar() {
               aria-label="Select language"
             >
               <img
-                src={currentLanguage.flag}
+                src={currentLanguage.flag || "/placeholder.svg"}
                 alt={currentLanguage.name}
                 className="w-5 h-5 rounded-full object-cover"
               />
@@ -84,7 +83,7 @@ export default function Navbar() {
                     className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10"
                   >
                     <img
-                      src={language.flag}
+                      src={language.flag || "/placeholder.svg"}
                       alt={language.name}
                       className="w-5 h-5 rounded-full object-cover"
                     />
@@ -97,19 +96,70 @@ export default function Navbar() {
             )}
           </div>
 
-          <Link to="/login">
-            <Button
-              variant="outline"
-              className="border-[#A28CD4] text-[#5C3D8D] hover:bg-[#A28CD4]/10"
-            >
-              {t("login")}
-            </Button>
-          </Link>
-          <Link to="/register">
-            <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
-              {t("signup")}
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <div className="relative">
+              <button
+                onClick={toggleUserMenu}
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-[#5C3D8D]/10 hover:bg-[#5C3D8D]/20 transition-colors"
+                aria-label="User menu"
+              >
+                <User className="h-5 w-5 text-[#5C3D8D]" />
+              </button>
+              
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-[#A28CD4]/20">
+                  <Link 
+                    to="/profile?tab=info" 
+                    className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    <User className="h-4 w-4 text-[#5C3D8D]" />
+                    <span className="text-sm text-[#2E1A47]">Mi Perfil</span>
+                  </Link>
+                  <Link 
+                    to="/profile?tab=tickets" 
+                    className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    <Ticket className="h-4 w-4 text-[#5C3D8D]" />
+                    <span className="text-sm text-[#2E1A47]">Mis Eventos</span>
+                  </Link>
+                  <Link 
+                    to="/profile?tab=settings" 
+                    className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    <Settings className="h-4 w-4 text-[#5C3D8D]" />
+                    <span className="text-sm text-[#2E1A47]">Ajustes</span>
+                  </Link>
+                  <Link 
+                    to="/logout" 
+                    className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10 border-t border-[#A28CD4]/20 mt-1 pt-1"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    <LogOut className="h-4 w-4 text-red-500" />
+                    <span className="text-sm text-red-500">Cerrar Sesión</span>
+                  </Link>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link to="/login">
+                <Button
+                  variant="outline"
+                  className="border-[#A28CD4] text-[#5C3D8D] hover:bg-[#A28CD4]/10"
+                >
+                  {t("login")}
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
+                  {t("signup")}
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -163,7 +213,7 @@ export default function Navbar() {
                     }`}
                   >
                     <img
-                      src={language.flag}
+                      src={language.flag || "/placeholder.svg"}
                       alt={language.name}
                       className="w-5 h-5 rounded-full object-cover"
                     />
@@ -175,29 +225,66 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="flex gap-2 py-2">
-              <Link
-                to="/login"
-                className="flex-1"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Button
-                  variant="outline"
-                  className="w-full border-[#A28CD4] text-[#5C3D8D] hover:bg-[#A28CD4]/10"
+            {isAuthenticated ? (
+              <div className="flex flex-col gap-2 py-2">
+                <Link
+                  to="/profile?tab=info"
+                  className="flex items-center gap-2 py-2 text-[#2E1A47] hover:text-[#5C3D8D]"
+                  onClick={() => setIsMenuOpen(false)}
                 >
-                  {t("login")}
-                </Button>
-              </Link>
-              <Link
-                to="/signup"
-                className="flex-1"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Button className="w-full bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
-                  {t("signup")}
-                </Button>
-              </Link>
-            </div>
+                  <User className="h-5 w-5" />
+                  Mi Perfil
+                </Link>
+                <Link
+                  to="/profile?tab=tickets"
+                  className="flex items-center gap-2 py-2 text-[#2E1A47] hover:text-[#5C3D8D]"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Ticket className="h-5 w-5" />
+                  Mis Eventos
+                </Link>
+                <Link
+                  to="/profile?tab=settings"
+                  className="flex items-center gap-2 py-2 text-[#2E1A47] hover:text-[#5C3D8D]"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Settings className="h-5 w-5" />
+                  Ajustes
+                </Link>
+                <Link
+                  to="/logout"
+                  className="flex items-center gap-2 py-2 text-red-500"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <LogOut className="h-5 w-5" />
+                  Cerrar Sesión
+                </Link>
+              </div>
+            ) : (
+              <div className="flex gap-2 py-2">
+                <Link
+                  to="/login"
+                  className="flex-1"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Button
+                    variant="outline"
+                    className="w-full border-[#A28CD4] text-[#5C3D8D] hover:bg-[#A28CD4]/10"
+                  >
+                    {t("login")}
+                  </Button>
+                </Link>
+                <Link
+                  to="/register"
+                  className="flex-1"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Button className="w-full bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
+                    {t("signup")}
+                  </Button>
+                </Link>
+              </div>
+            )}
           </nav>
         </div>
       )}

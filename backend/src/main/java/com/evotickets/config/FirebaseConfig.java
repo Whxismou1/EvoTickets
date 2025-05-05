@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import com.evotickets.exceptions.FirebaseInitializationException;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -79,7 +80,7 @@ public class FirebaseConfig {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new FirebaseInitializationException("Error initializing Firebase", e);
         }
     }
 }
