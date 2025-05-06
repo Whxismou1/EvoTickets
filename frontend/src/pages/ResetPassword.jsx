@@ -10,6 +10,8 @@ import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import { useTranslation } from "react-i18next"
 import { validateResetToken, resetPassword } from "../services/authService"
+import { isValidPassword, passwordsMatch } from "../utils/validators";
+
 
 export default function ResetPassword() {
   const { t } = useTranslation()
@@ -55,12 +57,19 @@ export default function ResetPassword() {
   }
 
   const validateForm = () => {
-    if (formData.password !== formData.confirmPassword) {
-      setError("resetPassword.errorMismatch")
-      return false
+    if (!isValidPassword(formData.password)) {
+      setError("resetPassword.errorWeakPassword");
+      return false;
     }
-    return true
-  }
+  
+    if (!passwordsMatch(formData.password, formData.confirmPassword)) {
+      setError("resetPassword.errorMismatch");
+      return false;
+    }
+  
+    return true;
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault()

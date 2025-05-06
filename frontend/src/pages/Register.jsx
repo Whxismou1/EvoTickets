@@ -12,6 +12,8 @@ import { Link, useNavigate } from "react-router-dom"
 import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import { register } from "../services/authService"
+import { isValidEmail, isValidPassword, passwordsMatch } from "../utils/validators";
+
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -45,18 +47,24 @@ export default function RegisterPage() {
   }
 
   const validateForm = () => {
-    if (formData.password !== formData.confirmPassword) {
-      setError("Las contraseñas no coinciden")
-      return false
+    if (!isValidEmail(formData.email)) {
+      setError("El correo electrónico no es válido");
+      return false;
     }
-
-    if (formData.password.length < 8) {
-      setError("La contraseña debe tener al menos 8 caracteres")
-      return false
+  
+    if (!isValidPassword(formData.password)) {
+      setError("La contraseña debe tener al menos 8 caracteres");
+      return false;
     }
-
-    return true
-  }
+  
+    if (!passwordsMatch(formData.password, formData.confirmPassword)) {
+      setError("Las contraseñas no coinciden");
+      return false;
+    }
+  
+    return true;
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault()
