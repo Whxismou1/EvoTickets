@@ -11,6 +11,7 @@ import Footer from "../components/Footer"
 import { useTranslation } from "react-i18next"
 import { forgotPassword } from "../services/authService"
 
+
 export default function ForgotPassword() {
   const { t } = useTranslation()
   const [email, setEmail] = useState("")
@@ -20,21 +21,28 @@ export default function ForgotPassword() {
   const [errorMessage, setErrorMessage] = useState("")
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setIsError(false)
-    setErrorMessage("")
-
-    try {
-      await forgotPassword(email)
-      setIsSubmitted(true)
-    } catch (error) {
-      setIsError(true)
-      setErrorMessage(error.message || t("forgotPassword.defaultError"))
-    } finally {
-      setIsLoading(false)
+    e.preventDefault();
+    setIsError(false);
+    setErrorMessage("");
+  
+    if (!isValidEmail(email)) {
+      setIsError(true);
+      setErrorMessage(t("forgotPassword.invalidEmail", "Por favor ingresa un correo válido"));
+      return;
     }
-  }
+  
+    setIsLoading(true);
+    try {
+      await forgotPassword(email);
+      setIsSubmitted(true);
+    } catch (error) {
+      setIsError(true);
+      setErrorMessage(error.message || t("forgotPassword.defaultError"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
 
   const resetForm = () => {
     setIsError(false)

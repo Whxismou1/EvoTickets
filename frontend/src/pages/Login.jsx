@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { loginWithGoogle } from "../services/authService";
 import { useAuthStore } from "../store/authStore";
+import { isValidEmail, isValidPassword } from "../utils/validators"; 
+
 
 export default function LoginPage() {
   const { t } = useTranslation();
@@ -21,7 +23,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const [step, setStep] = useState(1); // 1 = email, 2 = password
+  const [step, setStep] = useState(1); 
 
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
@@ -38,13 +40,22 @@ export default function LoginPage() {
 
   const handleEmailSubmit = (e) => {
     e.preventDefault();
+    if (!isValidEmail(email)) {
+      alert("Correo electrónico inválido");
+      return;
+    }
     setStep(2);
   };
-
+  
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
+  
+    if (!isValidPassword(password)) {
+      alert("La contraseña debe tener al menos 8 caracteres");
+      return;
+    }
+  
     setIsLoading(true);
-
     try {
       const response = await login(email, password);
       useAuthStore.getState().setToken(response.token);
@@ -55,6 +66,7 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
+  
 
   const goBack = () => {
     setStep(1);
