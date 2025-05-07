@@ -126,6 +126,44 @@
     "successTitle": "¡Contraseña Restablecida!",
     "successMessage": "Tu contraseña ha sido restablecida correctamente. Ya puedes iniciar sesión con tu nueva contraseña.",
     "loginButton": "Iniciar Sesión"
+  },
+  "features": {
+    "calendar": {
+      "title": "Descubre Eventos",
+      "description": "Encuentra eventos de todo tipo según tus intereses, ubicación y disponibilidad."
+    },
+    "ticket": {
+      "title": "Entradas Digitales",
+      "description": "Recibe tus entradas al instante en tu dispositivo, sin necesidad de imprimirlas."
+    },
+    "creditCard": {
+      "title": "Pagos Seguros",
+      "description": "Múltiples métodos de pago con la máxima seguridad y sin comisiones ocultas."
+    },
+    "users": {
+      "title": "Experiencias Compartidas",
+      "description": "Invita a amigos, comparte eventos y coordina asistencia en grupo fácilmente."
+    },
+    "globe": {
+      "title": "Eventos Globales",
+      "description": "Accede a eventos locales e internacionales desde cualquier lugar del mundo."
+    },
+    "arrowRight": {
+      "title": "Recomendaciones Personalizadas",
+      "description": "Recibe sugerencias de eventos basadas en tus intereses y asistencias previas."
+    }
+  },
+  "event":{
+    "from_price": "Desde"
+  },
+  "category": {
+    "musica": "Música",
+    "tecnologia": "Tecnología",
+    "arte": "Arte",
+    "gastronomia": "Gastronomía",
+    "deportes": "Deportes",
+    "cine": "Cine"
   }
+  
 
 }
