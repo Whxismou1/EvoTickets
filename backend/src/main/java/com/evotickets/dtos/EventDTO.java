@@ -3,11 +3,12 @@ package com.evotickets.dtos;
 import java.time.LocalDateTime;
 
 import com.evotickets.entities.LocationEntity;
-import com.google.auto.value.AutoValue.Builder;
+
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
