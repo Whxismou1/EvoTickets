@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.evotickets.dtos.EventDTO;
 import com.evotickets.entities.EventEntity;
 import com.evotickets.entities.LocationEntity;
+import com.evotickets.exceptions.NoSuchEventException;
 import com.evotickets.services.EventService;
 import com.evotickets.services.LocationService;
 
@@ -40,68 +42,33 @@ public class EventController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id){
-        try {
-            EventEntity event = eventService.getEventById(id);
-            return ResponseEntity.ok().body(event);
-        } catch (NoSuchElementException e) {
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
-        }catch (Exception e){
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                         .body("Error inesperado al recuperar la ID: " + id);
-        } 
+        EventEntity event = eventService.getEventById(id);
+        return ResponseEntity.ok().body(event);
     }
 
     @GetMapping("/location")
-    public ResponseEntity<?> getEventsByLocation(@RequestParam Long locationId){
-        try{
-            LocationEntity location = locationService.getLocationById(locationId);
-            ArrayList<EventEntity> events = eventService.getEventsByLocation(location);
-            return ResponseEntity.ok().body(events);
-        }catch(NoSuchElementException e){
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
-        }catch(Exception e){
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+    public ResponseEntity<?> getEventsByLocation(@RequestParam Long id){
+        LocationEntity location = locationService.getLocationById(id);
+        ArrayList<EventEntity> events = eventService.getEventsByLocation(location);
+        return ResponseEntity.ok().body(events);
+           
     }
 
     @PostMapping()
     public ResponseEntity<?> createEvent(@RequestBody EventDTO event){
-        try{
-            return ResponseEntity.ok().body(eventService.createEvent(event));
-        }catch(Exception e){
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+        return ResponseEntity.ok().body(eventService.createEvent(event));
+
     }
 
-    @PutMapping("")
-    public ResponseEntity<?> modifyEvent(@RequestBody EventEntity event){
-        try{
-            return ResponseEntity.ok().body(eventService.modifyEvent(event));
-        }catch(NoSuchElementException e){
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
-        }catch(Exception e){
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+    @PutMapping()
+    public ResponseEntity<?> modifyEvent(@RequestParam Long id, @RequestBody EventDTO eventUpdate){
+        EventEntity event = eventService.getEventById(id);
+        return ResponseEntity.ok().body(eventService.modifyEvent(event, eventUpdate));
     }
 
     @DeleteMapping()
     public ResponseEntity<?> deleteEvent(@RequestParam Long id){
-        try{
-            eventService.deleteEvent(id);
-            return ResponseEntity.ok().body("Evento eliminado correctamente");
-        }catch(NoSuchElementException e){
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
-        }catch(Exception e){
-            System.err.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-        }
+        eventService.deleteEvent(id);
+        return ResponseEntity.ok().body("Evento eliminado correctamente"); 
     }
 }
