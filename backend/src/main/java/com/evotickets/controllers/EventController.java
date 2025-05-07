@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.evotickets.dtos.EventDTO;
 import com.evotickets.entities.EventEntity;
 import com.evotickets.entities.LocationEntity;
-import com.evotickets.exceptions.NoSuchEventException;
 import com.evotickets.services.EventService;
 import com.evotickets.services.LocationService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/events")
@@ -55,13 +56,12 @@ public class EventController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createEvent(@RequestBody EventDTO event){
+    public ResponseEntity<?> createEvent(@Valid @RequestBody EventDTO event){
         return ResponseEntity.ok().body(eventService.createEvent(event));
-
     }
 
     @PutMapping()
-    public ResponseEntity<?> modifyEvent(@RequestParam Long id, @RequestBody EventDTO eventUpdate){
+    public ResponseEntity<?> modifyEvent(@RequestParam Long id, @Valid @RequestBody EventDTO eventUpdate){
         EventEntity event = eventService.getEventById(id);
         return ResponseEntity.ok().body(eventService.modifyEvent(event, eventUpdate));
     }
