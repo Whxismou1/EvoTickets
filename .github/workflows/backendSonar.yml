@@ -1,4 +1,5 @@
 name: SonarQube Backend
+
 on:
   push:
     branches:
@@ -26,7 +27,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu' 
+          distribution: 'zulu'
 
       - name: Cache SonarQube packages
         uses: actions/cache@v4
@@ -42,7 +43,18 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build and analyze
+      - name: Build with tests and generate coverage
+        run: mvn clean verify -Dspring.profiles.active=test
+
+      - name: Verificar que el reporte de cobertura existe
+        run: ls -lah target/site/jacoco/
+
+      - name: Run SonarQube analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_B }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=evoticketsorg_EvoTickets
+        run: |
+          mvn sonar:sonar \
+            -Dsonar.projectKey=evoticketsorg_EvoTickets \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml

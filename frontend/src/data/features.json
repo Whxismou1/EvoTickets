@@ -1,39 +1,32 @@
 [
-    {
-      "id": 1,
-      "icon": "Calendar",
-      "title": "Descubre Eventos",
-      "description": "Encuentra eventos de todo tipo según tus intereses, ubicación y disponibilidad."
-    },
-    {
-      "id": 2,
-      "icon": "Ticket",
-      "title": "Entradas Digitales",
-      "description": "Recibe tus entradas al instante en tu dispositivo, sin necesidad de imprimirlas."
-    },
-    {
-      "id": 3,
-      "icon": "CreditCard",
-      "title": "Pagos Seguros",
-      "description": "Múltiples métodos de pago con la máxima seguridad y sin comisiones ocultas."
-    },
-    {
-      "id": 4,
-      "icon": "Users",
-      "title": "Experiencias Compartidas",
-      "description": "Invita a amigos, comparte eventos y coordina asistencia en grupo fácilmente."
-    },
-    {
-      "id": 5,
-      "icon": "Globe",
-      "title": "Eventos Globales",
-      "description": "Accede a eventos locales e internacionales desde cualquier lugar del mundo."
-    },
-    {
-      "id": 6,
-      "icon": "ArrowRight",
-      "title": "Recomendaciones Personalizadas",
-      "description": "Recibe sugerencias de eventos basadas en tus intereses y asistencias previas."
-    }
+  { 
+    "id": 1, 
+    "icon": "Calendar", 
+    "key": "calendar" 
+  },
+  { 
+    "id": 2, 
+    "icon": "Ticket", 
+    "key": "ticket" 
+  },
+  { 
+    "id": 3, 
+    "icon": "CreditCard", 
+    "key": "creditCard" 
+  },
+  { 
+    "id": 4, 
+    "icon": "Users", 
+    "key": "users" 
+  },
+  { 
+    "id": 5, 
+    "icon": "Globe", 
+    "key": "globe" 
+  },
+  { 
+    "id": 6, 
+    "icon": "ArrowRight", 
+    "key": "arrowRight" 
+  }
   ]
-  

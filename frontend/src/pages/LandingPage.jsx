@@ -28,6 +28,12 @@ export default function Home() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "200%"]);
 
+  const normalizeCategoryKey = (rawCategory) =>
+    rawCategory
+      .normalize("NFD") // elimina acentos
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
   return (
     <div className="min-h-screen bg-[#F3F0FA]">
       {/* Navbar */}
@@ -131,7 +137,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#2E1A47]/70 to-transparent" />
                   <div className="absolute top-4 left-4">
                     <span className="bg-[#D7A6F3] text-[#2E1A47] px-3 py-1 rounded-full text-xs font-medium">
-                      {event.category}
+                      {t(`category.${normalizeCategoryKey(event.category)}`, { defaultValue: event.category })}
                     </span>
                   </div>
                   <div className="absolute bottom-4 left-4 right-4">
@@ -148,7 +154,7 @@ export default function Home() {
                     {event.title}
                   </h3>
                   <p className="text-[#5C3D8D] font-medium mb-4">
-                    {event.price}
+                    {t("event.from_price")} {event.price.replace(/^Desde\s*/i, "")}
                   </p>
                   <Button className="w-full bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
                     {t("buy_tickets")}
@@ -211,9 +217,9 @@ export default function Home() {
                   <IconMapper name={feature.icon} />
                 </div>
                 <h3 className="text-xl font-bold text-[#2E1A47] mb-2">
-                  {feature.title}
+                  {t(`features.${feature.key}.title`)}
                 </h3>
-                <p className="text-[#5C3D8D]">{feature.description}</p>
+                <p className="text-[#5C3D8D]">{t(`features.${feature.key}.description`)}</p>
               </motion.div>
             ))}
           </div>

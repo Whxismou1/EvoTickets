@@ -126,5 +126,42 @@
     "successTitle": "Password Reset Successfully!",
     "successMessage": "Your password has been reset successfully. You can now log in with your new password.",
     "loginButton": "Log In"
+  },
+  "features": {
+    "calendar": {
+      "title": "Discover Events",
+      "description": "Find events of all kinds based on your interests, location, and availability."
+    },
+    "ticket": {
+      "title": "Digital Tickets",
+      "description": "Get your tickets instantly on your device, no need to print them."
+    },
+    "creditCard": {
+      "title": "Secure Payments",
+      "description": "Multiple payment methods with maximum security and no hidden fees."
+    },
+    "users": {
+      "title": "Shared Experiences",
+      "description": "Invite friends, share events, and coordinate group attendance easily."
+    },
+    "globe": {
+      "title": "Global Events",
+      "description": "Access local and international events from anywhere in the world."
+    },
+    "arrowRight": {
+      "title": "Personalized Recommendations",
+      "description": "Get event suggestions based on your interests and past attendance."
+    }
+  },
+  "event":{
+    "from_price": "From"
+  },
+  "category": {
+    "musica": "Music",
+    "tecnologia": "Technology",
+    "arte": "Art",
+    "gastronomia": "Gastronomy",
+    "deportes": "Sports",
+    "cine": "Cinema"
   }
 }

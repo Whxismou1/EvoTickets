@@ -31,8 +31,11 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      - name: Asegurar que sonar-project.properties está presente
-        run: ls -l
+      - name: Ejecutar tests con cobertura
+        run: npx vitest run --coverage
+
+      - name: Verificar archivo de cobertura
+        run: ls -l coverage/lcov.info
 
       - name: Ejecutar análisis de SonarQube
         uses: SonarSource/sonarqube-scan-action@v5
