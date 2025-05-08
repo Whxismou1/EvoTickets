@@ -157,11 +157,32 @@
     "from_price": "From"
   },
   "category": {
-    "musica": "Music",
-    "tecnologia": "Technology",
-    "arte": "Art",
-    "gastronomia": "Gastronomy",
-    "deportes": "Sports",
-    "cine": "Cinema"
+    "music": "Music",
+    "technology": "Technology",
+    "art": "Art",
+    "gastronomy": "Gastronomy",
+    "sports": "Sports",
+    "cinema": "Cinema"
+  },
+  "navBar":{
+    "my_profile": "My Profile",
+    "my_events": "My Events",
+    "settings": "Setting",
+    "close_session": "Close Session"
+  },
+  "home":{
+    "welcome": "¡Welcome back!",
+    "discover": "Discover the most popular events this week",
+    "advanced_search": "Advanced Search",
+    "search": "Search",
+    "next_events": "Next Events",
+    "see_calendar": "See Calendar",
+    "see": "See",
+    "followed_artist": "Artists you follow",
+    "see_all": "See All",
+
+    "see_event": "See Event",
+    "trending": "Trendings",
+    "see_more": "See More"
   }
 }

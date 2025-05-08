@@ -114,7 +114,9 @@ export default function Navbar({ isAuthenticated = false }) {
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     <User className="h-4 w-4 text-[#5C3D8D]" />
-                    <span className="text-sm text-[#2E1A47]">Mi Perfil</span>
+                    <span className="text-sm text-[#2E1A47]">
+                      {t("navBar.my_profile")}
+                    </span>
                   </Link>
                   <Link 
                     to="/profile?tab=tickets" 
@@ -122,7 +124,7 @@ export default function Navbar({ isAuthenticated = false }) {
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     <Ticket className="h-4 w-4 text-[#5C3D8D]" />
-                    <span className="text-sm text-[#2E1A47]">Mis Eventos</span>
+                    <span className="text-sm text-[#2E1A47]">{t("navBar.my_events")}</span>
                   </Link>
                   <Link 
                     to="/profile?tab=settings" 
@@ -130,7 +132,7 @@ export default function Navbar({ isAuthenticated = false }) {
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     <Settings className="h-4 w-4 text-[#5C3D8D]" />
-                    <span className="text-sm text-[#2E1A47]">Ajustes</span>
+                    <span className="text-sm text-[#2E1A47]">{t("navBar.settings")}</span>
                   </Link>
                   <Link 
                     to="/logout" 
@@ -138,7 +140,7 @@ export default function Navbar({ isAuthenticated = false }) {
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     <LogOut className="h-4 w-4 text-red-500" />
-                    <span className="text-sm text-red-500">Cerrar Sesión</span>
+                    <span className="text-sm text-red-500">{t("navBar.close_session")}</span>
                   </Link>
                 </div>
               )}
