@@ -3,6 +3,7 @@ package com.evotickets.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import com.evotickets.exceptions.StripeInitializationException;
 import com.stripe.Stripe;
 
 import jakarta.annotation.PostConstruct;
@@ -18,7 +19,7 @@ public class StripeConfig {
         try {
             Stripe.apiKey = stripeApiKey;
         } catch (Exception e) {
-            throw new RuntimeException("Error initializing Stripe", e);
+            throw new StripeInitializationException("Error initializing Stripe", e);
         }
     }
 }
