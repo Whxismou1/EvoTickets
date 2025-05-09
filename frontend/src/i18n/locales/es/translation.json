@@ -157,13 +157,31 @@
     "from_price": "Desde"
   },
   "category": {
-    "musica": "Música",
-    "tecnologia": "Tecnología",
-    "arte": "Arte",
-    "gastronomia": "Gastronomía",
-    "deportes": "Deportes",
-    "cine": "Cine"
+    "music": "Música",
+    "technology": "Tecnología",
+    "art": "Arte",
+    "gastronomy": "Gastronomía",
+    "sports": "Deportes",
+    "cinema": "Cine"
+  },
+  "navBar":{
+    "my_profile": "Mi Perfil",
+    "my_events": "Mis Eventos",
+    "settings": "Ajustes",
+    "close_session": "Cerrar Sesion"
+  },
+  "home":{
+    "welcome": "¡Bienvenido de nuevo!",
+    "discover": "Descubre los eventos más populares esta semana",
+    "advanced_search": "Búsqueda avanzada",
+    "search": "Buscar",
+    "next_events": "Próximos Eventos",
+    "see_calendar": "Ver Calendario",
+    "see": "Ver",
+    "followed_artist": "Artistas que sigues",
+    "see_all": "Ver todos",
+    "see_event": "Ver evento",
+    "trending": "Tendencias",
+    "see_more": "Ver más"
   }
-  
-
 }
