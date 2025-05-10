@@ -13,17 +13,19 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { loginWithGoogle } from "../services/authService";
 import { useAuthStore } from "../store/authStore";
-import { isValidEmail, isValidPassword } from "../utils/validators"; 
-
+import { isValidEmail, isValidPassword } from "../utils/validators";
+import useAlert from "../hooks/useAlert";
+import Alert from "../components/Alert";
 
 export default function LoginPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { alert, showAlert, hideAlert } = useAlert();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const [step, setStep] = useState(1); 
+  const [step, setStep] = useState(1);
 
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
@@ -33,6 +35,7 @@ export default function LoginPage() {
       navigate("/home");
     } catch (err) {
       console.error("Error al iniciar sesión con Google:", err);
+      showAlert({ type: 'error', message: "Error al iniciar sesión con Google" });
     } finally {
       setIsGoogleLoading(false);
     }
@@ -41,7 +44,7 @@ export default function LoginPage() {
   const handleEmailSubmit = (e) => {
     e.preventDefault();
     if (!isValidEmail(email)) {
-      alert("Correo electrónico inválido");
+      showAlert({ type: 'error', message: "Correo electrónico inválido" });
       return;
     }
     setStep(2);
@@ -51,7 +54,7 @@ export default function LoginPage() {
     e.preventDefault();
   
     if (!isValidPassword(password)) {
-      alert("La contraseña debe tener al menos 8 caracteres");
+      showAlert({ type: 'error', message: "La contraseña debe tener al menos 8 caracteres" });
       return;
     }
   
@@ -62,11 +65,11 @@ export default function LoginPage() {
       navigate("/home");
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
+      showAlert({ type: 'error', message: "Error al iniciar sesión" });
     } finally {
       setIsLoading(false);
     }
   };
-  
 
   const goBack = () => {
     setStep(1);
@@ -75,6 +78,12 @@ export default function LoginPage() {
   return (
     <>
       <Nav />
+      <Alert
+        type={alert.type}
+        message={alert.message}
+        isVisible={alert.isVisible}
+        onClose={hideAlert}
+      />
       <div className="min-h-[calc(100vh-128px)] flex items-center justify-center py-20 px-4">
         <div className="w-full max-w-md">
           <motion.div

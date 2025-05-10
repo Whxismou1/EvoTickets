@@ -16,8 +16,8 @@ import featuresData from "../data/features.json";
 export default function Home() {
   const { t } = useTranslation();
 
-  const howSteps = t("how_steps", { returnObjects: true });
-  const organizerSteps = t("organizers_steps", { returnObjects: true });
+  const howSteps = t("how_steps", { returnObjects: true }) || [];
+    const organizerSteps = t("organizers_steps", { returnObjects: true });
 
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({

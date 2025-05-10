@@ -1,10 +1,14 @@
 package com.evotickets.controllers;
 
+import java.io.File;
 import java.util.Map;
 
 import com.evotickets.services.UserService;
 import com.evotickets.dtos.UserUpdateDTO;
 import com.evotickets.entities.UserEntity;
+import com.evotickets.utils.QRGenerator;
+import com.evotickets.utils.ImageUploader;
+import com.evotickets.utils.PDFGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -20,6 +27,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ImageUploader imageUploader;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
@@ -41,6 +50,33 @@ public class UserController {
         UserEntity updatedUser = userService.updateUserProfile(id, userUpdateDTO);
         return ResponseEntity.ok(updatedUser);
     }
+
+
+    @PostMapping("/{id}/test-ticket-pdf")
+    public ResponseEntity<?> generateTestTicket(@PathVariable Long id) {
+        try {
+            Long fakeTicketId = 999L;
+            String qrContent = "ticket-id:" + fakeTicketId;
+            String qrPath = "temp/qr_" + fakeTicketId + ".png";
+            String pdfPath = "temp/ticket_" + fakeTicketId + ".pdf";
+    
+            // 1. Generar QR como imagen
+            QRGenerator.generateQR(qrContent, qrPath);
+    
+            // 2. Subir QR a Cloudinary
+            File qrFile = new File(qrPath);
+            String qrUrl = imageUploader.uploadImage(qrFile);
+    
+            // 3. Generar HTML del ticket y convertir a PDF
+            PDFGenerator.createTicketPDFWithHtmlTemplate(pdfPath, "Concierto de Prueba", "Usuario ID: " + id, qrUrl);
+    
+            return ResponseEntity.ok(Map.of("qrUrl", qrUrl, "pdfPath", pdfPath));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+    
+    
 }
 
 
