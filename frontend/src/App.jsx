@@ -14,6 +14,9 @@ import ArtistPage from "./pages/ArtistPage";
 import EventManagerPage from "./pages/EventManagerPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
+// import EventDetail from "./pages/EventDetail";
+import EventCreationPage from "./pages/EventCreationPage";
 
 function App() {
   return (
@@ -25,18 +28,21 @@ function App() {
         <Route path="/verifyAccount" element={<VerifyAccount />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/resetPassword/:token" element={<ResetPassword />} />
+        {/* <Route path="/event/:id" element={<EventDetail />} /> */}
+        <Route path="/eventCreation" element={<EventCreationPage />} />
 
-        {/* <Route
+        <Route
           path="/verifyAccount"
           element={
             <VerifyAccountGuard>
               <VerifyAccount />
             </VerifyAccountGuard>
           }
-        /> */}
+        />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
+        <Route path="/profile" element={<Profile/>}/>
         </Route>
 
         <Route element={<RoleProtectedRoute allowedRoles={["ADMIN"]} />}>

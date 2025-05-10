@@ -1,5 +1,6 @@
 package com.evotickets.utils;
 
+import java.io.File;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,14 @@ public class ImageUploader {
 
     public String uploadImage(MultipartFile file) throws Exception {
         Map<String, Object> uploadRes = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+
+        return (String) uploadRes.get("secure_url");
+        
+
+    }
+
+    public String uploadImage(File file) throws Exception {
+        Map<String, Object> uploadRes = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
 
         return (String) uploadRes.get("secure_url");
 
