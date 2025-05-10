@@ -1,14 +1,12 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
-import Profile from "../pages/profile";
+import Profile from "../pages/Profile";
 import { I18nextProvider } from "react-i18next";
 import i18n from "../i18n/config";
 import { describe, it, expect } from "vitest";
 
-// Simula usuario autenticado
 const mockIsAuthenticated = true;
 
-// Mocks necesarios si Profile usa hooks o contextos
 vi.mock("../store/authStore", () => ({
   useAuthStore: () => ({ token: "fake-token" }),
 }));

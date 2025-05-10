@@ -19,7 +19,7 @@ public class StripeConfig {
         try {
             Stripe.apiKey = stripeApiKey;
         } catch (Exception e) {
-            throw new StripeInitializationException("Error initializing Stripe", e);
+            throw new StripeInitializationException("Error initializing Stripe");
         }
     }
 }

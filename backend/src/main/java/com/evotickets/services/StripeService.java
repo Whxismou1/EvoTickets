@@ -1,10 +1,13 @@
 package com.evotickets.services;
 
 import com.evotickets.entities.TicketEntity;
+import com.evotickets.exceptions.StripeSessionCreationException;
+import com.evotickets.exceptions.CustomException;
 import com.evotickets.repositories.TicketRepository;
-import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +25,16 @@ public class StripeService {
         this.ticketRepository = ticketRepository;
     }
 
-    public String crearCheckoutSession(Long ticketId) throws Exception {
+    public String crearCheckoutSession(Long ticketId) {
         TicketEntity ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new RuntimeException("Ticket no encontrado"));
+                .orElseThrow(() -> new CustomException("Ticket no encontrado"));
 
         long priceInCents = ticket.getPrice().multiply(BigDecimal.valueOf(100)).longValue();
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("")
-                .setCancelUrl("")
+                .setSuccessUrl("") 
+                .setCancelUrl("")  
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
@@ -51,8 +54,12 @@ public class StripeService {
                 )
                 .build();
 
-        Session session = Session.create(params);
-        return session.getId();
+        try {
+            Session session = Session.create(params);
+            return session.getId();
+        } catch (StripeException e) {
+            throw new StripeSessionCreationException("Error al crear sesión de pago: " + e.getMessage());
+        }
     }
 
     public String getStripePublicKey() {

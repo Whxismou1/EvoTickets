@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/stripe")
+@RequestMapping("/api/v1/stripe")
 public class StripeController {
 
     private final StripeService stripeService;
@@ -15,17 +15,13 @@ public class StripeController {
     }
 
     @PostMapping("/create-checkout-session")
-    public ResponseEntity<?> createCheckoutSession(@RequestParam Long ticketId) {
-        try {
-            String sessionId = stripeService.crearCheckoutSession(ticketId);
-            return ResponseEntity.ok().body(sessionId);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<String> createCheckoutSession(@RequestParam Long ticketId) {
+        String sessionId = stripeService.crearCheckoutSession(ticketId);
+        return ResponseEntity.ok(sessionId);
     }
 
     @GetMapping("/public-key")
-    public ResponseEntity<?> getPublicKey() {
-        return ResponseEntity.ok().body(stripeService.getStripePublicKey());
+    public ResponseEntity<String> getPublicKey() {
+        return ResponseEntity.ok(stripeService.getStripePublicKey());
     }
 }
