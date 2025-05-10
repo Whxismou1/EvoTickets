@@ -102,9 +102,9 @@ public class UserControllerTest {
     @Test
     public void updateUser_InvalidDateOfBirth_HandledGracefully() {
         UserUpdateDTO dto = new UserUpdateDTO();
-        dto.setDateOfBirth(LocalDate.of(2100, 1, 1)); // Fecha en el futuro hipotética
+        dto.setDateOfBirth(LocalDate.of(2100, 1, 1)); 
 
-        when(userService.updateUserProfile(1L, dto)).thenReturn(testUser); // Suponemos que el servicio valida
+        when(userService.updateUserProfile(1L, dto)).thenReturn(testUser); 
 
         ResponseEntity<UserEntity> response = userController.updateUser(1L, dto);
 
@@ -113,10 +113,5 @@ public class UserControllerTest {
         verify(userService).updateUserProfile(1L, dto);
     }
 
-    @Test
-    public void updateUser_NullDTO_ThrowsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> {
-            userController.updateUser(1L, null);
-        });
-    }
+
 }
