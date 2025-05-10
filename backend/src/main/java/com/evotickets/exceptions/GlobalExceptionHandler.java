@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleGeneralException(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of(
-                        "error", "Ocurrió un error inesperado" + e.getMessage(),
+                        "error", "Ocurrió un error inesperado: " + e.getMessage(),
                         "timestamp", LocalDateTime.now()));
     }
 }
