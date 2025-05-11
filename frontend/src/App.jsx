@@ -18,6 +18,7 @@ import Profile from "./pages/Profile";
 import EventsPage from "./pages/EventsPage"
 // import EventDetail from "./pages/EventDetail";
 import EventCreationPage from "./pages/EventCreationPage";
+import EventDetail from "./pages/EventDetails";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/events" element={<EventsPage />}/>
+        <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verifyAccount" element={<VerifyAccount />} />
