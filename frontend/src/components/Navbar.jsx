@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@heroui/button";
 import { Menu, Moon, Sun, Ticket, X, User, Bell, Settings, LogOut } from 'lucide-react';
 import { useTheme } from "../context/ThemeContext";
@@ -16,6 +16,9 @@ export default function Navbar({ isAuthenticated = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const location = useLocation();
+  const isEventsPage = location.pathname === '/events';
 
   const currentLangCode = i18n.language || "es";
   const currentLanguage = languages.find((l) => l.code === currentLangCode) || languages[0];
@@ -41,9 +44,11 @@ export default function Navbar({ isAuthenticated = false }) {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <Link to="/events" className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors">
-            {t("events")}
-          </Link>
+          {!isEventsPage && (
+            <Link to="/events" className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors">
+              {t("events")}
+            </Link>
+          )}
 
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -182,14 +187,15 @@ export default function Navbar({ isAuthenticated = false }) {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-b border-[#A28CD4]/20">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            <Link
-              to="/events"
-              className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {t("events")}
-            </Link>
-
+            {!isEventsPage && (
+              <Link
+                to="/events"
+                className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t("events")}
+              </Link>
+            )}
             <div className="flex items-center gap-4 py-2">
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}

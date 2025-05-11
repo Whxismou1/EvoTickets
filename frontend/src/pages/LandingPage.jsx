@@ -69,7 +69,7 @@ export default function Home() {
             </h1>
             <p className="text-xl text-[#F3F0FA] mb-8">{t("hero_subtitle")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
+              <Button as="a" href="/events" className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
                 {t("explore_events")}
               </Button>
               <Button
@@ -172,6 +172,8 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <Button
+              as="a" 
+              href="/events"
               variant="outline"
               className="border-[#5C3D8D] text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
             >
@@ -278,7 +280,7 @@ export default function Home() {
                 ))}
               </ul>
 
-              <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
+              <Button as="a" href="/events" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
                 {t("explore_events")}
               </Button>
             </motion.div>
@@ -403,7 +405,7 @@ export default function Home() {
             </h2>
             <p className="text-xl text-[#D7A6F3] mb-8">{t("cta_subtitle")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
+              <Button as="a" href="/events" className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
                 {t("explore_events")}
               </Button>
             </div>
