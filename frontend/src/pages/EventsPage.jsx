@@ -1,5 +1,5 @@
 "use client";
-
+import {Link} from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@heroui/input";
@@ -146,13 +146,11 @@ export default function EventsPage() {
                   <div className="p-4">
                     <h2 className="text-lg font-bold text-[#2E1A47] mb-2">{event.name}</h2>
                     <p className="text-sm text-[#5C3D8D] mb-4">{event.description.slice(0, 100)}...</p>
-                    <Button
-                      as="a"
-                      href={`/events/${event.id}`}
-                      className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white w-full"
-                    >
-                      Ver detalles
-                    </Button>
+                    <Link to={`/events/${event.id}`}>
+                      <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white w-full">
+                        Ver detalles
+                      </Button>
+                    </Link>
                   </div>
                 </motion.div>
               ))}
