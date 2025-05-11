@@ -15,6 +15,7 @@ import EventManagerPage from "./pages/EventManagerPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
+import EventsPage from "./pages/EventsPage"
 // import EventDetail from "./pages/EventDetail";
 import EventCreationPage from "./pages/EventCreationPage";
 
@@ -23,6 +24,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/events" element={<EventsPage />}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verifyAccount" element={<VerifyAccount />} />
