@@ -14,7 +14,7 @@ export default function EventsPage() {
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [eventsPerPage] = useState(6); // Número de eventos por página
+  const [eventsPerPage] = useState(6);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -42,15 +42,55 @@ export default function EventsPage() {
       event.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredEvents(filtered);
-    setCurrentPage(1); // Reiniciar a la primera página
+    setCurrentPage(1);
   };
 
   // Paginación
   const indexOfLastEvent = currentPage * eventsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
   const currentEvents = filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);
-
   const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
+
+  // Función para obtener los números de página según el total
+  const getPageNumbers = () => {
+    const pages = [];
+    if (totalPages <= 6) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Siempre mostrar la primera y la última
+      if (currentPage <= 3) {
+        // Muestra las primeras 5 páginas y luego puntos y la última
+        for (let i = 1; i <= 5; i++) {
+          pages.push(i);
+        }
+        pages.push("ellipsis");
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push("ellipsis");
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push("ellipsis");
+        pages.push(currentPage - 1);
+        pages.push(currentPage);
+        pages.push(currentPage + 1);
+        pages.push("ellipsis");
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  };  
+
+  const pageNumbers = getPageNumbers();
+
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -123,22 +163,39 @@ export default function EventsPage() {
 
           {/* Controles de paginación */}
           {filteredEvents.length > eventsPerPage && (
-            <div className="flex items-center justify-center gap-4 mt-8">
+            <div className="flex items-center justify-center gap-2 mt-8">
               <Button
                 variant="light"
                 className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
-                onClick={handlePreviousPage}
+                onPress={handlePreviousPage}
                 disabled={currentPage === 1}
               >
                 <ChevronLeft size={18} />
               </Button>
-              <span className="text-[#5C3D8D]">
-                Página {currentPage} de {totalPages}
-              </span>
+
+              {pageNumbers.map((item, index) => 
+                typeof item === "number" ? (
+                  <Button
+                    key={index}
+                    variant="light"
+                    className={`w-10 h-10 flex items-center justify-center 
+                      ${currentPage === item ? "bg-[#5C3D8D] text-white" : "bg-white text-[#5C3D8D]"} 
+                      hover:bg-[#5C3D8D]/10`}
+                    onPress={() => handlePageClick(item)}
+                  >
+                    {item}
+                  </Button>
+                ) : (
+                  <span key={index} className="w-10 h-10 flex items-center justify-center text-[#5C3D8D]">
+                    ...
+                  </span>
+                )
+              )}
+
               <Button
                 variant="light"
                 className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
-                onClick={handleNextPage}
+                onPress={handleNextPage}
                 disabled={currentPage === totalPages}
               >
                 <ChevronRight size={18} />
