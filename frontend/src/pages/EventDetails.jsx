@@ -27,13 +27,13 @@ import { getEventById } from "../services/eventService"
 
 export default function EventDetail() {
   // Todos los hooks se llaman incondicionalmente
-  const { t } = useTranslation()
-  const { id } = useParams() // Se obtiene el id desde la URL
-  const [eventData, setEventData] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isLiked, setIsLiked] = useState(false)
-  const [activeGalleryIndex, setActiveGalleryIndex] = useState(0)
-  const [showAllArtists, setShowAllArtists] = useState(false)
+  const { t } = useTranslation();
+  const { id } = useParams();
+  const [eventData, setEventData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
+  const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
+  const [showAllArtists, setShowAllArtists] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -68,9 +68,18 @@ export default function EventDetail() {
       <>
         <Navbar isAuthenticated={true} />
         <main className="min-h-screen bg-[#F3F0FA] pt-16 flex items-center justify-center">
-          <p className="text-center text-[#5C3D8D]">
-            No se han encontrado detalles para este evento.
-          </p>
+          <div className="text-center">
+            <p className="text-[#5C3D8D] mb-4">
+              No se ha encontrado el evento que buscas.
+            </p>
+            <Button
+              as={Link}
+              to="/events"
+              className="bg-[#5C3D8D] text-white hover:bg-[#2E1A47]"
+            >
+              Volver a la lista de eventos
+            </Button>
+          </div>
         </main>
         <Footer />
       </>
