@@ -7,6 +7,8 @@ import Footer from "../components/Footer"
 import { useTranslation } from "react-i18next"
 import useAlert from "../hooks/useAlert"
 import Alert from "../components/Alert"
+import { ArrowLeft } from "lucide-react"
+import { Link } from "react-router-dom"
 
 export default function TermsPage() {
   const { t } = useTranslation()
@@ -25,6 +27,13 @@ export default function TermsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
+            <div className="mb-6">
+              <Link to="/" className="inline-flex items-center text-[#5C3D8D] hover:text-[#2E1A47] transition-colors">
+                <ArrowLeft className="h-4 w-4 mr-1" />
+                Volver al inicio
+              </Link>
+            </div>
+            
             <div className="flex flex-col items-center mb-8 text-center">
               <FileText className="h-12 w-12 text-[#5C3D8D] mb-2" />
               <h1 className="text-3xl font-bold text-[#2E1A47] mb-2">Términos y Condiciones</h1>

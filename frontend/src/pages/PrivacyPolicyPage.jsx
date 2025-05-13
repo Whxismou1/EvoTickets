@@ -7,9 +7,19 @@ import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import useAlert from "../hooks/useAlert"
 import Alert from "../components/Alert"
+import { useTranslation } from "react-i18next"
 
 export default function PrivacyPolicyPage() {
   const { alert, showAlert, hideAlert } = useAlert()
+  const { t } = useTranslation(); 
+
+  const section1_1List = t('privacyPolicy.section1_1List', { returnObjects: true });
+  const section1_2List = t('privacyPolicy.section1_2List', { returnObjects: true });
+  const section2List = t('privacyPolicy.section2List', { returnObjects: true });
+  const section3List = t('privacyPolicy.section3List', { returnObjects: true });
+  const section4List = t('privacyPolicy.section4List', { returnObjects: true });
+  const section6List = t('privacyPolicy.section6List', { returnObjects: true });
+
 
   return (
     <>
@@ -22,82 +32,60 @@ export default function PrivacyPolicyPage() {
             <div className="mb-6">
               <Link to="/" className="inline-flex items-center text-[#5C3D8D] hover:text-[#2E1A47] transition-colors">
                 <ArrowLeft className="h-4 w-4 mr-1" />
-                Volver al inicio
+                {t("privacyPolicy.backToHome")}
               </Link>
             </div>
 
-            <h1 className="text-3xl font-bold text-[#2E1A47] mb-6">Política de Privacidad</h1>
-            <p className="text-[#5C3D8D] mb-6">Última actualización: 15 de mayo de 2023</p>
+            <h1 className="text-3xl font-bold text-[#2E1A47] mb-6">{t("privacyPolicy.title")}</h1>
+            <p className="text-[#5C3D8D] mb-6">{t("privacyPolicy.lastUpdated")}</p>
 
             <div className="prose prose-purple max-w-none text-[#5C3D8D]">
               <p>
-                En EvoTickets, accesible desde www.evotickets.com, una de nuestras principales prioridades es la
-                privacidad de nuestros visitantes. Este documento de Política de Privacidad contiene los tipos de
-                información que se recopilan y registran por EvoTickets y cómo la utilizamos.
+                {t("privacyPolicy.intro1")}
               </p>
 
               <p>
-                Si tienes preguntas adicionales o requieres más información sobre nuestra Política de Privacidad, no
-                dudes en contactarnos.
+                {t("privacyPolicy.intro2")}
               </p>
 
-              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">1. Información que recopilamos</h2>
+              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">{t("privacyPolicy.section1Title")}</h2>
 
-              <h3 className="text-lg font-medium text-[#2E1A47] mt-6 mb-3">1.1 Información personal</h3>
-              <p>Cuando te registras en nuestro sitio, podemos recopilar la siguiente información:</p>
+              <h3 className="text-lg font-medium text-[#2E1A47] mt-6 mb-3">{t("privacyPolicy.section1_1Title")}</h3>
+              <p>{t("privacyPolicy.section1_1Desc")}</p>
               <ul className="list-disc pl-6 mb-4">
-                <li>Nombre y apellidos</li>
-                <li>Dirección de correo electrónico</li>
-                <li>Número de teléfono</li>
-                <li>Dirección de facturación y envío</li>
-                <li>Información de pago (procesada de forma segura a través de nuestros proveedores de pago)</li>
-                <li>Cualquier otra información que decidas proporcionarnos</li>
+                {section1_1List.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
 
-              <h3 className="text-lg font-medium text-[#2E1A47] mt-6 mb-3">1.2 Información de uso</h3>
-              <p>También podemos recopilar información sobre cómo accedes y utilizas nuestro sitio web:</p>
+              <h3 className="text-lg font-medium text-[#2E1A47] mt-6 mb-3">{t("privacyPolicy.section1_2Title")}</h3>
+              <p>{t("privacyPolicy.section1_2Desc")}</p>
               <ul className="list-disc pl-6 mb-4">
-                <li>Dirección IP</li>
-                <li>Tipo de navegador</li>
-                <li>Páginas visitadas</li>
-                <li>Tiempo de acceso</li>
-                <li>Tiempo dedicado en cada página</li>
-                <li>Clicks en enlaces</li>
-                <li>Otros datos de diagnóstico</li>
+                {section1_2List.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
 
-              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">2. Cómo utilizamos tu información</h2>
-              <p>Utilizamos la información recopilada para diversos fines:</p>
+              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">{t("privacyPolicy.section2Title")}</h2>
+              <p>{t("privacyPolicy.section2Desc")}</p>
               <ul className="list-disc pl-6 mb-4">
-                <li>Proporcionar y mantener nuestro servicio</li>
-                <li>Notificarte sobre cambios en nuestro servicio</li>
-                <li>Permitirte participar en funciones interactivas de nuestro servicio cuando decidas hacerlo</li>
-                <li>Proporcionar atención al cliente</li>
-                <li>Recopilar análisis o información valiosa para mejorar nuestro servicio</li>
-                <li>Monitorear el uso de nuestro servicio</li>
-                <li>Detectar, prevenir y abordar problemas técnicos</li>
-                <li>Procesar tus transacciones</li>
-                <li>
-                  Enviarte información sobre eventos que puedan interesarte, siempre que hayas dado tu consentimiento
-                </li>
+                {section2List.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
               </ul>
 
               <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">
-                3. Cookies y tecnologías de seguimiento
+                {t("privacyPolicy.section3Title")}
               </h2>
               <p>
-                Utilizamos cookies y tecnologías de seguimiento similares para rastrear la actividad en nuestro servicio
-                y almacenar cierta información. Las cookies son archivos con una pequeña cantidad de datos que pueden
-                incluir un identificador único anónimo.
+                {t("privacyPolicy.section3_1")}
               </p>
 
               <p>
-                Puedes indicar a tu navegador que rechace todas las cookies o que te avise cuando se envía una cookie.
-                Sin embargo, si no aceptas cookies, es posible que no puedas utilizar algunas partes de nuestro
-                servicio.
+                {t("privacyPolicy.section3_2")}
               </p>
 
-              <p>Utilizamos los siguientes tipos de cookies:</p>
+              <p>{t("privacyPolicy.section3_3")}</p>
               <ul className="list-disc pl-6 mb-4">
                 <li>
                   <strong>Cookies esenciales:</strong> Necesarias para el funcionamiento del sitio web.
@@ -115,8 +103,8 @@ export default function PrivacyPolicyPage() {
                 </li>
               </ul>
 
-              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">4. Compartir tu información personal</h2>
-              <p>Podemos compartir tu información personal en las siguientes situaciones:</p>
+              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">{t("privacyPolicy.section4Title")}</h2>
+              <p>{t("privacyPolicy.section4Desc")}</p>
               <ul className="list-disc pl-6 mb-4">
                 <li>
                   <strong>Con proveedores de servicios:</strong> Para monitorear y analizar el uso de nuestro servicio,
@@ -149,27 +137,21 @@ export default function PrivacyPolicyPage() {
                 </li>
               </ul>
 
-              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">5. Seguridad de tus datos personales</h2>
+              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">{t("privacyPolicy.section5Title")}</h2>
               <p>
-                La seguridad de tus datos personales es importante para nosotros, pero recuerda que ningún método de
-                transmisión por Internet o método de almacenamiento electrónico es 100% seguro. Si bien nos esforzamos
-                por utilizar medios comercialmente aceptables para proteger tus datos personales, no podemos garantizar
-                su seguridad absoluta.
+                {t("privacyPolicy.section5Desc")}
               </p>
 
-              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">6. Tus derechos de protección de datos</h2>
+              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">{t("privacyPolicy.section6Title")}</h2>
               <p>
-                Si eres residente del Espacio Económico Europeo (EEE), tienes ciertos derechos de protección de datos.
-                EvoTickets tiene como objetivo tomar medidas razonables para permitirte corregir, modificar, eliminar o
-                limitar el uso de tus datos personales.
+                {t("privacyPolicy.section6_1")}
               </p>
 
               <p>
-                Si deseas ser informado sobre qué datos personales tenemos sobre ti y si deseas que sean eliminados de
-                nuestros sistemas, por favor contáctanos.
+                {t("privacyPolicy.section6_2")}
               </p>
 
-              <p>En determinadas circunstancias, tienes los siguientes derechos de protección de datos:</p>
+              <p>{t("privacyPolicy.section6_3")}</p>
               <ul className="list-disc pl-6 mb-4">
                 <li>
                   <strong>El derecho de acceso, actualización o eliminación</strong> de la información que tenemos sobre
@@ -198,35 +180,28 @@ export default function PrivacyPolicyPage() {
                 </li>
               </ul>
 
-              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">7. Enlaces a otros sitios web</h2>
+              <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">{t("privacyPolicy.section7Title")}</h2>
               <p>
-                Nuestro servicio puede contener enlaces a otros sitios que no son operados por nosotros. Si haces clic
-                en un enlace de terceros, serás dirigido al sitio de ese tercero. Te recomendamos encarecidamente que
-                revises la Política de Privacidad de cada sitio que visites.
+                {t("privacyPolicy.section7_1")}
               </p>
 
               <p>
-                No tenemos control ni asumimos responsabilidad alguna por el contenido, las políticas de privacidad o
-                las prácticas de sitios o servicios de terceros.
+                {t("privacyPolicy.section7_2")}
               </p>
 
               <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">
-                8. Cambios a esta Política de Privacidad
+                {t("privacyPolicy.section8Title")}
               </h2>
               <p>
-                Podemos actualizar nuestra Política de Privacidad de vez en cuando. Te notificaremos cualquier cambio
-                publicando la nueva Política de Privacidad en esta página.
+                {t("privacyPolicy.section8_1")}
               </p>
 
               <p>
-                Te informaremos por correo electrónico y/o un aviso destacado en nuestro servicio, antes de que el
-                cambio entre en vigencia y actualizaremos la fecha de "última actualización" en la parte superior de
-                esta Política de Privacidad.
+                {t("privacyPolicy.section8_2")}
               </p>
 
               <p>
-                Se te aconseja revisar esta Política de Privacidad periódicamente para cualquier cambio. Los cambios a
-                esta Política de Privacidad son efectivos cuando se publican en esta página.
+                {t("privacyPolicy.section8_3")}
               </p>
 
               <h2 className="text-xl font-semibold text-[#2E1A47] mt-8 mb-4">9. Contáctanos</h2>

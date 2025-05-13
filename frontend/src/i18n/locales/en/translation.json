@@ -184,5 +184,96 @@
     "see_event": "See Event",
     "trending": "Trendings",
     "see_more": "See More"
+  },
+  "privacyPolicy": {
+    "backToHome": "Back to home",
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: May 15, 2023",
+    "intro1": "At EvoTickets, accessible from www.evotickets.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains the types of information that are collected and recorded by EvoTickets and how we use it.",
+    "intro2": "If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.",
+
+    "section1Title": "1. Information We Collect",
+    "section1_1Title": "1.1 Personal Information",
+    "section1_1Desc": "When you register on our site, we may collect the following information:",
+    "section1_1List": [
+      "First and last name",
+      "Email address",
+      "Phone number",
+      "Billing and shipping address",
+      "Payment information (securely processed through our payment providers)",
+      "Any other information you choose to provide to us"
+    ],
+    "section1_2Title": "1.2 Usage Information",
+    "section1_2Desc": "We may also collect information on how you access and use our website:",
+    "section1_2List": [
+      "IP address",
+      "Browser type",
+      "Pages visited",
+      "Access time",
+      "Time spent on each page",
+      "Clicks on links",
+      "Other diagnostic data"
+    ],
+
+    "section2Title": "2. How We Use Your Information",
+    "section2Desc": "We use the collected information for various purposes:",
+    "section2List": [
+      "To provide and maintain our service",
+      "To notify you about changes to our service",
+      "To allow you to participate in interactive features of our service when you choose to do so",
+      "To provide customer support",
+      "To gather analysis or valuable information to improve our service",
+      "To monitor the usage of our service",
+      "To detect, prevent, and address technical issues",
+      "To process your transactions",
+      "To send you information about events that may interest you, if you have given your consent"
+    ],
+
+    "section3Title": "3. Cookies and Tracking Technologies",
+    "section3_1": "We use cookies and similar tracking technologies to track activity on our service and store certain information. Cookies are files with a small amount of data that may include an anonymous unique identifier.",
+    "section3_2": "You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some parts of our service.",
+    "section3_3": "We use the following types of cookies:",
+    "section3List": [
+      "Essential cookies: Necessary for the website to function.",
+      "Preference cookies: Allow the website to remember choices that change the way the site behaves or looks.",
+      "Analytics cookies: Help us understand how visitors interact with the website.",
+      "Marketing cookies: Used to track visitors across websites to display relevant advertisements."
+    ],
+
+    "section4Title": "4. Sharing Your Personal Information",
+    "section4Desc": "We may share your personal information in the following situations:",
+    "section4List": [
+      "With service providers: To monitor and analyze the use of our service, to contact you.",
+      "With event organizers: When you purchase tickets for an event, we share the necessary information with the organizers to facilitate your access to the event.",
+      "For business transfers: We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition.",
+      "With affiliates: We may share your information with our affiliates, in which case we will require those affiliates to honor this Privacy Policy.",
+      "With business partners: We may share your information with our business partners to offer you certain products, services, or promotions.",
+      "With other users: When you share personal information or interact in public areas with other users, such information may be viewed by all users.",
+      "With your consent: We may disclose your personal information for any other purpose with your consent."
+    ],
+
+    "section5Title": "5. Security of Your Personal Data",
+    "section5Desc": "The security of your personal data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your personal data, we cannot guarantee its absolute security.",
+
+    "section6Title": "6. Your Data Protection Rights",
+    "section6_1": "If you are a resident of the European Economic Area (EEA), you have certain data protection rights. EvoTickets aims to take reasonable steps to allow you to correct, amend, delete, or limit the use of your personal data.",
+    "section6_2": "If you wish to be informed about what personal data we have about you and if you wish to have it removed from our systems, please contact us.",
+    "section6_3": "Under certain circumstances, you have the following data protection rights:",
+    "section6List": [
+    "The right to access, update, or delete the information we have about you.",
+    "The right to rectification: You have the The right to rectify your information if it is inaccurate or incomplete.",
+    "The right to object: You have the right to object to our processing of your personal data.",
+    "The right to restriction: You have the right to request that we restrict the processing of your personal information.",
+    "The right to data portability: You have the right to receive a copy of the information we hold about you in a structured, machine-readable, and commonly used format.",
+    "The right to withdraw consent: You also have the right to withdraw your consent at any time where EvoTickets relied on your consent to process your personal information."
+    ],
+
+    "section7Title": "7. Links to Other Websites",
+    "section7_1": "Our Service may contain links to other sites that are not operated by us. If you click on a third-party link, you will be directed to that third-party site. We strongly advise you to review the Privacy Policy of every site you visit.",
+    "section7_2": "We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party sites or services.",
+
+    "section8Title": "8. Changes to This Privacy Policy",
+
+    "FALTA LA SECCION 8 Y LA 9 ENTERA Y LAS LISTAS QUE PONEN EN NEGRITA TROZOS DE TEXTO":""
   }
 }

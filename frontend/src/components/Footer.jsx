@@ -25,7 +25,7 @@ export default function Footer() {
     {
       title: t("footer_company"),
       links: [
-        { label: t("footer_links.about"), href: "#" },
+        { label: t("footer_links.about"), href: "/AboutUsPage" },
         { label: t("footer_links.careers"), href: "#" },
         { label: t("footer_links.blog"), href: "#" },
         { label: t("footer_links.press"), href: "#" },
@@ -34,10 +34,10 @@ export default function Footer() {
     {
       title: t("footer_support"),
       links: [
-        { label: t("footer_links.help"), href: "#" },
-        { label: t("footer_links.contact"), href: "#" },
-        { label: t("footer_links.privacy"), href: "#" },
-        { label: t("footer_links.terms"), href: "#" },
+        { label: t("footer_links.help"), href: "/HelpCenterPage" },
+        { label: t("footer_links.contact"), href: "/ContactPage" },
+        { label: t("footer_links.privacy"), href: "/PrivacyPolicyPage" },
+        { label: t("footer_links.terms"), href: "/TermsPage" },
       ],
     },
   ];

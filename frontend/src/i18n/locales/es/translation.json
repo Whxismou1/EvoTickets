@@ -183,5 +183,99 @@
     "see_event": "Ver evento",
     "trending": "Tendencias",
     "see_more": "Ver más"
+  },
+  "privacyPolicy": {
+    "backToHome": "Volver al inicio",
+    "title": "Política de Privacidad",
+    "lastUpdated": "Última actualización: 15 de mayo de 2023",
+    "intro1": "En EvoTickets, accesible desde www.evotickets.com, una de nuestras principales prioridades es la privacidad de nuestros visitantes. Este documento de Política de Privacidad contiene los tipos de información que se recopilan y registran por EvoTickets y cómo la utilizamos.",
+    "intro2": "Si tienes preguntas adicionales o requieres más información sobre nuestra Política de Privacidad, no dudes en contactarnos.",
+
+    "section1Title": "1. Información que recopilamos",
+    "section1_1Title": "1.1 Información personal",
+    "section1_1Desc": "Cuando te registras en nuestro sitio, podemos recopilar la siguiente información:",
+    "section1_1List": [
+      "Nombre y apellidos",
+      "Dirección de correo electrónico",
+      "Número de teléfono",
+      "Dirección de facturación y envío",
+      "Información de pago (procesada de forma segura a través de nuestros proveedores de pago)",
+      "Cualquier otra información que decidas proporcionarnos"
+    ],
+    "section1_2Title": "1.2 Información de uso",
+    "section1_2Desc": "También podemos recopilar información sobre cómo accedes y utilizas nuestro sitio web:",
+    "section1_2List": [
+      "Dirección IP",
+      "Tipo de navegador",
+      "Páginas visitadas",
+      "Tiempo de acceso",
+      "Tiempo dedicado en cada página",
+      "Clicks en enlaces",
+      "Otros datos de diagnóstico"
+    ],
+
+    "section2Title": "2. Cómo utilizamos tu información",
+    "section2Desc": "Utilizamos la información recopilada para diversos fines:",
+    "section2List": [
+      "Proporcionar y mantener nuestro servicio",
+      "Notificarte sobre cambios en nuestro servicio",
+      "Permitirte participar en funciones interactivas de nuestro servicio cuando decidas hacerlo",
+      "Proporcionar atención al cliente",
+      "Recopilar análisis o información valiosa para mejorar nuestro servicio",
+      "Monitorear el uso de nuestro servicio",
+      "Detectar, prevenir y abordar problemas técnicos",
+      "Procesar tus transacciones",
+      "Enviarte información sobre eventos que puedan interesarte, siempre que hayas dado tu consentimiento"
+    ],
+
+    "section3Title": "3. Cookies y tecnologías de seguimiento",
+    "section3_1": "Utilizamos cookies y tecnologías de seguimiento similares para rastrear la actividad en nuestro servicio y almacenar cierta información. Las cookies son archivos con una pequeña cantidad de datos que pueden incluir un identificador único anónimo.",
+    "section3_2": "Puedes indicar a tu navegador que rechace todas las cookies o que te avise cuando se envía una cookie. Sin embargo, si no aceptas cookies, es posible que no puedas utilizar algunas partes de nuestro servicio.",
+    "section3_3": "Utilizamos los siguientes tipos de cookies:",
+    "section3List": [
+      "Cookies esenciales: Necesarias para el funcionamiento del sitio web.",
+      "Cookies de preferencias: Permiten recordar información que cambia el comportamiento o el aspecto del sitio.",
+      "Cookies estadísticas: Ayudan a entender cómo los visitantes interactúan con el sitio.",
+      "Cookies de marketing: Utilizadas para rastrear a los visitantes en los sitios web con el fin de mostrar anuncios relevantes."
+    ],
+
+    "section4Title": "4. Compartir tu información personal",
+    "section4Desc": "Podemos compartir tu información personal en las siguientes situaciones:",
+    "section4List": [
+      "Con proveedores de servicios: Para monitorear y analizar el uso de nuestro servicio, para contactarte.",
+      "Con organizadores de eventos: Cuando compras entradas para un evento, compartimos la información necesaria con los organizadores para facilitar tu acceso al evento.",
+      "Para transferencias comerciales: Podemos compartir o transferir tu información en relación con, o durante las negociaciones de, cualquier fusión, venta de activos de la empresa, financiación o adquisición.",
+      "Con afiliados: Podemos compartir tu información con nuestros afiliados, en cuyo caso exigiremos a esos afiliados que respeten esta Política de Privacidad.",
+      "Con socios comerciales: Podemos compartir tu información con nuestros socios comerciales para ofrecerte ciertos productos, servicios o promociones.",
+      "Con otros usuarios: Cuando compartes información personal o interactúas en áreas públicas con otros usuarios, dicha información puede ser vista por todos los usuarios.",
+      "Con tu consentimiento: Podemos divulgar tu información personal para cualquier otro propósito con tu consentimiento."
+    ],
+
+    "section5Title": "5. Seguridad de tus datos personales",
+    "section5Desc": "La seguridad de tus datos personales es importante para nosotros, pero recuerda que ningún método de transmisión por Internet o método de almacenamiento electrónico es 100% seguro. Si bien nos esforzamos por utilizar medios comercialmente aceptables para proteger tus datos personales, no podemos garantizar su seguridad absoluta.",
+
+    "section6Title": "6. Tus derechos de protección de datos",
+    "section6_1": "Si eres residente del Espacio Económico Europeo (EEE), tienes ciertos derechos de protección de datos. EvoTickets tiene como objetivo tomar medidas razonables para permitirte corregir, modificar, eliminar o limitar el uso de tus datos personales.",
+    "section6_2": "Si deseas ser informado sobre qué datos personales tenemos sobre ti y si deseas que sean eliminados de nuestros sistemas, por favor contáctanos.",
+    "section6_3": "En determinadas circunstancias, tienes los siguientes derechos de protección de datos:",
+    "section6List": [
+      "El derecho de acceso, actualización o eliminación de la información que tenemos sobre ti.",
+      "El derecho de rectificación: Tienes el derecho de rectificar tu información si esa información es inexacta o incompleta.",
+      "El derecho de oposición: Tienes el derecho de oponerte a que procesemos tus datos personales.",
+      "El derecho de restricción: Tienes el derecho de solicitar que restrinjamos el procesamiento de tu información personal.",
+      "El derecho a la portabilidad de datos: Tienes el derecho de recibir una copia de la información que tenemos sobre ti en un formato estructurado, legible por máquina y de uso común.",
+      "El derecho a retirar el consentimiento: También tienes el derecho de retirar tu consentimiento en cualquier momento cuando EvoTickets se basó en tu consentimiento para procesar tu información personal."
+    ],
+
+    "section7Title": "7. Enlaces a otros sitios web",
+    "section7_1": "Nuestro servicio puede contener enlaces a otros sitios que no son operados por nosotros. Si haces clic en un enlace de terceros, serás dirigido al sitio de ese tercero. Te recomendamos encarecidamente que revises la Política de Privacidad de cada sitio que visites.",
+    "section7_2": "No tenemos control ni asumimos responsabilidad alguna por el contenido, las políticas de privacidad o las prácticas de sitios o servicios de terceros.",
+
+    "section8Title": "8. Cambios a esta Política de Privacidad",
+    "section8_1": "Podemos actualizar nuestra Política de Privacidad de vez en cuando. Te notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta página.",
+    "section8_2": "Te informaremos por correo electrónico y/o un aviso destacado en nuestro servicio, antes de que el cambio entre en vigencia y actualizaremos la fecha de última actualización en la parte superior de esta Política de Privacidad.",
+    "section8_3": "Se te aconseja revisar esta Política de Privacidad periódicamente para cualquier cambio. Los cambios a esta Política de Privacidad son efectivos cuando se publican en esta página.",
+    
+    "FALTA LA SECCION 9 y las listas que ponen en negrita trozos de texto": ""
   }
 }
