@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import com.evotickets.entities.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
