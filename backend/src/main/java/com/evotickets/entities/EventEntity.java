@@ -62,4 +62,14 @@ public class EventEntity {
     @Column(name = "category")
     @Enumerated(EnumType.STRING)
     private EventCategory category;
+
+    @ManyToOne
+    @JoinColumn(name = "organizer_id", nullable = false)
+    private UserEntity organizer;
+
+    private int capacity;
+    @Column(name = "min_age")
+    private int minAge;
+
+    private String website;
 }

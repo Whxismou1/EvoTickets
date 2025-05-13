@@ -148,21 +148,22 @@ export default function EventDetail() {
                         </span>
                       </div>
                       <h1 className="text-2xl md:text-4xl font-bold text-[#2E1A47] mb-2">
-                        {eventData.title}
+                        {eventData.name}
                       </h1>
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[#5C3D8D]">
                         <div className="flex items-center">
                           <Calendar className="h-4 w-4 mr-1.5" />
-                          <span className="text-sm">{formatDate(eventData.date)}</span>
+                          {/* //TODO formatear la hora que viene junto al dia en el mismo parametro startDate*/}
+                          <span className="text-sm">{formatDate(eventData.startDate)}</span>
                         </div>
                         <div className="flex items-center">
                           <Clock className="h-4 w-4 mr-1.5" />
-                          <span className="text-sm">{formatTime(eventData.date)}</span>
+                          <span className="text-sm">{formatTime(eventData.startDate)}</span>
                         </div>
                         <div className="flex items-center">
                             <MapPin className="h-4 w-4 mr-1.5" />
                             <span className="text-sm">
-                                {typeof eventData.location === 'object' ? eventData.location.name : eventData.location}
+                                {typeof eventData.location === 'object' ? eventData.location.name : "Aun sin determinar"}
                             </span>
                         </div>
                       </div>
@@ -181,6 +182,7 @@ export default function EventDetail() {
                         startContent={<Heart size={18} className={isLiked ? "fill-red-500" : ""} />}
                         onPress={toggleLike}
                       >
+                        {/* //TODO: Llamar a una función que guarde en la base de datos el evento si se guarda por el usuario*/}
                         {isLiked ? "Guardado" : "Guardar"}
                       </Button>
                     </div>
@@ -204,6 +206,7 @@ export default function EventDetail() {
                     <div className="md:w-1/3 bg-[#F3F0FA] rounded-lg p-4">
                         <h3 className="font-semibold text-[#2E1A47] mb-3">Precios</h3>
                         <ul className="space-y-2">
+                          {/*//TODO: Modificar el rango de precios cuando se implemente en el backend */}
                         {eventData.priceRanges && eventData.priceRanges.length > 0 && (
                         <ul className="space-y-2">
                             {eventData.priceRanges.map((range, index) => (
@@ -219,7 +222,8 @@ export default function EventDetail() {
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-[#5C3D8D]">Organizador</span>
-                          <span className="font-medium text-[#2E1A47]">{eventData.organizer}</span>
+                          {console.log(eventData)}
+                          <span className="font-medium text-[#2E1A47]">{`${eventData.organizer.firstName} ${eventData.organizer.lastName}`}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#5C3D8D]">Capacidad</span>
@@ -235,12 +239,12 @@ export default function EventDetail() {
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#5C3D8D]">Edad mínima</span>
-                          <span className="font-medium text-[#2E1A47]">{eventData.minimumAge}+ años</span>
+                          <span className="font-medium text-[#2E1A47]">+{eventData.minAge} años</span>
                         </div>
                       </div>
                       <div className="mt-4">
                         <a
-                          href={eventData.website}
+                          href={eventData.website.startsWith("http") ? eventData.website : `https://${eventData.website}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-[#5C3D8D] hover:text-[#2E1A47] text-sm flex items-center"

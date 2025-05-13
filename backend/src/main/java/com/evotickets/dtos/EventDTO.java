@@ -1,9 +1,11 @@
 package com.evotickets.dtos;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.evotickets.entities.EventPhotosEntity;
 import com.evotickets.entities.LocationEntity;
-
+import com.evotickets.entities.enums.EventCategory;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,8 +17,23 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class EventDTO {
-    
-    @NotNull(message = "La ubicación es obligatoria")
+    private Long id;
+
+    private List<EventPhotosEntity> photos;
+
+    private EventCategory category;
+
+    private String coverImage;
+
+    private UserDTO organizer;
+
+    private int capacity;
+
+    private int minAge;
+
+    private String website;
+
+@   NotNull(message = "La ubicación es obligatoria")
     private LocationEntity location; 
 
     @NotNull(message = "El nombre es obligatorio")
