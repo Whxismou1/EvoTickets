@@ -121,7 +121,7 @@ export default function EventDetail() {
           <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${eventData.image})` }}
+              style={{ backgroundImage: `url(${eventData.coverImage})` }}
             ></div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#2E1A47] to-transparent"></div>
             <div className="absolute inset-0 bg-gradient-to-r from-[#2E1A47]/50 to-transparent"></div>
