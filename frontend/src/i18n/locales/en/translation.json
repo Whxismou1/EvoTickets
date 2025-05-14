@@ -284,5 +284,74 @@
       "By phone",
       "By postal mail"
     ]
+  },
+  "termsPage": {
+    "backToHome": "Back to Home",
+    "title": "Terms and Conditions",
+    "lastUpdated": "Last updated: May 12, 2025",
+
+    "section1Title": "1. Introduction",
+    "section1Text": "These Terms and Conditions (\"Terms\") govern the use of the EvoTickets platform (the \"Platform\"), operated by EvoTickets S.L. By accessing or using our Platform, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use our Platform.",
+
+    "section2Title": "2. Definitions",
+    "section2List": [
+      "\"User\": Any person who accesses, browses, or uses the Platform.",
+      "\"Organizer\": User who creates and manages events on the Platform.",
+      "\"Attendee\": User who purchases tickets for events through the Platform.",
+      "\"Content\": Includes, but is not limited to, text, graphics, logos, images, audio, video, software, and other materials."
+    ],
+
+    "section3Title": "3. Account Registration",
+    "section3Text1": "To access certain features of the Platform, you may need to register and create an account. You are responsible for maintaining the confidentiality of your account information and password, and for restricting access to your device. You accept responsibility for all activities that occur under your account.",
+    "section3Text2": "We reserve the right to close accounts and remove or edit content if we believe a user has violated these Terms.",
+
+    "section4Title": "4. Ticket Purchase",
+    "section4Intro": "By purchasing tickets through our Platform, you agree to:",
+    "section4List": [
+      "Provide accurate and complete information for the purchase.",
+      "Pay the full listed price, including applicable service fees.",
+      "Acknowledge that tickets are subject to availability.",
+      "Understand that tickets are non-refundable, except as required by law or by the Organizer's policy."
+    ],
+
+    "section5Title": "5. Event Organization",
+    "section5Intro": "Organizers are responsible for:",
+    "section5List": [
+      "Providing accurate and complete information about their events.",
+      "Complying with all applicable laws and regulations.",
+      "Obtaining all necessary permits and licenses for their events.",
+      "Managing the refund and cancellation policy for their events."
+    ],
+    "section5Note": "EvoTickets is not responsible for the quality, safety, legality, or any other aspect of the events listed on our Platform.",
+
+    "section6Title": "6. Intellectual Property",
+    "section6Text1": "All Content included on the Platform, such as text, graphics, logos, icons, images, audio clips, digital downloads, and data compilations, is the property of EvoTickets or its content providers and is protected by international copyright laws.",
+    "section6Text2": "You may not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any material from our Platform, except as permitted by these Terms.",
+
+    "section7Title": "7. Limitation of Liability",
+    "section7Text": "In no event shall EvoTickets, its directors, employees, partners, agents, suppliers, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from:",
+    "section7List": [
+      "Your access to or use of or inability to access or use the Platform.",
+      "Any conduct or content of any third party on the Platform.",
+      "Any content obtained from the Platform.",
+      "Unauthorized access, use, or alteration of your transmissions or content."
+    ],
+
+    "section8Title": "8. Modifications",
+    "section8Text1": "We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days' notice prior to the new terms taking effect. What constitutes a material change will be determined at our sole discretion.",
+    "section8Text2": "By continuing to access or use our Platform after those revisions become effective, you agree to be bound by the revised terms.",
+
+    "section9Title": "9. Governing Law",
+    "section9Text1": "These Terms shall be governed by and construed in accordance with the laws of Spain, without regard to its conflict of law provisions.",
+    "section9Text2": "Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect.",
+
+    "section10Title": "10. Contact",
+    "section10Text": "If you have any questions about these Terms, please contact us at:",
+    "section10Contact": [
+      "legal@evotickets.com",
+      "EvoTickets S.L.",
+      "Calle Principal 123",
+      "28001 Madrid, Spain"
+    ]
   }
 }
