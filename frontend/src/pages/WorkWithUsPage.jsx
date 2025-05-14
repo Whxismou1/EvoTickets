@@ -37,7 +37,7 @@ export default function WorkWithUsPage() {
       if (file.size > 5 * 1024 * 1024) {
         showAlert({
           type: "error",
-          message: "El archivo no debe superar los 5MB",
+          message: t("workWithUs.fileSizeError"),
         })
         return
       }
@@ -54,7 +54,7 @@ export default function WorkWithUsPage() {
     if (!formData.name || !formData.email || !formData.message) {
       showAlert({
         type: "error",
-        message: "Por favor completa todos los campos requeridos",
+        message: t("workWithUs.requiredFieldsError"),
       })
       return
     }
@@ -63,7 +63,7 @@ export default function WorkWithUsPage() {
     if (!emailRegex.test(formData.email)) {
       showAlert({
         type: "error",
-        message: "Por favor ingresa un correo electrónico válido",
+        message: t("workWithUs.invalidEmailError"),
       })
       return
     }
@@ -71,12 +71,11 @@ export default function WorkWithUsPage() {
     setIsLoading(true)
 
     try {
-
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+      await new Promise((resolve) => setTimeout(resolve, 1500))
 
       showAlert({
         type: "success",
-        message: "¡Gracias por tu interés! Hemos recibido tu información.",
+        message: t("workWithUs.successMessage"),
       })
 
       setFormData({
@@ -87,14 +86,13 @@ export default function WorkWithUsPage() {
         resume: null,
       })
 
-      // Resetear el input de archivo
       const fileInput = document.getElementById("resume")
       if (fileInput) fileInput.value = ""
     } catch (error) {
       console.error("Error al enviar el formulario:", error)
       showAlert({
         type: "error",
-        message: "Hubo un error al enviar tu información. Por favor intenta nuevamente.",
+        message: t("workWithUs.submitError"),
       })
     } finally {
       setIsLoading(false)
@@ -116,10 +114,9 @@ export default function WorkWithUsPage() {
           >
             <div className="flex flex-col items-center mb-8 text-center">
               <Briefcase className="h-12 w-12 text-[#5C3D8D] mb-2" />
-              <h1 className="text-3xl font-bold text-[#2E1A47] mb-2">Trabaja con nosotros</h1>
+              <h1 className="text-3xl font-bold text-[#2E1A47] mb-2">{t("workWithUs.title")}</h1>
               <p className="text-[#5C3D8D] max-w-2xl">
-                ¿Te gustaría formar parte de nuestro equipo? Completa el siguiente formulario y nos pondremos en
-                contacto contigo si hay una oportunidad que se ajuste a tu perfil.
+                {t("workWithUs.description")}
               </p>
             </div>
 
@@ -127,7 +124,7 @@ export default function WorkWithUsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="name" className="text-sm font-medium text-[#2E1A47]">
-                    Nombre completo *
+                    {t("workWithUs.form.fullNameLabel")}
                   </label>
                   <Input
                     id="name"
@@ -137,13 +134,13 @@ export default function WorkWithUsPage() {
                     onChange={handleChange}
                     required
                     className="border-[#A28CD4] focus:ring-[#5C3D8D]"
-                    placeholder="Tu nombre completo"
+                    placeholder={t("workWithUs.form.fullNamePlaceholder")}
                   />
                 </div>
 
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium text-[#2E1A47]">
-                    Correo electrónico *
+                    {t("workWithUs.form.emailLabel")}
                   </label>
                   <Input
                     id="email"
@@ -153,14 +150,14 @@ export default function WorkWithUsPage() {
                     onChange={handleChange}
                     required
                     className="border-[#A28CD4] focus:ring-[#5C3D8D]"
-                    placeholder="tu@email.com"
+                    placeholder={t("workWithUs.form.emailPlaceholder")}
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label htmlFor="phone" className="text-sm font-medium text-[#2E1A47]">
-                  Teléfono
+                  {t("workWithUs.form.phoneLabel")}
                 </label>
                 <Input
                   id="phone"
@@ -169,13 +166,13 @@ export default function WorkWithUsPage() {
                   value={formData.phone}
                   onChange={handleChange}
                   className="border-[#A28CD4] focus:ring-[#5C3D8D]"
-                  placeholder="+34 600 000 000"
+                  placeholder={t("workWithUs.form.phonePlaceholder")}
                 />
               </div>
 
               <div className="space-y-2">
                 <label htmlFor="message" className="text-sm font-medium text-[#2E1A47]">
-                  ¿Por qué quieres trabajar con nosotros? *
+                  {t("workWithUs.form.motivationLabel")}
                 </label>
                 <textarea
                   id="message"
@@ -185,13 +182,13 @@ export default function WorkWithUsPage() {
                   onChange={handleChange}
                   required
                   className="w-full rounded-md border border-[#A28CD4] focus:ring-[#5C3D8D] focus:border-[#5C3D8D] p-3 text-sm"
-                  placeholder="Cuéntanos sobre ti, tu experiencia y por qué te gustaría unirte a nuestro equipo..."
+                  placeholder={t("workWithUs.form.motivationPlaceholder")}
                 />
               </div>
 
               <div className="space-y-2">
                 <label htmlFor="resume" className="text-sm font-medium text-[#2E1A47]">
-                  Currículum (PDF, máx. 5MB)
+                  {t("workWithUs.form.resumeLabel")}
                 </label>
                 <div className="flex items-center justify-center w-full">
                   <label
@@ -201,10 +198,10 @@ export default function WorkWithUsPage() {
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <Upload className="w-8 h-8 mb-2 text-[#5C3D8D]" />
                       <p className="mb-1 text-sm text-[#5C3D8D]">
-                        <span className="font-medium">Haz clic para subir</span> o arrastra y suelta
+                        <span className="font-medium">{t("workWithUs.form.uploadText")}</span> {t("workWithUs.form.orDragText")}
                       </p>
                       <p className="text-xs text-[#5C3D8D]/70">
-                        {formData.resume ? formData.resume.name : "PDF (máx. 5MB)"}
+                        {formData.resume ? formData.resume.name : t("workWithUs.form.resumePlaceholder")}
                       </p>
                     </div>
                     <input
@@ -231,22 +228,22 @@ export default function WorkWithUsPage() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                       </svg>
-                      Enviando...
+                      {t("workWithUs.form.sendingText")}
                     </span>
                   ) : (
-                    "Enviar solicitud"
+                    t("workWithUs.form.submitText")
                   )}
                 </Button>
               </div>
 
               <p className="text-xs text-center text-[#5C3D8D]/70 pt-2">
-                Al enviar este formulario, aceptas nuestra{" "}
+                {t("workWithUs.privacy.text")}{" "}
                 <a href="/privacy" className="underline hover:text-[#2E1A47]">
-                  Política de Privacidad
+                  {t("workWithUs.privacy.policy")}
                 </a>{" "}
                 y{" "}
                 <a href="/terms" className="underline hover:text-[#2E1A47]">
-                  Términos y Condiciones
+                  {t("workWithUs.privacy.terms")}
                 </a>
                 .
               </p>

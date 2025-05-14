@@ -352,5 +352,97 @@
       "Calle Principal 123",
       "28001 Madrid, España"
     ]
-  }
+  },
+  "workWithUs": {
+      "fileSizeError": "El archivo no debe superar los 5MB",
+      "requiredFieldsError": "Por favor completa todos los campos requeridos",
+      "invalidEmailError": "Por favor ingresa un correo electrónico válido",
+      "successMessage": "¡Gracias por tu interés! Hemos recibido tu información.",
+      "submitError": "Hubo un error al enviar tu información. Por favor intenta nuevamente.",
+      "title": "Trabaja con nosotros",
+      "description": "¿Te gustaría formar parte de nuestro equipo? Completa el siguiente formulario y nos pondremos en contacto contigo si hay una oportunidad que se ajuste a tu perfil.",
+      "form": {
+        "fullNameLabel": "Nombre completo *",
+        "fullNamePlaceholder": "Tu nombre completo",
+        "emailLabel": "Correo electrónico *",
+        "emailPlaceholder": "tu@email.com",
+        "phoneLabel": "Teléfono",
+        "phonePlaceholder": "+34 600 000 000",
+        "motivationLabel": "¿Por qué quieres trabajar con nosotros? *",
+        "motivationPlaceholder": "Cuéntanos sobre ti, tu experiencia y por qué te gustaría unirte a nuestro equipo...",
+        "resumeLabel": "Currículum (PDF, máx. 5MB)",
+        "uploadText": "Haz clic para subir",
+        "orDragText": "o arrastra y suelta",
+        "resumePlaceholder": "PDF (máx. 5MB)",
+        "sendingText": "Enviando...",
+        "submitText": "Enviar solicitud"
+      },
+      "privacy": {
+        "text": "Al enviar este formulario, aceptas nuestra",
+        "policy": "Política de Privacidad",
+        "terms": "Términos y Condiciones"
+      }
+    },
+  "helpCenter": {
+      "pageTitle": "Centro de Ayuda",
+      "pageDescription": "Encuentra respuestas a tus preguntas sobre EvoTickets, compra de entradas, eventos y más.",
+      "faqTitle": "Preguntas frecuentes",
+      "contactTitle": "¿No encuentras lo que buscas?",
+      "contactDescription": "Nuestro equipo de soporte está listo para ayudarte con cualquier pregunta que tengas.",
+      "contactButton": "Contactar con soporte",
+      "contactRedirectMessage": "Te redirigiremos a nuestro formulario de contacto",
+      "categories": {
+        "general": {
+          "title": "Preguntas generales",
+          "questions": [
+            {
+              "question": "¿Cómo puedo comprar entradas?",
+              "answer": "Puedes comprar entradas seleccionando el evento que te interesa, eligiendo la cantidad de entradas y completando el proceso de pago con tu método de pago preferido."
+            },
+            {
+              "question": "¿Cómo puedo contactar con atención al cliente?",
+              "answer": "Puedes contactar con nuestro equipo de atención al cliente a través del formulario de contacto en nuestra página web, por correo electrónico a soporte@evotickets.com o por teléfono al +34 900 123 456."
+            },
+            {
+              "question": "¿Cuáles son los métodos de pago aceptados?",
+              "answer": "Aceptamos tarjetas de crédito/débito (Visa, Mastercard, American Express), PayPal y transferencia bancaria para ciertos eventos."
+            }
+          ]
+        },
+        "tickets": {
+          "title": "Entradas y eventos",
+          "questions": [
+            {
+              "question": "¿Cómo recibo mis entradas?",
+              "answer": "Recibirás tus entradas por correo electrónico inmediatamente después de completar tu compra. También puedes acceder a ellas en cualquier momento desde tu cuenta en la sección 'Mis entradas'."
+            },
+            {
+              "question": "¿Puedo transferir mis entradas a otra persona?",
+              "answer": "Sí, puedes transferir tus entradas a otra persona desde la sección 'Mis entradas' en tu cuenta. Solo necesitas el correo electrónico de la persona a la que quieres transferir la entrada."
+            },
+            {
+              "question": "¿Qué hago si no puedo asistir al evento?",
+              "answer": "Si no puedes asistir al evento, puedes transferir tu entrada a otra persona o solicitar un reembolso según la política de cancelación del evento específico."
+            }
+          ]
+        },
+        "account": {
+          "title": "Cuenta y perfil",
+          "questions": [
+            {
+              "question": "¿Cómo puedo cambiar mi contraseña?",
+              "answer": "Puedes cambiar tu contraseña accediendo a la sección 'Perfil' en tu cuenta y seleccionando 'Cambiar contraseña'."
+            },
+            {
+              "question": "¿Cómo puedo actualizar mi información de contacto?",
+              "answer": "Puedes actualizar tu información de contacto en la sección 'Perfil' de tu cuenta."
+            },
+            {
+              "question": "He olvidado mi contraseña, ¿qué puedo hacer?",
+              "answer": "Si has olvidado tu contraseña, puedes restablecerla haciendo clic en 'Olvidé mi contraseña' en la página de inicio de sesión y siguiendo las instrucciones que recibirás por correo electrónico."
+            }
+          ]
+        }
+      }
+    }
 }

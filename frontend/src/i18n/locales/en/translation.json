@@ -353,5 +353,97 @@
       "Calle Principal 123",
       "28001 Madrid, Spain"
     ]
-  }
+  },
+  "workWithUs": {
+      "fileSizeError": "The file must not exceed 5MB",
+      "requiredFieldsError": "Please complete all required fields",
+      "invalidEmailError": "Please enter a valid email address",
+      "successMessage": "Thank you for your interest! We have received your information.",
+      "submitError": "There was an error sending your information. Please try again.",
+      "title": "Work with us",
+      "description": "Would you like to be part of our team? Complete the following form and we will contact you if there is an opportunity that matches your profile.",
+      "form": {
+        "fullNameLabel": "Full name *",
+        "fullNamePlaceholder": "Your full name",
+        "emailLabel": "Email *",
+        "emailPlaceholder": "your@email.com",
+        "phoneLabel": "Phone",
+        "phonePlaceholder": "+1 234 567 890",
+        "motivationLabel": "Why do you want to work with us? *",
+        "motivationPlaceholder": "Tell us about yourself, your experience and why you would like to join our team...",
+        "resumeLabel": "Resume (PDF, max. 5MB)",
+        "uploadText": "Click to upload",
+        "orDragText": "or drag and drop",
+        "resumePlaceholder": "PDF (max. 5MB)",
+        "sendingText": "Sending...",
+        "submitText": "Submit application"
+      },
+      "privacy": {
+        "text": "By submitting this form, you agree to our",
+        "policy": "Privacy Policy",
+        "terms": "Terms and Conditions"
+      }
+    },
+    "helpCenter": {
+      "pageTitle": "Help Center",
+      "pageDescription": "Find answers to your questions about EvoTickets, ticket purchases, events and more.",
+      "faqTitle": "Frequently Asked Questions",
+      "contactTitle": "Can't find what you're looking for?",
+      "contactDescription": "Our support team is ready to help you with any questions you may have.",
+      "contactButton": "Contact support",
+      "contactRedirectMessage": "We'll redirect you to our contact form",
+      "categories": {
+        "general": {
+          "title": "General Questions",
+          "questions": [
+            {
+              "question": "How can I buy tickets?",
+              "answer": "You can buy tickets by selecting the event you're interested in, choosing the number of tickets and completing the payment process with your preferred payment method."
+            },
+            {
+              "question": "How can I contact customer service?",
+              "answer": "You can contact our customer service team through the contact form on our website, by email at support@evotickets.com or by phone at +34 900 123 456."
+            },
+            {
+              "question": "What payment methods are accepted?",
+              "answer": "We accept credit/debit cards (Visa, Mastercard, American Express), PayPal and bank transfer for certain events."
+            }
+          ]
+        },
+        "tickets": {
+          "title": "Tickets and Events",
+          "questions": [
+            {
+              "question": "How do I receive my tickets?",
+              "answer": "You will receive your tickets by email immediately after completing your purchase. You can also access them at any time from your account in the 'My Tickets' section."
+            },
+            {
+              "question": "Can I transfer my tickets to someone else?",
+              "answer": "Yes, you can transfer your tickets to someone else from the 'My Tickets' section in your account. You only need the email address of the person you want to transfer the ticket to."
+            },
+            {
+              "question": "What should I do if I can't attend the event?",
+              "answer": "If you can't attend the event, you can transfer your ticket to someone else or request a refund according to the specific event's cancellation policy."
+            }
+          ]
+        },
+        "account": {
+          "title": "Account and Profile",
+          "questions": [
+            {
+              "question": "How can I change my password?",
+              "answer": "You can change your password by accessing the 'Profile' section in your account and selecting 'Change password'."
+            },
+            {
+              "question": "How can I update my contact information?",
+              "answer": "You can update your contact information in the 'Profile' section of your account."
+            },
+            {
+              "question": "I forgot my password, what can I do?",
+              "answer": "If you've forgotten your password, you can reset it by clicking 'Forgot password' on the login page and following the instructions you'll receive by email."
+            }
+          ]
+        }
+      }
+    }
 }
