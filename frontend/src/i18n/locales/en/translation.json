@@ -273,7 +273,16 @@
     "section7_2": "We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party sites or services.",
 
     "section8Title": "8. Changes to This Privacy Policy",
-
-    "FALTA LA SECCION 8 Y LA 9 ENTERA Y LAS LISTAS QUE PONEN EN NEGRITA TROZOS DE TEXTO":""
+    "section8_1": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.",
+    "section8_2": "We will notify you via email and/or a prominent notice on our Service, prior to the change becoming effective and update the Last Updated date at the top of this Privacy Policy.",
+    "section8_3": "You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.",
+    
+    "section9Title": "9. Contact Us",
+    "section9_1": "If you have any questions about this Privacy Policy, you can contact us:",
+    "section9List": [
+      "By email",
+      "By phone",
+      "By postal mail"
+    ]
   }
 }

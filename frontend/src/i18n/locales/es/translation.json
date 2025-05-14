@@ -276,6 +276,12 @@
     "section8_2": "Te informaremos por correo electrónico y/o un aviso destacado en nuestro servicio, antes de que el cambio entre en vigencia y actualizaremos la fecha de última actualización en la parte superior de esta Política de Privacidad.",
     "section8_3": "Se te aconseja revisar esta Política de Privacidad periódicamente para cualquier cambio. Los cambios a esta Política de Privacidad son efectivos cuando se publican en esta página.",
     
-    "FALTA LA SECCION 9 y las listas que ponen en negrita trozos de texto": ""
+    "section9Title": "9. Contáctanos",
+    "section9_1": "Si tienes alguna pregunta sobre esta Política de Privacidad, puedes contactarnos:",
+    "section9List": [
+      "Por correo electrónico",
+      "Por teléfono",
+      "Por correo postal"
+    ]
   }
 }
