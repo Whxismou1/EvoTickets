@@ -352,7 +352,6 @@ export default function EventDetail() {
                     <div className="font-medium text-[#2E1A47]">
                         {typeof eventData.location === 'object' ? eventData.location.name : eventData.location}
                     </div>
-                    <div className="text-sm text-[#5C3D8D]">{eventData.address}</div>
                   </div>
                 </div>
               </div>

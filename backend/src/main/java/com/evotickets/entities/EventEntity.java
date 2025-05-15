@@ -68,8 +68,16 @@ public class EventEntity {
     private UserEntity organizer;
 
     private int capacity;
+
     @Column(name = "min_age")
     private int minAge;
 
     private String website;
+    
+    @Column(name = "long_description", columnDefinition = "LONGTEXT")
+    private String longDescription;
+
+    @OneToMany(mappedBy="event", fetch= FetchType.EAGER)
+    @JsonManagedReference
+    private List<FaqsEntity> faqs;
 }

@@ -110,6 +110,8 @@ public class EventService {
         .minAge(event.getMinAge())
         .capacity(event.getCapacity())
         .website(event.getWebsite())
+        .longDescription(event.getLongDescription())
+        .faqs(event.getFaqs())
         .organizer(event.getOrganizer() != null 
             ? UserDTO.builder()
                 .id(event.getOrganizer().getId())

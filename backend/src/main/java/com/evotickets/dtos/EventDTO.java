@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.evotickets.entities.EventPhotosEntity;
+import com.evotickets.entities.FaqsEntity;
 import com.evotickets.entities.LocationEntity;
 import com.evotickets.entities.enums.EventCategory;
 
@@ -32,6 +33,10 @@ public class EventDTO {
     private int minAge;
 
     private String website;
+
+    private String longDescription;
+
+    private List<FaqsEntity> faqs;
 
 @   NotNull(message = "La ubicación es obligatoria")
     private LocationEntity location; 
