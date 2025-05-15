@@ -45,9 +45,7 @@
     "tech": "Tecnología",
     "food": "Gastronomía",
     "about": "Sobre Nosotros",
-    "careers": "Carreras",
-    "blog": "Blog",
-    "press": "Prensa",
+    "workWithUs": "Trabaja con Nosotros",
     "help": "Centro de Ayuda",
     "contact": "Contáctanos",
     "privacy": "Privacidad",
@@ -444,5 +442,32 @@
           ]
         }
       }
+  },
+  "contact": {
+    "title": "Contacto",
+    "description": "¿Tienes alguna pregunta o comentario? Estamos aquí para ayudarte. Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.",
+    "info": {
+      "title": "Información de contacto",
+      "phone": "Teléfono",
+      "hours": "Lun-Vie: 9:00 - 18:00",
+      "email": "Email",
+      "response": "Respondemos en 24-48h",
+      "address": "Dirección"
+    },
+    "form": {
+      "title": "Envíanos un mensaje",
+      "name": "Nombre completo",
+      "email": "Correo electrónico",
+      "subject": "Asunto",
+      "message": "Mensaje",
+      "privacy": "He leído y acepto la",
+      "privacyLink": "política de privacidad",
+      "submit": "Enviar mensaje",
+      "sending": "Enviando..."
+    },
+    "alert": {
+      "required": "Por favor, completa todos los campos obligatorios",
+      "success": "Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo pronto."
     }
+  }
 }

@@ -1,5 +1,6 @@
 import { Ticket } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 
 const socialLinks = [
   { name: "twitter", href: "#" },
@@ -10,6 +11,7 @@ const socialLinks = [
 
 export default function Footer() {
   const { t } = useTranslation(); 
+  const navigate = useNavigate();
 
   const footerSections = [
     {
@@ -26,9 +28,7 @@ export default function Footer() {
       title: t("footer_company"),
       links: [
         { label: t("footer_links.about"), href: "/AboutUsPage" },
-        { label: t("footer_links.careers"), href: "#" },
-        { label: t("footer_links.blog"), href: "#" },
-        { label: t("footer_links.press"), href: "#" },
+        { label: t("footer_links.workWithUs"), href: "/WorkWithUsPage" },
       ],
     },
     {
@@ -76,12 +76,15 @@ export default function Footer() {
               <ul className="space-y-2">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-[#A28CD4] hover:text-[#D7A6F3] transition-colors"
+                    <button
+                      onClick={() => {
+                        navigate(link.href);
+                        window.scrollTo(0,0);
+                      }}
+                      className="text-[#A28CD4] hover:text-[#D7A6F3] transition-colors text-left bg-transparent border-none p-0 m-0 cursor-pointer"
                     >
                       {link.label}
-                    </a>
+                    </button>
                   </li>
                 ))}
               </ul>
