@@ -469,5 +469,87 @@
       "required": "Por favor, completa todos los campos obligatorios",
       "success": "Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo pronto."
     }
+  },
+  "aboutUs": {
+    "title": "Sobre Nosotros",
+    "heroDescription": "Transformando la forma en que las personas descubren, compran y disfrutan de eventos en vivo.",
+    "missionTitle": "Nuestra Misión",
+    "missionP1": "En EvoTickets, nuestra misión es conectar a las personas con experiencias inolvidables a través de una plataforma de venta de entradas segura, accesible y fácil de usar.",
+    "missionP2": "Creemos que cada evento tiene el poder de crear recuerdos duraderos, y trabajamos incansablemente para asegurarnos de que nuestros usuarios puedan descubrir y asistir a los eventos que más les apasionan.",
+    "missionP3": "Nuestra visión es convertirnos en la plataforma líder de venta de entradas en Europa, ofreciendo la mejor experiencia tanto para organizadores como para asistentes.",
+    "stats": {
+      "users": "Usuarios activos",
+      "events": "Eventos anuales",
+      "countries": "Países",
+      "satisfaction": "Satisfacción"
+    },
+    "historyTitle": "Nuestra Historia",
+    "milestones": {
+      "2018": {
+        "title": "Fundación de EvoTickets",
+        "description": "EvoTickets nace como una startup con la misión de revolucionar la venta de entradas online."
+      },
+      "2019": {
+        "title": "Primera ronda de financiación",
+        "description": "Conseguimos nuestra primera ronda de inversión de 1.5 millones de euros."
+      },
+      "2020": {
+        "title": "Expansión nacional",
+        "description": "Ampliamos nuestra presencia a todas las comunidades autónomas de España."
+      },
+      "2021": {
+        "title": "Lanzamiento de la app móvil",
+        "description": "Lanzamos nuestra aplicación móvil para iOS y Android, facilitando la compra de entradas desde cualquier lugar."
+      },
+      "2022": {
+        "title": "Internacionalización",
+        "description": "Comenzamos nuestra expansión internacional con presencia en Portugal, Francia e Italia."
+      },
+      "2023": {
+        "title": "Premio a la innovación",
+        "description": "Recibimos el premio a la startup más innovadora en el sector del entretenimiento."
+      }
+    },
+    "teamTitle": "Nuestro Equipo",
+    "members": {
+      "ana": {
+        "name": "Ana García",
+        "role": "CEO & Fundadora",
+        "bio": "Ana fundó EvoTickets con la visión de transformar la experiencia de compra de entradas para eventos."
+      },
+      "carlos": {
+        "name": "Carlos Rodríguez",
+        "role": "CTO",
+        "bio": "Carlos lidera el equipo técnico y es responsable de la innovación tecnológica de la plataforma."
+      },
+      "laura": {
+        "name": "Laura Martínez",
+        "role": "Directora de Marketing",
+        "bio": "Laura tiene más de 10 años de experiencia en marketing digital y estrategias de crecimiento."
+      },
+      "david": {
+        "name": "David Sánchez",
+        "role": "Director de Operaciones",
+        "bio": "David supervisa todas las operaciones diarias y asegura que cada evento sea un éxito."
+      }
+    },
+    "joinTitle": "¿Quieres unirte a nuestro equipo?",
+    "joinDescription": "Estamos siempre buscando personas talentosas y apasionadas para unirse a nuestro equipo. Consulta nuestras...",
+    "jobOffer": "Ver ofertas de empleo",
+    "values":{
+      "title": "Nuestro Valores",
+      "innovation": {
+        "title": "Innovación",
+        "description": "Buscamos constantemente nuevas formas de mejorar nuestra plataforma y ofrecer soluciones innovadoras."
+      },
+      "community":{
+        "title": "Comunidad",
+        "description": "Creemos en el poder de los eventos para unir a las personas y crear comunidades vibrantes."
+      },
+      "trust":{
+        "title": "Confianza",
+        "description": "La seguridad y confianza son fundamentales en todo lo que hacemos, desde la compra de entradas hasta la protección de datos."
+      }
+    }
   }
 }

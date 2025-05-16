@@ -470,5 +470,87 @@
       "required": "Please fill in all required fields",
       "success": "Your message has been sent successfully. We will contact you soon."
     }
+  },
+  "aboutUs": {
+    "title": "About Us",
+    "heroDescription": "Transforming the way people discover, buy, and enjoy live events.",
+    "missionTitle": "Our Mission",
+    "missionP1": "At EvoTickets, our mission is to connect people with unforgettable experiences through a secure, accessible, and easy-to-use ticketing platform.",
+    "missionP2": "We believe every event has the power to create lasting memories, and we work tirelessly to ensure our users can discover and attend the events they love the most.",
+    "missionP3": "Our vision is to become the leading ticketing platform in Europe, offering the best experience for both organizers and attendees.",
+    "stats": {
+      "users": "Active users",
+      "events": "Annual events",
+      "countries": "Countries",
+      "satisfaction": "Satisfaction"
+    },
+    "historyTitle": "Our History",
+    "milestones": {
+      "2018": {
+        "title": "EvoTickets Founded",
+        "description": "EvoTickets was born as a startup with the mission to revolutionize online ticket sales."
+      },
+      "2019": {
+        "title": "First funding round",
+        "description": "We secured our first investment round of 1.5 million euros."
+      },
+      "2020": {
+        "title": "National expansion",
+        "description": "We expanded our presence to all autonomous communities in Spain."
+      },
+      "2021": {
+        "title": "Mobile app launch",
+        "description": "We launched our mobile app for iOS and Android, making ticket purchases easier than ever."
+      },
+      "2022": {
+        "title": "Internationalization",
+        "description": "We began our international expansion with presence in Portugal, France, and Italy."
+      },
+      "2023": {
+        "title": "Innovation award",
+        "description": "We received the award for the most innovative startup in the entertainment sector."
+      }
+    },
+    "teamTitle": "Our Team",
+    "members": {
+      "ana": {
+        "name": "Ana García",
+        "role": "CEO & Founder",
+        "bio": "Ana founded EvoTickets with the vision to transform the ticket buying experience."
+      },
+      "carlos": {
+        "name": "Carlos Rodríguez",
+        "role": "CTO",
+        "bio": "Carlos leads the tech team and is responsible for the platform's technological innovation."
+      },
+      "laura": {
+        "name": "Laura Martínez",
+        "role": "Marketing Director",
+        "bio": "Laura has over 10 years of experience in digital marketing and growth strategies."
+      },
+      "david": {
+        "name": "David Sánchez",
+        "role": "Operations Director",
+        "bio": "David oversees daily operations and ensures every event is a success."
+      }
+    },
+    "joinTitle": "Want to join our team?",
+    "joinDescription": "We are always looking for talented and passionate people to join our team. Check our...",
+    "jobOffer": "View job offers",
+    "values":{
+      "title": "Our Values",
+      "innovation": {
+        "title": "Innovation",
+        "description": "We are constantly looking for new ways to improve our platform and offer innovative solutions."
+      },
+      "community":{
+        "title": "Community",
+        "description": "We believe in the power of events to bring people together and create vibrant communities."
+      },
+      "trust":{
+        "title": "Trust",
+        "description": "Security and trust are fundamental to everything we do, from ticket purchases to data protection."
+      }
+    }
   }
 }

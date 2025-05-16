@@ -6,71 +6,71 @@ import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import useAlert from "../hooks/useAlert"
 import Alert from "../components/Alert"
-
-const teamMembers = [
-  {
-    name: "Ana García",
-    role: "CEO & Fundadora",
-    image: "/placeholder.svg?height=200&width=200",
-    bio: "Ana fundó EvoTickets con la visión de transformar la experiencia de compra de entradas para eventos.",
-  },
-  {
-    name: "Carlos Rodríguez",
-    role: "CTO",
-    image: "/placeholder.svg?height=200&width=200",
-    bio: "Carlos lidera el equipo técnico y es responsable de la innovación tecnológica de la plataforma.",
-  },
-  {
-    name: "Laura Martínez",
-    role: "Directora de Marketing",
-    image: "/placeholder.svg?height=200&width=200",
-    bio: "Laura tiene más de 10 años de experiencia en marketing digital y estrategias de crecimiento.",
-  },
-  {
-    name: "David Sánchez",
-    role: "Director de Operaciones",
-    image: "/placeholder.svg?height=200&width=200",
-    bio: "David supervisa todas las operaciones diarias y asegura que cada evento sea un éxito.",
-  },
-]
-
-const milestones = [
-  {
-    year: "2018",
-    title: "Fundación de EvoTickets",
-    description: "EvoTickets nace como una startup con la misión de revolucionar la venta de entradas online.",
-  },
-  {
-    year: "2019",
-    title: "Primera ronda de financiación",
-    description: "Conseguimos nuestra primera ronda de inversión de 1.5 millones de euros.",
-  },
-  {
-    year: "2020",
-    title: "Expansión nacional",
-    description: "Ampliamos nuestra presencia a todas las comunidades autónomas de España.",
-  },
-  {
-    year: "2021",
-    title: "Lanzamiento de la app móvil",
-    description:
-      "Lanzamos nuestra aplicación móvil para iOS y Android, facilitando la compra de entradas desde cualquier lugar.",
-  },
-  {
-    year: "2022",
-    title: "Internacionalización",
-    description: "Comenzamos nuestra expansión internacional con presencia en Portugal, Francia e Italia.",
-  },
-  {
-    year: "2023",
-    title: "Premio a la innovación",
-    description: "Recibimos el premio a la startup más innovadora en el sector del entretenimiento.",
-  },
-]
+import { useTranslation } from "react-i18next";
 
 export default function AboutUsPage() {
-  const { alert, showAlert, hideAlert } = useAlert()
+  const { alert, showAlert, hideAlert } = useAlert();
+  const { t } = useTranslation();
 
+  const teamMembers = [
+    {
+      name: t("aboutUs.members.ana.name"),
+      role: t("aboutUs.members.ana.role"),
+      image: "/placeholder.svg?height=200&width=200",
+      bio: t("aboutUs.members.ana.bio"),
+    },
+    {
+      name: t("aboutUs.members.carlos.name"),
+      role: t("aboutUs.members.carlos.role"),
+      image: "/placeholder.svg?height=200&width=200",
+      bio: t("aboutUs.members.carlos.bio"),
+    },
+    {
+      name: t("aboutUs.members.laura.name"),
+      role: t("aboutUs.members.laura.role"),
+      image: "/placeholder.svg?height=200&width=200",
+      bio: t("aboutUs.members.laura.bio"),
+    },
+    {
+      name: t("aboutUs.members.david.name"),
+      role: t("aboutUs.members.david.role"),
+      image: "/placeholder.svg?height=200&width=200",
+      bio: t("aboutUs.members.david.bio"),
+    },
+  ]
+
+  const milestones = [
+    {
+      year: "2018",
+      title: t("aboutUs.milestones.2018.title"),
+      description: t("aboutUs.milestones.2018.description"),
+    },
+    {
+      year: "2019",
+      title: t("aboutUs.milestones.2019.title"),
+      description: t("aboutUs.milestones.2019.description"),
+    },
+    {
+      year: "2020",
+      title: t("aboutUs.milestones.2020.title"),
+      description: t("aboutUs.milestones.2020.description"),
+    },
+    {
+      year: "2021",
+      title: t("aboutUs.milestones.2021.title"),
+      description: t("aboutUs.milestones.2021.description"),
+    },
+    {
+      year: "2022",
+      title: t("aboutUs.milestones.2022.title"),
+      description: t("aboutUs.milestones.2022.description"),
+    },
+    {
+      year: "2023",
+      title: t("aboutUs.milestones.2023.title"),
+      description: t("aboutUs.milestones.2023.description"),
+    },
+  ]
   const handleJoinTeam = () => {
     showAlert({
       type: "info",
@@ -88,9 +88,9 @@ export default function AboutUsPage() {
         <div className="bg-[#5C3D8D] text-white py-16">
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="text-center">
-              <h1 className="text-4xl font-bold mb-4">Sobre Nosotros</h1>
+              <h1 className="text-4xl font-bold mb-4">{t("aboutUs.title")}</h1>
               <p className="text-xl max-w-3xl mx-auto opacity-90">
-                Transformando la forma en que las personas descubren, compran y disfrutan de eventos en vivo.
+                {t("aboutUs.heroDescription")}
               </p>
             </div>
           </div>
@@ -100,18 +100,15 @@ export default function AboutUsPage() {
         <div className="container mx-auto px-4 max-w-5xl py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-[#2E1A47] mb-4">Nuestra Misión</h2>
+              <h2 className="text-3xl font-bold text-[#2E1A47] mb-4">{t("aboutUs.missionTitle")}</h2>
               <p className="text-[#5C3D8D] mb-4">
-                En EvoTickets, nuestra misión es conectar a las personas con experiencias inolvidables a través de una
-                plataforma de venta de entradas segura, accesible y fácil de usar.
+                {t("aboutUs.missionP1")}
               </p>
               <p className="text-[#5C3D8D] mb-4">
-                Creemos que cada evento tiene el poder de crear recuerdos duraderos, y trabajamos incansablemente para
-                asegurarnos de que nuestros usuarios puedan descubrir y asistir a los eventos que más les apasionan.
+                {t("aboutUs.missionP2")}
               </p>
               <p className="text-[#5C3D8D]">
-                Nuestra visión es convertirnos en la plataforma líder de venta de entradas en Europa, ofreciendo la
-                mejor experiencia tanto para organizadores como para asistentes.
+                {t("aboutUs.missionP3")}
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md">
@@ -121,28 +118,28 @@ export default function AboutUsPage() {
                     <Users className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-[#2E1A47] mb-1">+2M</h3>
-                  <p className="text-[#5C3D8D]">Usuarios activos</p>
+                  <p className="text-[#5C3D8D]">{t("aboutUs.stats.users")}</p>
                 </div>
                 <div className="bg-[#F3F0FA] p-6 rounded-lg text-center">
                   <div className="bg-[#5C3D8D] w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                     <Calendar className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-[#2E1A47] mb-1">+10K</h3>
-                  <p className="text-[#5C3D8D]">Eventos anuales</p>
+                  <p className="text-[#5C3D8D]">{t("aboutUs.stats.events")}</p>
                 </div>
                 <div className="bg-[#F3F0FA] p-6 rounded-lg text-center">
                   <div className="bg-[#5C3D8D] w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                     <MapPin className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-[#2E1A47] mb-1">5</h3>
-                  <p className="text-[#5C3D8D]">Países</p>
+                  <p className="text-[#5C3D8D]">{t("aboutUs.stats.countries")}</p>
                 </div>
                 <div className="bg-[#F3F0FA] p-6 rounded-lg text-center">
                   <div className="bg-[#5C3D8D] w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                     <Award className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-[#2E1A47] mb-1">98%</h3>
-                  <p className="text-[#5C3D8D]">Satisfacción</p>
+                  <p className="text-[#5C3D8D]">{t("aboutUs.stats.satisfaction")}</p>
                 </div>
               </div>
             </div>
@@ -152,7 +149,7 @@ export default function AboutUsPage() {
         {/* Nuestra Historia */}
         <div className="bg-white py-16">
           <div className="container mx-auto px-4 max-w-5xl">
-            <h2 className="text-3xl font-bold text-[#2E1A47] mb-12 text-center">Nuestra Historia</h2>
+            <h2 className="text-3xl font-bold text-[#2E1A47] mb-12 text-center">{t("aboutUs.historyTitle")}</h2>
 
             <div className="relative">
               {/* Línea vertical */}
@@ -184,7 +181,7 @@ export default function AboutUsPage() {
 
         {/* Nuestro Equipo */}
         <div className="container mx-auto px-4 max-w-5xl py-16">
-          <h2 className="text-3xl font-bold text-[#2E1A47] mb-12 text-center">Nuestro Equipo</h2>
+          <h2 className="text-3xl font-bold text-[#2E1A47] mb-12 text-center">{t("aboutUs.teamTitle")}</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member, index) => (
@@ -200,13 +197,12 @@ export default function AboutUsPage() {
           </div>
 
           <div className="mt-12 text-center">
-            <h3 className="text-xl font-semibold text-[#2E1A47] mb-4">¿Quieres unirte a nuestro equipo?</h3>
+            <h3 className="text-xl font-semibold text-[#2E1A47] mb-4">{t("aboutUs.joinTitle")}</h3>
             <p className="text-[#5C3D8D] mb-6 max-w-2xl mx-auto">
-              Estamos siempre buscando personas talentosas y apasionadas para unirse a nuestro equipo. Consulta nuestras
-              ofertas de empleo actuales.
+              {t("aboutUs.joinDescription")}
             </p>
-            <Button onClick={handleJoinTeam} className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
-              Ver ofertas de empleo
+            <Button onPress={handleJoinTeam} className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
+              {t("aboutUs.jobOffer")}
             </Button>
           </div>
         </div>
@@ -214,7 +210,7 @@ export default function AboutUsPage() {
         {/* Valores */}
         <div className="bg-[#F3F0FA] py-16">
           <div className="container mx-auto px-4 max-w-5xl">
-            <h2 className="text-3xl font-bold text-[#2E1A47] mb-12 text-center">Nuestros Valores</h2>
+            <h2 className="text-3xl font-bold text-[#2E1A47] mb-12 text-center">{t("aboutUs.values.title")}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="bg-white p-6 rounded-xl shadow-md">
@@ -223,9 +219,9 @@ export default function AboutUsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-[#2E1A47] mb-2">Innovación</h3>
+                <h3 className="text-xl font-semibold text-[#2E1A47] mb-2">{t("aboutUs.values.innovation.title")}</h3>
                 <p className="text-[#5C3D8D]">
-                  Buscamos constantemente nuevas formas de mejorar nuestra plataforma y ofrecer soluciones innovadoras.
+                  {t("aboutUs.values.innovation.description")}
                 </p>
               </div>
 
@@ -240,9 +236,9 @@ export default function AboutUsPage() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-[#2E1A47] mb-2">Comunidad</h3>
+                <h3 className="text-xl font-semibold text-[#2E1A47] mb-2">{t("aboutUs.values.community.title")}</h3>
                 <p className="text-[#5C3D8D]">
-                  Creemos en el poder de los eventos para unir a las personas y crear comunidades vibrantes.
+                  {t("aboutUs.values.community.description")}
                 </p>
               </div>
 
@@ -257,10 +253,9 @@ export default function AboutUsPage() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-[#2E1A47] mb-2">Confianza</h3>
+                <h3 className="text-xl font-semibold text-[#2E1A47] mb-2">{t("aboutUs.values.trust.title")}</h3>
                 <p className="text-[#5C3D8D]">
-                  La seguridad y confianza son fundamentales en todo lo que hacemos, desde la compra de entradas hasta
-                  la protección de datos.
+                  {t("aboutUs.values.trust.description")}
                 </p>
               </div>
             </div>
