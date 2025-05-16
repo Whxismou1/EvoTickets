@@ -19,6 +19,13 @@ import EventsPage from "./pages/EventsPage"
 // import EventDetail from "./pages/EventDetail";
 import EventCreationPage from "./pages/EventCreationPage";
 import EventDetail from "./pages/EventDetails";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsPage from "./pages/TermsPage";
+import WorkWithUsPage from "./pages/WorkWithUsPage";
+import AboutUsPage from "./pages/AboutUsPage";
+import ContactPage from "./pages/ContactPage";
+import HelpCenterPage from "./pages/HelpCenterPage";
+
 
 function App() {
   return (
@@ -34,6 +41,12 @@ function App() {
         <Route path="/resetPassword/:token" element={<ResetPassword />} />
         {/* <Route path="/event/:id" element={<EventDetail />} /> */}
         <Route path="/eventCreation" element={<EventCreationPage />} />
+        <Route path="/PrivacyPolicyPage" element={<PrivacyPolicyPage />} />
+        <Route path="/TermsPage" element={<TermsPage />} />
+        <Route path="/WorkWithUsPage" element={<WorkWithUsPage />} />
+        <Route path="/AboutUsPage" element={<AboutUsPage />} />
+        <Route path="/ContactPage" element={<ContactPage />} />
+        <Route path="/HelpCenterPage" element={<HelpCenterPage />} />
 
         <Route
           path="/verifyAccount"
