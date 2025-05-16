@@ -64,9 +64,9 @@ public class EventServiceTests {
         events.add(eventEntity);
         when(eventRepository.findAll()).thenReturn(events);
         
-        List<EventEntity> result = eventService.getAllServices();
+        List<EventDTO> result = eventService.getAllServices();
         assertEquals(1, result.size());
-        assertEquals(eventEntity, result.get(0));
+        assertEquals(eventDTO, result.get(0));
     }
     
     // Test para getEventById: cuando el evento existe
@@ -92,7 +92,7 @@ public class EventServiceTests {
         ArrayList<EventEntity> events = new ArrayList<>();
         events.add(eventEntity);
         when(eventRepository.findByLocation(locationEntity)).thenReturn(events);
-        List<EventEntity> result = eventService.getEventsByLocation(locationEntity);
+        List<EventDTO> result = eventService.getEventsByLocation(locationEntity);
         assertEquals(1, result.size());
     }
     

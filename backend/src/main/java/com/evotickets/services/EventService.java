@@ -6,12 +6,14 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.evotickets.dtos.ArtistDTO;
 import com.evotickets.dtos.EventDTO;
 import com.evotickets.dtos.UserDTO;
 import com.evotickets.entities.EventEntity;
 import com.evotickets.entities.LocationEntity;
 import com.evotickets.exceptions.InvalidInputException;
 import com.evotickets.exceptions.NoSuchEventException;
+import com.evotickets.repositories.ArtistEventRepository;
 import com.evotickets.repositories.EventRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,8 +22,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EventService {
     
-    @Autowired
-    public EventRepository eventRepository;
+    
+    public final EventRepository eventRepository;
+    
+    public final ArtistEventRepository artistEventRepository;
     
 
     public List<EventDTO> getAllServices(){
@@ -96,6 +100,12 @@ public class EventService {
     }
 
     private EventDTO convertToDto(EventEntity event) {
+        
+        List<ArtistDTO> artistDTOs = artistEventRepository.findByEvent(event)
+            .stream()
+            .map(artistEvent -> ArtistDTO.fromEntity(artistEvent.getArtist(), artistEvent.getShowsUpAt()))
+            .collect(Collectors.toList());
+
         System.out.println(event);
         return EventDTO.builder()
         .id(event.getId())
@@ -112,6 +122,7 @@ public class EventService {
         .website(event.getWebsite())
         .longDescription(event.getLongDescription())
         .faqs(event.getFaqs())
+        .artists(artistDTOs)
         .organizer(event.getOrganizer() != null 
             ? UserDTO.builder()
                 .id(event.getOrganizer().getId())

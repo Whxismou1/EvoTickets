@@ -269,13 +269,15 @@ export default function EventDetail() {
                 <Music className="h-5 w-5 text-[#5C3D8D]" />
                 <h2 className="text-xl font-bold text-[#2E1A47]">Artistas</h2>
               </div>
-              <Button
-                variant="light"
-                className="text-[#5C3D8D] hover:text-[#2E1A47]"
-                onPress={() => setShowAllArtists(!showAllArtists)}
-              >
-                {showAllArtists ? "Ver menos" : "Ver todos"}
-              </Button>
+              {eventData.artists && eventData.artists.length > 4 &&(
+                <Button
+                  variant="light"
+                  className="text-[#5C3D8D] hover:text-[#2E1A47]"
+                  onPress={() => setShowAllArtists(!showAllArtists)}
+                >
+                  {showAllArtists ? "Ver menos" : "Ver todos"}
+                </Button>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -292,8 +294,8 @@ export default function EventDetail() {
                     className="w-12 h-12 rounded-full overflow-hidden mr-3 flex-shrink-0 border-2 border-[#5C3D8D]"
                   >
                     <img
-                      src={artist.image || "/placeholder.svg"}
-                      alt={artist.name}
+                      src={artist.profileImage || "/placeholder.svg"}
+                      alt={artist.artisticName}
                       className="w-full h-full object-cover"
                     />
                   </Link>
@@ -302,12 +304,12 @@ export default function EventDetail() {
                       to={`/artists/${artist.id}`}
                       className="font-medium text-[#2E1A47] hover:text-[#5C3D8D] transition-colors"
                     >
-                      {artist.name}
+                      {artist.artisticName}
                     </Link>
                     <div className="text-xs text-[#5C3D8D]">
                       <div>{artist.role}</div>
                       <div>
-                        {artist.day} • {artist.time}
+                        {formatDate(artist.showsUpAt)} • {formatTime(artist.showsUpAt)}
                       </div>
                     </div>
                   </div>
@@ -369,7 +371,7 @@ export default function EventDetail() {
         </section>
 
         {/* Previous Events Gallery */}
-        {eventData.previousEvents && eventData.previousEvents.length > 0 ? (
+        {eventData.previousEvents && eventData.previousEvents.length > 0 && (
             <section className="py-8 px-4">
                 <div className="container mx-auto max-w-6xl">
                 <div className="flex items-center justify-between mb-6">
@@ -426,13 +428,7 @@ export default function EventDetail() {
                 </div>
                 </div>
             </section>
-            ) : (
-            <section className="py-8 px-4">
-                <div className="container mx-auto max-w-6xl text-center">
-                <p className="text-[#5C3D8D]">No hay ediciones anteriores.</p>
-                </div>
-            </section>
-        )}
+            )}
         {/* FAQs Section */}
         <section className="py-8 px-4 bg-white">
           <div className="container mx-auto max-w-6xl">

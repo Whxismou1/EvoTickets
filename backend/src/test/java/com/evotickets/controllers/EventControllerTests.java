@@ -67,7 +67,7 @@ public class EventControllerTests {
 
     @Test
     public void testGetAllEvents_NonEmptyList() {
-        ArrayList<EventEntity> events = new ArrayList<>(Arrays.asList(eventEntity));
+        ArrayList<EventDTO> events = new ArrayList<>(Arrays.asList(eventDTO));
         when(eventService.getAllServices()).thenReturn(events);
 
         ResponseEntity<?> response = eventController.getAllEvents();
@@ -79,7 +79,7 @@ public class EventControllerTests {
 
     @Test
     public void testGetAllEvents_EmptyList() {
-        ArrayList<EventEntity> events = new ArrayList<>();
+        ArrayList<EventDTO> events = new ArrayList<>();
         when(eventService.getAllServices()).thenReturn(events);
 
         ResponseEntity<?> response = eventController.getAllEvents();
@@ -103,7 +103,7 @@ public class EventControllerTests {
     @Test
     public void testGetEventsByLocation() {
         when(locationService.getLocationById(1L)).thenReturn(location);
-        ArrayList<EventEntity> events = new ArrayList<>(Arrays.asList(eventEntity));
+        ArrayList<EventDTO> events = new ArrayList<>(Arrays.asList(eventDTO));
         when(eventService.getEventsByLocation(location)).thenReturn(events);
 
         ResponseEntity<?> response = eventController.getEventsByLocation(1L);

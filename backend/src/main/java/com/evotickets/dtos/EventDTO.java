@@ -37,6 +37,8 @@ public class EventDTO {
     private String longDescription;
 
     private List<FaqsEntity> faqs;
+    
+    private List<ArtistDTO> artists;
 
 @   NotNull(message = "La ubicación es obligatoria")
     private LocationEntity location; 
