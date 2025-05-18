@@ -467,7 +467,8 @@
     },
     "alert": {
       "required": "Por favor, completa todos los campos obligatorios",
-      "success": "Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo pronto."
+      "success": "Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo pronto.",
+      "error": "Tu mensaje no se ha enviado correctamente."
     }
   },
   "aboutUs": {
@@ -485,52 +486,48 @@
     },
     "historyTitle": "Nuestra Historia",
     "milestones": {
-      "2018": {
+      "2025-feb": {
+        "year": "Febrero-2025",
         "title": "Fundación de EvoTickets",
         "description": "EvoTickets nace como una startup con la misión de revolucionar la venta de entradas online."
       },
-      "2019": {
-        "title": "Primera ronda de financiación",
-        "description": "Conseguimos nuestra primera ronda de inversión de 1.5 millones de euros."
+      "2025-abr": {
+        "year": "Abril-2025",
+        "title": "Primera prueba de Evotickets",
+        "description": "El equipo de desarrollo lanza su primera versión de Evotickets."
       },
-      "2020": {
-        "title": "Expansión nacional",
-        "description": "Ampliamos nuestra presencia a todas las comunidades autónomas de España."
+      "2025-may": {
+        "year": "Mayo-2025",
+        "title": "Lanzamiento de Evotickets",
+        "description": "El equipo de desarrollo lanza la versión final de Evotickets."
       },
-      "2021": {
-        "title": "Lanzamiento de la app móvil",
-        "description": "Lanzamos nuestra aplicación móvil para iOS y Android, facilitando la compra de entradas desde cualquier lugar."
-      },
-      "2022": {
-        "title": "Internacionalización",
-        "description": "Comenzamos nuestra expansión internacional con presencia en Portugal, Francia e Italia."
-      },
-      "2023": {
-        "title": "Premio a la innovación",
-        "description": "Recibimos el premio a la startup más innovadora en el sector del entretenimiento."
+      "prox": {
+        "year": "Proximamente",
+        "title": "Lanzamiento de Evotickets en dispositivos telefónicos",
+        "description": "Evotickets se lanzará como aplicación de smartphone para una accesibilidad mejorada."
       }
     },
     "teamTitle": "Nuestro Equipo",
     "members": {
-      "ana": {
-        "name": "Ana García",
+      "mouhcine": {
+        "name": "Mouhcine El Oualidi",
         "role": "CEO & Fundadora",
-        "bio": "Ana fundó EvoTickets con la visión de transformar la experiencia de compra de entradas para eventos."
+        "bio": "Mouhcine fundó EvoTickets con la visión de transformar la experiencia de compra de entradas para eventos."
       },
-      "carlos": {
-        "name": "Carlos Rodríguez",
+      "javier": {
+        "name": "Javier Troyano",
         "role": "CTO",
-        "bio": "Carlos lidera el equipo técnico y es responsable de la innovación tecnológica de la plataforma."
+        "bio": "Javier lidera el equipo técnico y es responsable de la innovación tecnológica de la plataforma."
       },
-      "laura": {
-        "name": "Laura Martínez",
+      "oscar": {
+        "name": "Óscar Díez",
         "role": "Directora de Marketing",
-        "bio": "Laura tiene más de 10 años de experiencia en marketing digital y estrategias de crecimiento."
+        "bio": "Óscar tiene más de 10 años de experiencia en marketing digital y estrategias de crecimiento."
       },
-      "david": {
-        "name": "David Sánchez",
+      "cristian": {
+        "name": "Cristian Álvarez",
         "role": "Director de Operaciones",
-        "bio": "David supervisa todas las operaciones diarias y asegura que cada evento sea un éxito."
+        "bio": "Cristian supervisa todas las operaciones diarias y asegura que cada evento sea un éxito."
       }
     },
     "joinTitle": "¿Quieres unirte a nuestro equipo?",

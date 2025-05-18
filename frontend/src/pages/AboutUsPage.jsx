@@ -14,62 +14,52 @@ export default function AboutUsPage() {
 
   const teamMembers = [
     {
-      name: t("aboutUs.members.ana.name"),
-      role: t("aboutUs.members.ana.role"),
+      name: t("aboutUs.members.mouhcine.name"),
+      role: t("aboutUs.members.mouhcine.role"),
       image: "/placeholder.svg?height=200&width=200",
-      bio: t("aboutUs.members.ana.bio"),
+      bio: t("aboutUs.members.mouhcine.bio"),
     },
     {
-      name: t("aboutUs.members.carlos.name"),
-      role: t("aboutUs.members.carlos.role"),
+      name: t("aboutUs.members.javier.name"),
+      role: t("aboutUs.members.javier.role"),
       image: "/placeholder.svg?height=200&width=200",
-      bio: t("aboutUs.members.carlos.bio"),
+      bio: t("aboutUs.members.javier.bio"),
     },
     {
-      name: t("aboutUs.members.laura.name"),
-      role: t("aboutUs.members.laura.role"),
+      name: t("aboutUs.members.oscar.name"),
+      role: t("aboutUs.members.oscar.role"),
       image: "/placeholder.svg?height=200&width=200",
-      bio: t("aboutUs.members.laura.bio"),
+      bio: t("aboutUs.members.oscar.bio"),
     },
     {
-      name: t("aboutUs.members.david.name"),
-      role: t("aboutUs.members.david.role"),
+      name: t("aboutUs.members.cristian.name"),
+      role: t("aboutUs.members.cristian.role"),
       image: "/placeholder.svg?height=200&width=200",
-      bio: t("aboutUs.members.david.bio"),
+      bio: t("aboutUs.members.cristian.bio"),
     },
   ]
 
   const milestones = [
     {
-      year: "2018",
-      title: t("aboutUs.milestones.2018.title"),
-      description: t("aboutUs.milestones.2018.description"),
+      year: t("aboutUs.milestones.2025-feb.year"),
+      title: t("aboutUs.milestones.2025-feb.title"),
+      description: t("aboutUs.milestones.2025-feb.description"),
     },
     {
-      year: "2019",
-      title: t("aboutUs.milestones.2019.title"),
-      description: t("aboutUs.milestones.2019.description"),
+      year: t("aboutUs.milestones.2025-abr.year"),
+      title: t("aboutUs.milestones.2025-abr.title"),
+      description: t("aboutUs.milestones.2025-abr.description"),
     },
     {
-      year: "2020",
-      title: t("aboutUs.milestones.2020.title"),
-      description: t("aboutUs.milestones.2020.description"),
+      year: t("aboutUs.milestones.2025-may.year"),
+      title: t("aboutUs.milestones.2025-may.title"),
+      description: t("aboutUs.milestones.2025-may.description"),
     },
     {
-      year: "2021",
-      title: t("aboutUs.milestones.2021.title"),
-      description: t("aboutUs.milestones.2021.description"),
-    },
-    {
-      year: "2022",
-      title: t("aboutUs.milestones.2022.title"),
-      description: t("aboutUs.milestones.2022.description"),
-    },
-    {
-      year: "2023",
-      title: t("aboutUs.milestones.2023.title"),
-      description: t("aboutUs.milestones.2023.description"),
-    },
+      year: t("aboutUs.milestones.prox.year"),
+      title: t("aboutUs.milestones.prox.title"),
+      description: t("aboutUs.milestones.prox.description"),
+    }
   ]
   const handleJoinTeam = () => {
     showAlert({
@@ -164,9 +154,7 @@ export default function AboutUsPage() {
                     </div>
 
                     <div className="z-10 flex-shrink-0">
-                      <div className="bg-[#5C3D8D] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold">
-                        {milestone.year.slice(-2)}
-                      </div>
+                      <div className="bg-[#5C3D8D] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"></div>
                     </div>
 
                     <div className={`w-1/2 ${index % 2 === 0 ? "pl-12" : "pr-12 text-right"}`}>

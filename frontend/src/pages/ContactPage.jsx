@@ -10,6 +10,7 @@ import useAlert from "../hooks/useAlert";
 import Alert from "../components/Alert";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { sendContactEmail } from "../services/contactService";
 
 export default function ContactPage() {
   const { t } = useTranslation();
@@ -31,7 +32,7 @@ export default function ContactPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.message) {
@@ -44,8 +45,10 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      console.log(formData)
+      await sendContactEmail(formData); 
+
       showAlert({
         type: "success",
         message: t("contact.alert.success"),
@@ -57,7 +60,15 @@ export default function ContactPage() {
         subject: "",
         message: "",
       });
-    }, 1500);
+    } catch (error) {
+      console.log(error);
+      showAlert({
+        type: "error",
+        message: t("contac.alert.error"),
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
