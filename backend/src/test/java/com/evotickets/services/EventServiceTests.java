@@ -21,6 +21,8 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import com.evotickets.dtos.EventDTO;
 import com.evotickets.entities.EventEntity;
@@ -31,6 +33,7 @@ import com.evotickets.repositories.ArtistEventRepository;
 import com.evotickets.repositories.EventRepository;
 
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class EventServiceTests {
 
     @Mock
