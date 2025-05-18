@@ -4,13 +4,13 @@ import {jwtDecode} from "jwt-decode";
 
 export const useAuthStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       token: null,
       role: null,
       setToken: (token) => {
-        console.log(jwtDecode(token));
         const decodedToken = jwtDecode(token);
-        const role = decodedToken.role;
+        const role = decodedToken.role.replace("ROLE_", "");
+
         set({ token, role });
         const expiryTime = decodedToken.exp * 1000; 
         const currentTime = Date.now();
@@ -25,7 +25,7 @@ export const useAuthStore = create(
       logout: () => set({ token: null, role: null }),
     }),
     {
-      name: "auth-storage", // clave para localStorage
+      name: "auth-storage",
       getStorage: () => localStorage,
     }
   )

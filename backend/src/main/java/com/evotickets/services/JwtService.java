@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class JwtService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", user.getAuthorities().stream()
                      .findFirst()
-                     .map(Object::toString)
+                     .map(GrantedAuthority::getAuthority)
                      .orElse(UserRole.CLIENT.toString()));
         return generateToken(claims, user);
     }
@@ -94,5 +95,4 @@ public class JwtService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
 }

@@ -140,7 +140,7 @@ export default function EventsPage() {
                   <div
                     className="h-40 bg-cover bg-center rounded-t-lg"
                     style={{
-                      backgroundImage: `url(${event.image || "/placeholder.svg"})`,
+                      backgroundImage: `url(${event.coverImage || "/placeholder.svg"})`,
                     }}
                   ></div>
                   <div className="p-4">

@@ -2,10 +2,11 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 
 const RoleProtectedRoute = ({ allowedRoles }) => {
-  const { token, userRole } = useAuthStore();
-
+  const { token, role } = useAuthStore();
   if (!token) return <Navigate to="/login" />;
-  if (!allowedRoles.includes(userRole)) return <Navigate to="/not-found" />;
+
+
+  if (!allowedRoles.includes(role)) return <Navigate to="/not-found" />;
 
   return <Outlet />;
 };

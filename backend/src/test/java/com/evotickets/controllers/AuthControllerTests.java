@@ -1,21 +1,18 @@
 package com.evotickets.controllers;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +26,6 @@ import com.evotickets.dtos.UserRegisterDTO;
 import com.evotickets.dtos.UserVerifyDTO;
 import com.evotickets.dtos.ValidateTokenDTO;
 import com.evotickets.entities.UserEntity;
-import com.evotickets.exceptions.EmailSendingException;
-import com.evotickets.exceptions.InvalidCredentialsException;
 import com.evotickets.exceptions.InvalidRefreshTokenException;
 import com.evotickets.exceptions.RefreshTokenNotFoundException;
 import com.evotickets.responses.LoginResponse;

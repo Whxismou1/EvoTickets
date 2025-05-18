@@ -1,9 +1,12 @@
 package com.evotickets.dtos;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.evotickets.entities.EventPhotosEntity;
+import com.evotickets.entities.FaqsEntity;
 import com.evotickets.entities.LocationEntity;
-
+import com.evotickets.entities.enums.EventCategory;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,8 +18,31 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class EventDTO {
+    private Long id;
+
+    private List<EventPhotosEntity> photos;
+
+    private EventCategory category;
+
+    private String coverImage;
+
+    private UserDTO organizer;
+
+    private int capacity;
+
+    private int minAge;
+
+    private String website;
+
+    private String longDescription;
+
+    private List<FaqsEntity> faqs;
     
-    @NotNull(message = "La ubicación es obligatoria")
+    private List<ArtistDTO> artists;
+
+    private List<EventDTO> relatedEvents;
+
+@   NotNull(message = "La ubicación es obligatoria")
     private LocationEntity location; 
 
     @NotNull(message = "El nombre es obligatorio")
@@ -32,4 +58,5 @@ public class EventDTO {
 
     @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDateTime endDate;
+
 }

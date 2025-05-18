@@ -2,11 +2,8 @@ package com.evotickets.dtos;
 
 import java.time.LocalDate;
 
-import com.evotickets.entities.enums.UserRole;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,17 +12,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
+@Builder
 public class UserDTO {
     private Long id;
+    private String firstName;
+    private String lastName;
     private String username;
     private String email;
-    private String password;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    private String profilePicture;
     private LocalDate dateOfBirth;
-
-    private UserRole userRole = UserRole.CLIENT;
-    private boolean isAuthenticated = false;
-
 
 }

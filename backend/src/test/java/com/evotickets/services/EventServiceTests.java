@@ -1,29 +1,47 @@
 package com.evotickets.services;
 
-import com.evotickets.dtos.EventDTO;
-import com.evotickets.entities.EventEntity;
-import com.evotickets.entities.LocationEntity;
-import com.evotickets.exceptions.InvalidInputException;
-import com.evotickets.exceptions.NoSuchEventException;
-import com.evotickets.repositories.EventRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+
+import com.evotickets.dtos.EventDTO;
+import com.evotickets.entities.EventEntity;
+import com.evotickets.entities.LocationEntity;
+import com.evotickets.exceptions.InvalidInputException;
+import com.evotickets.exceptions.NoSuchEventException;
+import com.evotickets.repositories.ArtistEventRepository;
+import com.evotickets.repositories.EventRepository;
+
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class EventServiceTests {
+
     @Mock
     private EventRepository eventRepository;
+    
+    // Agregamos el mock de artistEventRepository
+    @Mock
+    private ArtistEventRepository artistEventRepository;
     
     @InjectMocks
     private EventService eventService;
@@ -41,11 +59,14 @@ public class EventServiceTests {
                 .build();
         
         eventDTO = EventDTO.builder()
+                .id(1L)
                 .name("Test Event")
                 .location(locationEntity)
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusDays(1))
                 .description("Test Description")
+                .artists(new ArrayList<>())
+                .relatedEvents(new ArrayList<>())
                 .build();
         
         eventEntity = EventEntity.builder()
@@ -56,6 +77,10 @@ public class EventServiceTests {
                 .endDate(eventDTO.getEndDate())
                 .description(eventDTO.getDescription())
                 .build();
+        
+        // Marca como lenient la configuración, para evitar el error de stubbing innecesario.
+        lenient().when(artistEventRepository.findByEvent(any(EventEntity.class)))
+            .thenReturn(new ArrayList<>());
     }
 
     @Test
@@ -64,9 +89,9 @@ public class EventServiceTests {
         events.add(eventEntity);
         when(eventRepository.findAll()).thenReturn(events);
         
-        List<EventEntity> result = eventService.getAllServices();
+        List<EventDTO> result = eventService.getAllServices();
         assertEquals(1, result.size());
-        assertEquals(eventEntity, result.get(0));
+        assertEquals(eventDTO, result.get(0));
     }
     
     // Test para getEventById: cuando el evento existe
@@ -84,7 +109,7 @@ public class EventServiceTests {
         NoSuchEventException ex = assertThrows(NoSuchEventException.class, () -> {
             eventService.getEventById(1L);
         });
-        assertTrue(ex.getMessage().contains("No se ha encontrado ningun evento con la ID"));
+        assertTrue(() -> ex.getMessage().contains("No se ha encontrado ningún evento con la ID"));
     }
 
     @Test
@@ -92,7 +117,7 @@ public class EventServiceTests {
         ArrayList<EventEntity> events = new ArrayList<>();
         events.add(eventEntity);
         when(eventRepository.findByLocation(locationEntity)).thenReturn(events);
-        List<EventEntity> result = eventService.getEventsByLocation(locationEntity);
+        List<EventDTO> result = eventService.getEventsByLocation(locationEntity);
         assertEquals(1, result.size());
     }
     
