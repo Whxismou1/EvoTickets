@@ -86,6 +86,21 @@ export default function EventDetail() {
     )
   }
 
+  const relatedGroups = [];
+  if (eventData.relatedEvents && eventData.relatedEvents.length > 0) {
+    const groupsMap = new Map();
+    eventData.relatedEvents.forEach(ev => {
+      const year = new Date(ev.startDate).getFullYear();
+      if (!groupsMap.has(year)) {
+        groupsMap.set(year, []);
+      }
+      groupsMap.get(year).push(ev);
+    });
+    // Convierte a array y opcionalmente ordénalo (por ejemplo, de menor a mayor año)
+    relatedGroups.push(...Array.from(groupsMap, ([year, events]) => ({ year, events })));
+    relatedGroups.sort((a, b) => a.year - b.year);
+  }
+
   const toggleLike = () => {
     setIsLiked(!isLiked)
   }
@@ -107,6 +122,14 @@ export default function EventDetail() {
       minute: "2-digit",
     })
   }
+
+  const formatYear = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString("es-ES", {
+      year: "numeric",
+    })
+  }
+
 
   const displayedArtists = showAllArtists 
     ? eventData.artists 
@@ -371,64 +394,69 @@ export default function EventDetail() {
         </section>
 
         {/* Previous Events Gallery */}
-        {eventData.previousEvents && eventData.previousEvents.length > 0 && (
-            <section className="py-8 px-4">
-                <div className="container mx-auto max-w-6xl">
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-2">
-                    <ImageIcon className="h-5 w-5 text-[#5C3D8D]" />
-                    <h2 className="text-xl font-bold text-[#2E1A47]">Ediciones anteriores</h2>
-                    </div>
-                    <div className="flex items-center gap-2">
-                    <Button
-                        variant="light"
-                        isIconOnly
-                        className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10 p-2"
-                        onPress={() =>
-                        setActiveGalleryIndex(
-                            (prev) =>
-                            (prev - 1 + eventData.previousEvents.length) % eventData.previousEvents.length
-                        )
-                        }
-                    >
-                        <ChevronLeft className="h-5 w-5" />
-                    </Button>
-                    <span className="text-[#5C3D8D]">{eventData.previousEvents[activeGalleryIndex].year}</span>
-                    <Button
-                        variant="light"
-                        isIconOnly
-                        className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10 p-2"
-                        onPress={() =>
-                        setActiveGalleryIndex(
-                            (prev) => (prev + 1) % eventData.previousEvents.length
-                        )
-                        }
-                    >
-                        <ChevronRight className="h-5 w-5" />
-                    </Button>
-                    </div>
+        {relatedGroups.length > 0 && (
+          <section className="py-8 px-4">
+            <div className="container mx-auto max-w-6xl">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5 text-[#5C3D8D]" />
+                  <h2 className="text-xl font-bold text-[#2E1A47]">Ediciones anteriores</h2>
                 </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="light"
+                    isIconOnly
+                    className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10 p-2"
+                    onPress={() =>
+                      setActiveGalleryIndex(
+                        (prev) => (prev - 1 + relatedGroups.length) % relatedGroups.length
+                      )
+                    }
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </Button>
+                  {/* Se muestra el año del grupo activo */}
+                  <span className="text-[#5C3D8D]">{relatedGroups[activeGalleryIndex].year}</span>
+                  <Button
+                    variant="light"
+                    isIconOnly
+                    className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10 p-2"
+                    onPress={() =>
+                      setActiveGalleryIndex(
+                        (prev) => (prev + 1) % relatedGroups.length
+                      )
+                    }
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </Button>
+                </div>
+              </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {eventData.previousEvents[activeGalleryIndex].images.map((image, index) => (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {/*
+                  Para el grupo activo, se recorren todos sus eventos y se muestran todas sus fotos.
+                */}
+                {relatedGroups[activeGalleryIndex].events.map((ev) =>
+                  ev.photos.map((image, index) => (
                     <motion.div
-                        key={index}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: index * 0.1 }}
-                        className="aspect-square rounded-lg overflow-hidden"
+                      key={`${ev.id}-${index}`}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      className="aspect-square rounded-lg overflow-hidden"
                     >
-                        <img
-                        src={image || "/placeholder.svg"}
-                        alt={`Evento ${eventData.previousEvents[activeGalleryIndex].year} - ${index + 1}`}
+                      <img
+                        src={image.url || "/placeholder.svg"}
+                        alt={`${ev.name} - ${formatYear(ev.startDate)}`}
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
+                      />
                     </motion.div>
-                    ))}
-                </div>
-                </div>
-            </section>
-            )}
+                  ))
+                )}
+              </div>
+            </div>
+          </section>
+        )}
         {/* FAQs Section */}
         <section className="py-8 px-4 bg-white">
           <div className="container mx-auto max-w-6xl">
