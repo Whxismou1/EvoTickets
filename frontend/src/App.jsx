@@ -10,7 +10,7 @@ import RoleProtectedRoute from "./components/RoleProtectedRoute";
 import VerifyAccountGuard from "./components/VerifyAccountGuard";
 import NotFound from "./pages/NotFound";
 import AdminPage from "./pages/AdminPage";
-import ArtistPage from "./pages/ArtistPage";
+import ArtistPage from "./pages/ArtistsPage";
 import EventManagerPage from "./pages/EventManagerPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -19,6 +19,7 @@ import EventsPage from "./pages/EventsPage"
 // import EventDetail from "./pages/EventDetail";
 import EventCreationPage from "./pages/EventCreationPage";
 import EventDetail from "./pages/EventDetails";
+import ArtistDashboard from "./pages/ArtistDashboard";
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
         <Route path="/resetPassword/:token" element={<ResetPassword />} />
         {/* <Route path="/event/:id" element={<EventDetail />} /> */}
         <Route path="/eventCreation" element={<EventCreationPage />} />
+        <Route path ="/artistpage" element={<ArtistPage/>}/>
+        <Route path="/artistDashboard" element={<ArtistDashboard />} />
 
         <Route
           path="/verifyAccount"

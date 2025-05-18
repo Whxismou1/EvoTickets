@@ -90,14 +90,14 @@ public class EventControllerTests {
     }
 
     @Test
-    public void testGetEventById() {
-        when(eventService.getEventById(1L)).thenReturn(eventEntity);
+    public void testGetEventDTOById() {
+        when(eventService.getEventDTOById(1L)).thenReturn(eventDTO);
 
         ResponseEntity<?> response = eventController.getEventById(1L);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(eventEntity, response.getBody());
+        assertEquals(eventDTO, response.getBody());
 
-        verify(eventService).getEventById(1L);
+        verify(eventService).getEventDTOById(1L);
     }
 
     @Test
