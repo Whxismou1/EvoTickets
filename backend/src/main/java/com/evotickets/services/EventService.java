@@ -1,9 +1,9 @@
 package com.evotickets.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.evotickets.dtos.ArtistDTO;
@@ -106,6 +106,12 @@ public class EventService {
             .map(artistEvent -> ArtistDTO.fromEntity(artistEvent.getArtist(), artistEvent.getShowsUpAt()))
             .collect(Collectors.toList());
 
+        List<EventDTO> relatedEventsDto = event.getRelatedEventRelations() != null 
+            ? event.getRelatedEventRelations().stream()
+                .map(er -> convertToDto(er.getRelatedEvent()))
+                .collect(Collectors.toList())
+            : new ArrayList<>();
+
         System.out.println(event);
         return EventDTO.builder()
         .id(event.getId())
@@ -123,6 +129,7 @@ public class EventService {
         .longDescription(event.getLongDescription())
         .faqs(event.getFaqs())
         .artists(artistDTOs)
+        .relatedEvents(relatedEventsDto)
         .organizer(event.getOrganizer() != null 
             ? UserDTO.builder()
                 .id(event.getOrganizer().getId())

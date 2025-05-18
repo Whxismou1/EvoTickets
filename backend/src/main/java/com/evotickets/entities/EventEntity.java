@@ -80,4 +80,8 @@ public class EventEntity {
     @OneToMany(mappedBy="event", fetch= FetchType.EAGER)
     @JsonManagedReference
     private List<FaqsEntity> faqs;
+
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+    @JsonManagedReference(value = "event-relations")
+    private List<EventRelationEntity> relatedEventRelations;
 }

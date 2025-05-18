@@ -40,6 +40,8 @@ public class EventDTO {
     
     private List<ArtistDTO> artists;
 
+    private List<EventDTO> relatedEvents;
+
 @   NotNull(message = "La ubicación es obligatoria")
     private LocationEntity location; 
 
@@ -56,4 +58,5 @@ public class EventDTO {
 
     @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDateTime endDate;
+
 }
