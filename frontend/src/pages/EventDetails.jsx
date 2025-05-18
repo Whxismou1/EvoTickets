@@ -13,10 +13,11 @@ import {
   Ticket,
   Info,
   ChevronRight,
+  ChevronDown,
   ChevronLeft,
   Star,
   Users,
-  Music,
+  User,
   ImageIcon,
   ExternalLink,
 } from "lucide-react"
@@ -50,6 +51,32 @@ export default function EventDetail() {
     }
   }, [id])
 
+  const FAQItem = ({ faq, index }) => {
+    const [open, setOpen] = useState(false);
+    
+    return (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: index * 0.1 }}
+        className="bg-[#F3F0FA] rounded-lg p-4 cursor-pointer"
+        onClick={() => setOpen(!open)}
+      >
+        <div className="flex items-center justify-between">
+          <h3 className="font-medium text-[#2E1A47]">{faq.question}</h3>
+          <motion.div
+            animate={{ rotate: open ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="ml-2"
+          >
+            <ChevronDown className="h-4 w-4 text-[#5C3D8D]" />
+          </motion.div>
+        </div>
+        {open && <p className="text-sm text-[#5C3D8D] mt-2">{faq.answer}</p>}
+      </motion.div>
+    );
+  };
   // Retornos condicionales basados en el estado
   if (isLoading) {
     return (
@@ -245,7 +272,6 @@ export default function EventDetail() {
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-[#5C3D8D]">Organizador</span>
-                          {console.log(eventData)}
                           <span className="font-medium text-[#2E1A47]">{`${eventData.organizer.firstName} ${eventData.organizer.lastName}`}</span>
                         </div>
                         <div className="flex justify-between">
@@ -285,68 +311,69 @@ export default function EventDetail() {
         </section>
 
         {/* Artists Section */}
-        <section className="py-8 px-4">
-          <div className="container mx-auto max-w-6xl">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <Music className="h-5 w-5 text-[#5C3D8D]" />
-                <h2 className="text-xl font-bold text-[#2E1A47]">Artistas</h2>
-              </div>
-              {eventData.artists && eventData.artists.length > 4 &&(
-                <Button
-                  variant="light"
-                  className="text-[#5C3D8D] hover:text-[#2E1A47]"
-                  onPress={() => setShowAllArtists(!showAllArtists)}
-                >
-                  {showAllArtists ? "Ver menos" : "Ver todos"}
-                </Button>
-              )}
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {displayedArtists.map((artist) => (
-                <motion.div
-                  key={artist.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white rounded-lg p-4 flex items-center hover:shadow-md transition-shadow"
-                >
-                  <Link
-                    to={`/artists/${artist.id}`}
-                    className="w-12 h-12 rounded-full overflow-hidden mr-3 flex-shrink-0 border-2 border-[#5C3D8D]"
+        { eventData.artists && eventData.artists.length > 0 && (
+          <section className="py-8 px-4">
+            <div className="container mx-auto max-w-6xl">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-2">
+                  <User className="h-5 w-5 text-[#5C3D8D]" />
+                  <h2 className="text-xl font-bold text-[#2E1A47]">Invitados</h2>
+                </div>
+                {eventData.artists && eventData.artists.length > 4 && (
+                  <Button
+                    variant="light"
+                    className="text-[#5C3D8D] hover:text-[#2E1A47]"
+                    onPress={() => setShowAllArtists(!showAllArtists)}
                   >
-                    <img
-                      src={artist.profileImage || "/placeholder.svg"}
-                      alt={artist.artisticName}
-                      className="w-full h-full object-cover"
-                    />
-                  </Link>
-                  <div className="flex-grow">
+                    {showAllArtists ? "Ver menos" : "Ver todos"}
+                  </Button>
+                )}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {displayedArtists.map((artist) => (
+                  <motion.div
+                    key={artist.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="bg-white rounded-lg p-4 flex items-center hover:shadow-md transition-shadow"
+                  >
                     <Link
                       to={`/artists/${artist.id}`}
-                      className="font-medium text-[#2E1A47] hover:text-[#5C3D8D] transition-colors"
+                      className="w-12 h-12 rounded-full overflow-hidden mr-3 flex-shrink-0 border-2 border-[#5C3D8D]"
                     >
-                      {artist.artisticName}
+                      <img
+                        src={artist.profileImage || "/placeholder.svg"}
+                        alt={artist.artisticName}
+                        className="w-full h-full object-cover"
+                      />
                     </Link>
-                    <div className="text-xs text-[#5C3D8D]">
-                      <div>{artist.role}</div>
-                      <div>
-                        {formatDate(artist.showsUpAt)} • {formatTime(artist.showsUpAt)}
+                    <div className="flex-grow">
+                      <Link
+                        to={`/artists/${artist.id}`}
+                        className="font-medium text-[#2E1A47] hover:text-[#5C3D8D] transition-colors"
+                      >
+                        {artist.artisticName}
+                      </Link>
+                      <div className="text-xs text-[#5C3D8D]">
+                        <div>{artist.role}</div>
+                        <div>
+                          {formatDate(artist.showsUpAt)} • {formatTime(artist.showsUpAt)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <Link
-                    to={`/artists/${artist.id}`}
-                    className="ml-2 p-1.5 rounded-full bg-[#5C3D8D]/10 text-[#5C3D8D] hover:bg-[#5C3D8D]/20 transition-colors"
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      to={`/artists/${artist.id}`}
+                      className="ml-2 p-1.5 rounded-full bg-[#5C3D8D]/10 text-[#5C3D8D] hover:bg-[#5C3D8D]/20 transition-colors"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Event Details Section */}
         <section className="py-8 px-4 bg-white">
@@ -464,20 +491,10 @@ export default function EventDetail() {
               <Users className="h-5 w-5 text-[#5C3D8D]" />
               <h2 className="text-xl font-bold text-[#2E1A47]">Preguntas frecuentes</h2>
             </div>
-
             <div className="space-y-4">
               {(eventData.faqs || []).map((faq, index) => (
-                <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="bg-[#F3F0FA] rounded-lg p-4"
-                >
-                    <h3 className="font-medium text-[#2E1A47] mb-2">{faq.question}</h3>
-                    <p className="text-sm text-[#5C3D8D]">{faq.answer}</p>
-                </motion.div>
-                ))}
+                <FAQItem key={index} faq={faq} index={index} />
+              ))}
             </div>
           </div>
         </section>
