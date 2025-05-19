@@ -71,7 +71,11 @@ export default function WorkWithUsPage() {
     setIsLoading(true)
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const res = await sendWorkApplication(formData)
+
+      if (!res.ok) {
+        throw new Error("Error en la respuesta del servidor")
+      }
 
       showAlert({
         type: "success",
@@ -88,12 +92,15 @@ export default function WorkWithUsPage() {
 
       const fileInput = document.getElementById("resume")
       if (fileInput) fileInput.value = ""
+
     } catch (error) {
+
       console.error("Error al enviar el formulario:", error)
       showAlert({
         type: "error",
         message: t("workWithUs.submitError"),
       })
+
     } finally {
       setIsLoading(false)
     }

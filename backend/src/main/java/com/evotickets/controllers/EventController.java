@@ -1,6 +1,6 @@
 package com.evotickets.controllers;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,21 +34,21 @@ public class EventController {
     
     @GetMapping()
     public ResponseEntity<?> getAllEvents(){
-        ArrayList<EventEntity> events = eventService.getAllServices();
+        List<EventDTO> events = eventService.getAllServices();
         return !events.isEmpty() ? ResponseEntity.ok(events)
              : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay eventos disponibles");
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id){
-        EventEntity event = eventService.getEventById(id);
+        EventDTO event = eventService.getEventDTOById(id);
         return ResponseEntity.ok().body(event);
     }
 
     @GetMapping("/location")
     public ResponseEntity<?> getEventsByLocation(@RequestParam Long id){
         LocationEntity location = locationService.getLocationById(id);
-        ArrayList<EventEntity> events = eventService.getEventsByLocation(location);
+        List<EventDTO> events = eventService.getEventsByLocation(location);
         return ResponseEntity.ok().body(events);
            
     }

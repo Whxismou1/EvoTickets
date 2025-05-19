@@ -1,13 +1,13 @@
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL + "/api/v1/contact";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const sendContactEmail = async ({ name, email, subject, message }) => {
   
   if (!name.trim() || !email.trim() || !subject.trim() || !message.trim()) {
     throw new Error("Todos los campos son obligatorios");
   }
-  console.log(BASE_URL)
-  const response = await fetch(`${BASE_URL}`, {
+
+  const response = await fetch(`${BASE_URL} + "/api/v1/contact"`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,3 +21,13 @@ export const sendContactEmail = async ({ name, email, subject, message }) => {
 
   return await response.text(); 
 };
+
+export function sendWorkApplication(formData) {
+
+  return fetch(`${BASE_URL} + "/api/v1/workWithUs"`, {
+    method: "POST",
+    body: formData,
+  })
+  
+}
+

@@ -10,7 +10,7 @@ import RoleProtectedRoute from "./components/RoleProtectedRoute";
 import VerifyAccountGuard from "./components/VerifyAccountGuard";
 import NotFound from "./pages/NotFound";
 import AdminPage from "./pages/AdminPage";
-import ArtistPage from "./pages/ArtistPage";
+import ArtistPage from "./pages/ArtistsPage";
 import EventManagerPage from "./pages/EventManagerPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -26,6 +26,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import ContactPage from "./pages/ContactPage";
 import HelpCenterPage from "./pages/HelpCenterPage";
 
+import ArtistDashboard from "./pages/ArtistDashboard";
 
 function App() {
   return (
@@ -47,6 +48,8 @@ function App() {
         <Route path="/AboutUsPage" element={<AboutUsPage />} />
         <Route path="/ContactPage" element={<ContactPage />} />
         <Route path="/HelpCenterPage" element={<HelpCenterPage />} />
+        <Route path ="/artistpage" element={<ArtistPage/>}/>
+        <Route path="/artistDashboard" element={<ArtistDashboard />} />
 
         <Route
           path="/verifyAccount"
