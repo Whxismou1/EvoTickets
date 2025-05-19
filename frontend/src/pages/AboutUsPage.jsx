@@ -7,10 +7,12 @@ import Footer from "../components/Footer"
 import useAlert from "../hooks/useAlert"
 import Alert from "../components/Alert"
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 export default function AboutUsPage() {
   const { alert, showAlert, hideAlert } = useAlert();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const teamMembers = [
     {
@@ -65,7 +67,9 @@ export default function AboutUsPage() {
     showAlert({
       type: "info",
       message: "Te redirigiremos a nuestras ofertas de empleo",
-    })
+    });
+    navigate("/WorkWithUsPage");
+    window.scrollTo(0,0);
   }
 
   return (

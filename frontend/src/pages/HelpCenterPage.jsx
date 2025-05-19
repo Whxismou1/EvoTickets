@@ -40,7 +40,8 @@ export default function HelpCenterPage() {
       type: 'success', 
       message: t("helpCenter.contactRedirectMessage") 
     });
-    navigate("/support");
+    navigate("/ContactPage");
+    window.scrollTo(0,0);
   };
 
   // Obtener categorías de las traducciones
