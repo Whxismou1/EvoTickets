@@ -2,11 +2,15 @@ package com.evotickets.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class WorkWithUsDTO {
 
     @NotBlank(message = "El nombre es obligatorio")
@@ -21,5 +25,6 @@ public class WorkWithUsDTO {
 
     @NotBlank(message = "El mensaje no puede estar vacío")
     private String message;
+
 }
 

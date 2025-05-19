@@ -114,7 +114,7 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(msg, true);
 
             helper.setTo("s.evotickets@gmail.com");
-            helper.setSubject("Solicitud de empleo");
+            helper.setSubject("Trabaja con Nosotros: Solicitud de empleo");
             
             StringBuilder content = new StringBuilder();
             content.append("Nombre: ").append(name).append("<br>");

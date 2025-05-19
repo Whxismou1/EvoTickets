@@ -72,11 +72,7 @@ export default function WorkWithUsPage() {
     setIsLoading(true)
 
     try {
-      const res = await sendWorkWithUsEmail(formData)
-
-      if (!res.ok) {
-        throw new Error("Error en la respuesta del servidor")
-      }
+      await sendWorkWithUsEmail(formData)
 
       showAlert({
         type: "success",
