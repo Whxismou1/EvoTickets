@@ -22,12 +22,20 @@ export const sendContactEmail = async ({ name, email, subject, message }) => {
   return await response.text(); 
 };
 
-export function sendWorkApplication(formData) {
+export const sendWorkWithUsEmail = async ({ name, email, phone, message, resume}) => {
+
+  console.log({ name, email, phone, message, resume})
+  if (!name.trim() || !email.trim() || !message.trim()) {
+    throw new Error("Todos los campos son obligatorios");
+  }
 
   return fetch(`${BASE_URL} + "/api/v1/workWithUs"`, {
     method: "POST",
-    body: formData,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, email, phone, message, resume }),
   })
-  
+
 }
 

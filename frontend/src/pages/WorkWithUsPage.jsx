@@ -10,6 +10,7 @@ import Footer from "../components/Footer"
 import { useTranslation } from "react-i18next"
 import useAlert from "../hooks/useAlert"
 import Alert from "../components/Alert"
+import { sendWorkWithUsEmail } from "../services/contactService";
 
 export default function WorkWithUsPage() {
   const { t } = useTranslation()
@@ -71,7 +72,7 @@ export default function WorkWithUsPage() {
     setIsLoading(true)
 
     try {
-      const res = await sendWorkApplication(formData)
+      const res = await sendWorkWithUsEmail(formData)
 
       if (!res.ok) {
         throw new Error("Error en la respuesta del servidor")
