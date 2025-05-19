@@ -29,6 +29,7 @@ export const sendWorkWithUsEmail = async ({ name, email, phone, message, resume 
 
   const formData = new FormData();
 
+  // Importante: convertir el JSON a string y enviarlo como un campo aparte
   formData.append("data", new Blob([JSON.stringify({ name, email, phone, message })], { type: 'application/json' }));
   formData.append("resume", resume);
   

@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/contact")
 public class ContactController {
 
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/contact")
+    @PostMapping
     public ResponseEntity<String> sendContactEmail(@Valid @RequestBody ContactDTO contactDTO) {
         emailService.sendContactEmail(
             contactDTO.getName(),
@@ -27,12 +27,13 @@ public class ContactController {
         return ResponseEntity.ok("Mensaje enviado correctamente.");
     }
 
-    @PostMapping("/workWithUs")
-    public ResponseEntity<String> handleWorkApplication(@Valid @ModelAttribute WorkWithUsDTO dto, @RequestParam("resume") MultipartFile resume) {
-        
-        if (resume.isEmpty()) {
-            return ResponseEntity.badRequest().body("El currículum es obligatorio.");
-        }
+    @PostMapping(value = "/workWithUs", consumes = {"multipart/form-data"})
+    public ResponseEntity<String> handleWorkApplication( @RequestPart("data") WorkWithUsDTO dto,
+    @RequestPart("resume") MultipartFile resume) {
+                // DTO
+        // if (resume.isEmpty()) {
+        //     return ResponseEntity.badRequest().body("El currículum es obligatorio.");
+        // }
 
         emailService.sendWorkWithUsEmail(
             dto.getName(),
