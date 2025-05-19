@@ -1,6 +1,7 @@
 package com.evotickets.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -91,4 +92,19 @@ public class EmailService {
         }
     }
 
+    public void sendContactEmail(String name, String email, String subject, String message) {
+        try {
+            MimeMessage msg = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+    
+            helper.setTo("s.evotickets@gmail.com");
+            helper.setSubject("Soporte: " + subject);
+            helper.setText("De: " + name + " (" + email + ")" + "<br><br>" + message, true);
+    
+            javaMailSender.send(msg);
+        } catch (Exception e) {
+            throw new EmailSendingException("Error sending contact email: " + e.getMessage());
+        }
+    }
 }
+
