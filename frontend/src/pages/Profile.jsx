@@ -8,7 +8,7 @@ import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import EventCard from "../components/EventCard"
 import { useTranslation } from "react-i18next"
-import { getUserById, updateUserProfile, uploadProfilePicture } from "../services/userService"
+import { getUserById, updateUserProfile, uploadProfilePicture, changeUserPassword, deleteAccount } from "../services/userService"
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore"
 
@@ -44,7 +44,7 @@ export default function Profile() {
         console.log(user);
         setUser(user);
       } catch (error) {
-        console.error("Error al obtener el usuario:", error);
+        showAlert("Error al obtener el usuario:", error);
       }
     };
 
@@ -165,28 +165,32 @@ export default function Profile() {
 
   }
 
-  const handleDeleteAccount = async () => {
-    const confirm = window.confirm("¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.");
-    if (!confirm) return;
-
+  const handleChangePassword = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/${userId}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      await changeUserPassword(userId, passwordData);
+      alert("Contraseña actualizada con éxito.");
+      setShowPasswordModal(false);
+      setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    } catch (error) {
+      alert("Error al cambiar la contraseña: " + error.message);
+    }
+  };
 
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Error al eliminar la cuenta");
+  const handleDeleteAccount = async () => {
+    try {
+      const result = await deleteAccount(userId);
+      if (result) {
+        alert("Cuenta eliminada con éxito.");
+        logout();         
+        navigate("/");    
       }
-
-      alert("Cuenta eliminada.");
-      logout();
-      navigate("/"); // o "/login"
     } catch (error) {
       alert("Error al eliminar la cuenta: " + error.message);
     }
   };
+
+
+
 
   const handleEdit = async () => {
     const updated = {
@@ -202,35 +206,7 @@ export default function Profile() {
     const updatedUser = await updateUserProfile(userId, updated)
     setUser(updatedUser)
   }
-  const handleChangePassword = async () => {
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert("Las contraseñas no coinciden.");
-      return;
-    }
 
-    try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/${userId}/password`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          currentPassword: passwordData.currentPassword,
-          newPassword: passwordData.newPassword,
-        }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Error al cambiar la contraseña");
-      }
-
-      alert("Contraseña actualizada con éxito.");
-      setShowPasswordModal(false);
-      setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
-    } catch (error) {
-      alert("Error: " + error.message);
-    }
-  };
 
 
 
@@ -592,7 +568,7 @@ export default function Profile() {
                             });
                             setUser(updatedUser);
                           } catch (error) {
-                            console.error("Error actualizando notificaciones:", error);
+                            throw new Error("Error actualizando notificaciones:", error);
                           }
                         }}
                       />

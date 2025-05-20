@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import com.evotickets.services.UserService;
+import com.evotickets.dtos.ChangePasswordDTO;
 import com.evotickets.dtos.UserUpdateDTO;
 import com.evotickets.entities.UserEntity;
 import com.evotickets.utils.QRGenerator;
@@ -82,17 +83,10 @@ public class UserController {
     @PutMapping("/{id}/password")
     public ResponseEntity<?> changePassword(
             @PathVariable Long id,
-            @RequestBody Map<String, String> passwordPayload) {
-
-        String currentPassword = passwordPayload.get("currentPassword");
-        String newPassword = passwordPayload.get("newPassword");
-
-        if (currentPassword == null || newPassword == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Faltan campos en la solicitud"));
-        }
+            @RequestBody ChangePasswordDTO dto) {
 
         try {
-            userService.changePassword(id, currentPassword, newPassword);
+            userService.changePassword(id, dto.getCurrentPassword(), dto.getNewPassword());
             return ResponseEntity.ok(Map.of("message", "Contraseña actualizada"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
