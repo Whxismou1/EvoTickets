@@ -11,6 +11,7 @@ import com.evotickets.dtos.UserUpdateDTO;
 import com.evotickets.entities.ArtistEntity;
 import com.evotickets.entities.UserEntity;
 import com.evotickets.exceptions.CustomException;
+import com.evotickets.exceptions.InvalidCredentialsException;
 import com.evotickets.exceptions.UserNotFoundException;
 import com.evotickets.repositories.UserRepository;
 import com.evotickets.utils.ImageUploader;
@@ -38,12 +39,6 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public UserEntity getUserByID(Long id) {
-        // var user = userRepo.findById(id);
-
-        // .
-        // .
-        // .
-
         return userRepo.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
     }
@@ -116,7 +111,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-            throw new RuntimeException("La contraseña actual es incorrecta");
+            throw new InvalidCredentialsException("La contraseña actual es incorrecta");
         }
 
         user.setPassword(passwordEncoder.encode(newPassword));

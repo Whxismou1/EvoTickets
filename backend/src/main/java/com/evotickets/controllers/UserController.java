@@ -83,14 +83,10 @@ public class UserController {
     @PutMapping("/{id}/password")
     public ResponseEntity<?> changePassword(
             @PathVariable Long id,
-            @RequestBody ChangePasswordDTO dto) {
+            @RequestBody @Valid ChangePasswordDTO dto) {
 
-        try {
-            userService.changePassword(id, dto.getCurrentPassword(), dto.getNewPassword());
-            return ResponseEntity.ok(Map.of("message", "Contraseña actualizada"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        userService.changePassword(id, dto.getCurrentPassword(), dto.getNewPassword());
+        return ResponseEntity.ok(Map.of("message", "Contraseña actualizada"));
     }
 
 }
