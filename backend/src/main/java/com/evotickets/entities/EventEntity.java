@@ -1,6 +1,7 @@
 package com.evotickets.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.evotickets.entities.enums.EventCategory;
@@ -84,4 +85,8 @@ public class EventEntity {
     @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     @JsonManagedReference(value = "event-relations")
     private List<EventRelationEntity> relatedEventRelations;
+
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<EventHighlightsEntity> highlights;
 }

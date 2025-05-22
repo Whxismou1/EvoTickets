@@ -37,13 +37,13 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
     if (artistSearchQuery.trim()) {
       setEventData({
         ...eventData,
-        artists: [...eventData.artists, { name: artistSearchQuery, role: "", day: "", time: "", isNew: true }],
+        artists: [...eventData.artists, { artisticName: artistSearchQuery, role: "", day: "", time: "", isNew: true }],
       })
       setArtistSearchQuery("")
     } else {
       setEventData({
         ...eventData,
-        artists: [...eventData.artists, { name: "", role: "", day: "", time: "", isNew: true }],
+        artists: [...eventData.artists, { artisticName: "", role: "", day: "", time: "", isNew: true }],
       })
     }
   }
@@ -101,7 +101,7 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
               <h4 className="text-sm font-medium text-[#5C3D8D] mb-2">Artistas encontrados:</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {mockArtists
-                  .filter((artist) => artist.name.toLowerCase().includes(artistSearchQuery.toLowerCase()))
+                  .filter((artist) => artist.artisticName.toLowerCase().includes(artistSearchQuery.toLowerCase()))
                   .slice(0, 4)
                   .map((artist, idx) => (
                     <button
@@ -114,7 +114,7 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
                         {artist.image ? (
                           <img
                             src={artist.image || "/placeholder.svg"}
-                            alt={artist.name}
+                            alt={artist.artisticName}
                             className="w-full h-full rounded-full object-cover"
                           />
                         ) : (
@@ -122,7 +122,7 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
                         )}
                       </div>
                       <div className="text-left">
-                        <div className="font-medium text-[#2E1A47]">{artist.name}</div>
+                        <div className="font-medium text-[#2E1A47]">{artist.artisticName}</div>
                         <div className="text-xs text-[#5C3D8D]">{artist.genre}</div>
                       </div>
                     </button>
@@ -159,14 +159,14 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
                       {artist.image ? (
                         <img
                           src={artist.image || "/placeholder.svg"}
-                          alt={artist.name}
+                          alt={artist.artisticName}
                           className="w-full h-full rounded-full object-cover"
                         />
                       ) : (
                         <Users className="w-6 h-6 text-[#5C3D8D]" />
                       )}
                     </div>
-                    <h3 className="font-medium text-[#2E1A47]">{artist.name}</h3>
+                    <h3 className="font-medium text-[#2E1A47]">{artist.artisticName}</h3>
                     {artist.isNew && (
                       <span className="bg-[#5C3D8D]/10 text-[#5C3D8D] text-xs px-2 py-1 rounded-full">
                         Nuevo artista

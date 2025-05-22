@@ -71,8 +71,8 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
           <FormField label="Título del evento" required>
             <input
               type="text"
-              name="title"
-              value={eventData.title || ""}
+              name="name"
+              value={eventData.name || ""}
               onChange={handleChange}
               className="w-full px-3 py-2 border border-[#A28CD4]/30 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5C3D8D]/50"
               placeholder="Ej. Festival de Música Urbana 2025"
@@ -134,8 +134,8 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
           <div className="space-y-2">
             <input
               type="datetime-local"
-              name="date"
-              value={eventData.date || ""}
+              name="startDate"
+              value={eventData.startDate || ""}
               onChange={handleChange}
               className="w-full px-3 py-2 border border-[#A28CD4]/30 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5C3D8D]/50"
               disabled={eventData.dateToBeConfirmed}
@@ -149,7 +149,7 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
                   setEventData({
                     ...eventData,
                     dateToBeConfirmed: e.target.checked,
-                    date: e.target.checked ? "" : eventData.date,
+                    date: e.target.checked ? "" : eventData.startDate,
                   })
                 }
                 className="mr-2"
@@ -202,8 +202,8 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
         <FormField label="Edad mínima" required={false}>
           <input
             type="number"
-            name="minimumAge"
-            value={eventData.minimumAge || ""}
+            name="minAge"
+            value={eventData.minAge || ""}
             onChange={handleChange}
             min="0"
             className="w-full px-3 py-2 border border-[#A28CD4]/30 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5C3D8D]/50"

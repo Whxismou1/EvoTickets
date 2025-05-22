@@ -4,8 +4,6 @@ package com.evotickets.dtos;
 
 import java.time.LocalDateTime;
 
-import org.springframework.cglib.core.Local;
-
 import com.evotickets.entities.ArtistEntity;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +21,11 @@ public class ArtistDTO {
     private String profileDescription;
     private String artistDescription;
     private LocalDateTime showsUpAt;
+    private String day;
+    private boolean isTrue;
+    private String role;
+    private String time;
+    
 
 
     public static ArtistDTO fromEntity(ArtistEntity artist, LocalDateTime showsUpAt) {

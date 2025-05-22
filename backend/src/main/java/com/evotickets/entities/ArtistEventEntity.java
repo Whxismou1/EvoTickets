@@ -35,4 +35,6 @@ public class ArtistEventEntity {
     
     @Column(name = "scenario_name", length = 50)
     private String scenarioName;
+
+    private String role;
 }
