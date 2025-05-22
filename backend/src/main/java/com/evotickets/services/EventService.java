@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.evotickets.dtos.ArtistDTO;
 import com.evotickets.dtos.EventDTO;
+import com.evotickets.dtos.FaqsDTO;
 import com.evotickets.dtos.UserDTO;
 import com.evotickets.entities.EventEntity;
 import com.evotickets.entities.LocationEntity;
@@ -127,15 +128,11 @@ public class EventService {
         .capacity(event.getCapacity())
         .website(event.getWebsite())
         .longDescription(event.getLongDescription())
-        .faqs(event.getFaqs())
+        .faqs(FaqsDTO.buildFaqsDTOList(event.getFaqs()))
         .artists(artistDTOs)
         .relatedEvents(relatedEventsDto)
         .organizer(event.getOrganizer() != null 
-            ? UserDTO.builder()
-                .id(event.getOrganizer().getId())
-                .firstName(event.getOrganizer().getFirstName())
-                .lastName(event.getOrganizer().getLastName())
-                .build() 
+            ? event.getOrganizer().getFirstName() + " " + event.getOrganizer().getLastName()
             : null)
         .build();
     }

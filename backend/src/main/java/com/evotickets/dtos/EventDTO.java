@@ -34,8 +34,6 @@ public class EventDTO {
 
     private int minAge;
 
-    private String website;
-
     private String longDescription;
     
     private List<ArtistDTO> artists;
