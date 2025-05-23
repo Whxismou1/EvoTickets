@@ -31,68 +31,108 @@ const EventManagerDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [filterStatus, setFilterStatus] = useState("all")
 
-  // Mock data
-  const stats = {
-    totalEvents: 24,
-    activeEvents: 8,
-    totalTicketsSold: 3567,
-    totalRevenue: 85430.75,
-  }
 
-  const events = [
-    {
-      id: 1,
-      name: "Festival de Verano",
-      date: "2023-06-15",
-      location: "Parque Central, Madrid",
-      status: "Activo",
-      ticketsSold: 1245,
-      capacity: 2000,
-      revenue: 24900,
-    },
-    {
-      id: 2,
-      name: "Concierto Rock en Vivo",
-      date: "2023-06-20",
-      location: "Palacio de Deportes, Barcelona",
-      status: "Pendiente",
-      ticketsSold: 876,
-      capacity: 1500,
-      revenue: 17520,
-    },
-    {
-      id: 3,
-      name: "Teatro: Romeo y Julieta",
-      date: "2023-06-25",
-      location: "Teatro Principal, Valencia",
-      status: "Activo",
-      ticketsSold: 450,
-      capacity: 500,
-      revenue: 13500,
-    },
-    {
-      id: 4,
-      name: "Exposición de Arte",
-      date: "2023-06-30",
-      location: "Galería Central, Sevilla",
-      status: "Finalizado",
-      ticketsSold: 320,
-      capacity: 400,
-      revenue: 6400,
-    },
-    {
-      id: 5,
-      name: "Conferencia Tech",
-      date: "2023-07-05",
-      location: "Centro de Convenciones, Bilbao",
-      status: "Activo",
-      ticketsSold: 678,
-      capacity: 800,
-      revenue: 23730,
-    },
-  ]
+  // // Mock data
+  // const stats = {
+  //   totalEvents: 24,
+  //   activeEvents: 8,
+  //   totalTicketsSold: 3567,
+  //   totalRevenue: 85430.75,
+  // }
 
+  // const events = [
+  //   {
+  //     id: 1,
+  //     name: "Festival de Verano",
+  //     date: "2023-06-15",
+  //     location: "Parque Central, Madrid",
+  //     status: "Activo",
+  //     ticketsSold: 1245,
+  //     capacity: 2000,
+  //     revenue: 24900,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Concierto Rock en Vivo",
+  //     date: "2023-06-20",
+  //     location: "Palacio de Deportes, Barcelona",
+  //     status: "Pendiente",
+  //     ticketsSold: 876,
+  //     capacity: 1500,
+  //     revenue: 17520,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Teatro: Romeo y Julieta",
+  //     date: "2023-06-25",
+  //     location: "Teatro Principal, Valencia",
+  //     status: "Activo",
+  //     ticketsSold: 450,
+  //     capacity: 500,
+  //     revenue: 13500,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Exposición de Arte",
+  //     date: "2023-06-30",
+  //     location: "Galería Central, Sevilla",
+  //     status: "Finalizado",
+  //     ticketsSold: 320,
+  //     capacity: 400,
+  //     revenue: 6400,
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Conferencia Tech",
+  //     date: "2023-07-05",
+  //     location: "Centro de Convenciones, Bilbao",
+  //     status: "Activo",
+  //     ticketsSold: 678,
+  //     capacity: 800,
+  //     revenue: 23730,
+  //   },
+  // ]
+
+  const [events, setEvents] = useState([])
+  const [stats, setStats] = useState({
+    totalEvents: 0,
+    activeEvents: 0,
+    totalTicketsSold: 0,
+    totalRevenue: 0,
+  })
+  
   const upcomingEvents = events.filter((event) => event.status === "Activo" || event.status === "Pendiente").slice(0, 3)
+  const user = { id: 1 }
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const userId = user?.id || 1
+        const response = await fetch(`/api/v1/events/organizer?organizerId=${userId}`)
+        if (!response.ok) throw new Error("Error al obtener eventos")
+        const data = await response.json()
+        setEvents(data)
+
+        const total = data.length
+        const activos = data.filter(e => e.status === "Activo").length
+        const tickets = data.reduce((sum, e) => sum + (e.ticketsSold || 0), 0)
+        const ingresos = data.reduce((sum, e) => sum + (e.revenue || 0), 0)
+
+        setStats({
+          totalEvents: total,
+          activeEvents: activos,
+          totalTicketsSold: tickets,
+          totalRevenue: ingresos,
+        })
+      } catch (error) {
+        showAlert({ type: "error", message: "No se pudieron cargar los eventos" })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchEvents()
+  }, [])
 
   useEffect(() => {
     // Simulate loading data
@@ -123,7 +163,7 @@ const EventManagerDashboard = () => {
 
   return (
     <>
-      <Nav isAuthenticated={true}/>
+      <Nav isAuthenticated={true} />
       <Alert type={alert.type} message={alert.message} isVisible={alert.isVisible} onClose={hideAlert} />
 
       <div className="min-h-screen bg-gray-50 mt-16">
@@ -141,9 +181,8 @@ const EventManagerDashboard = () => {
               <nav className="space-y-2">
                 <button
                   onClick={() => setActiveTab("overview")}
-                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${
-                    activeTab === "overview" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
-                  }`}
+                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${activeTab === "overview" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
+                    }`}
                 >
                   <BarChart3 className="h-5 w-5 mr-3" />
                   <span>Resumen</span>
@@ -151,9 +190,8 @@ const EventManagerDashboard = () => {
 
                 <button
                   onClick={() => setActiveTab("events")}
-                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${
-                    activeTab === "events" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
-                  }`}
+                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${activeTab === "events" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
+                    }`}
                 >
                   <Calendar className="h-5 w-5 mr-3" />
                   <span>Mis Eventos</span>
@@ -161,9 +199,8 @@ const EventManagerDashboard = () => {
 
                 <button
                   onClick={() => setActiveTab("tickets")}
-                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${
-                    activeTab === "tickets" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
-                  }`}
+                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${activeTab === "tickets" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
+                    }`}
                 >
                   <Ticket className="h-5 w-5 mr-3" />
                   <span>Entradas</span>
@@ -171,9 +208,8 @@ const EventManagerDashboard = () => {
 
                 <button
                   onClick={() => setActiveTab("attendees")}
-                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${
-                    activeTab === "attendees" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
-                  }`}
+                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${activeTab === "attendees" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
+                    }`}
                 >
                   <Users className="h-5 w-5 mr-3" />
                   <span>Asistentes</span>
@@ -181,9 +217,8 @@ const EventManagerDashboard = () => {
 
                 <button
                   onClick={() => setActiveTab("settings")}
-                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${
-                    activeTab === "settings" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
-                  }`}
+                  className={`w-full flex items-center p-3 rounded-lg text-left transition-colors ${activeTab === "settings" ? "bg-[#F3F0FA] text-[#5C3D8D]" : "text-gray-600 hover:bg-gray-100"
+                    }`}
                 >
                   <Settings className="h-5 w-5 mr-3" />
                   <span>Configuración</span>
@@ -353,13 +388,12 @@ const EventManagerDashboard = () => {
                                   </p>
                                   <div className="flex items-center mt-1">
                                     <span
-                                      className={`text-xs px-2 py-0.5 rounded-full ${
-                                        event.status === "Activo"
-                                          ? "bg-green-100 text-green-800"
-                                          : event.status === "Pendiente"
-                                            ? "bg-yellow-100 text-yellow-800"
-                                            : "bg-red-100 text-red-800"
-                                      }`}
+                                      className={`text-xs px-2 py-0.5 rounded-full ${event.status === "Activo"
+                                        ? "bg-green-100 text-green-800"
+                                        : event.status === "Pendiente"
+                                          ? "bg-yellow-100 text-yellow-800"
+                                          : "bg-red-100 text-red-800"
+                                        }`}
                                     >
                                       {event.status}
                                     </span>
@@ -493,13 +527,12 @@ const EventManagerDashboard = () => {
                                 </p>
                                 <div className="flex items-center mt-1">
                                   <span
-                                    className={`text-xs px-2 py-0.5 rounded-full ${
-                                      event.status === "Activo"
-                                        ? "bg-green-100 text-green-800"
-                                        : event.status === "Pendiente"
-                                          ? "bg-yellow-100 text-yellow-800"
-                                          : "bg-red-100 text-red-800"
-                                    }`}
+                                    className={`text-xs px-2 py-0.5 rounded-full ${event.status === "Activo"
+                                      ? "bg-green-100 text-green-800"
+                                      : event.status === "Pendiente"
+                                        ? "bg-yellow-100 text-yellow-800"
+                                        : "bg-red-100 text-red-800"
+                                      }`}
                                   >
                                     {event.status}
                                   </span>
