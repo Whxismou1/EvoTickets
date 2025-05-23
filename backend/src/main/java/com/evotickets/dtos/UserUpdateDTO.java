@@ -11,14 +11,18 @@ import lombok.Setter;
 @Setter
 public class UserUpdateDTO {
 
-    @NotBlank(message = "El nombre no puede estar vacío")
+    // @NotBlank(message = "El nombre no puede estar vacío")
     private String firstName;
 
-    @NotBlank(message = "El apellido no puede estar vacío")
+    // @NotBlank(message = "El apellido no puede estar vacío")
     private String lastName;
 
-    @Past(message = "La fecha de nacimiento debe ser en el pasado")
+    // @Past(message = "La fecha de nacimiento debe ser en el pasado")
     private LocalDate dateOfBirth;
 
     private Boolean notificationsEnabled;
+
+    private String phone;
+    private String location;
+    
 }

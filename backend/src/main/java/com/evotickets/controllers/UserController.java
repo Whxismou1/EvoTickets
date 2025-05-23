@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import com.evotickets.services.UserService;
+import com.evotickets.dtos.ChangePasswordDTO;
 import com.evotickets.dtos.UserUpdateDTO;
 import com.evotickets.entities.UserEntity;
 import com.evotickets.utils.QRGenerator;
@@ -14,12 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -32,6 +29,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
+
         return ResponseEntity.ok(userService.getUserByID(id));
     }
 
@@ -44,13 +42,12 @@ public class UserController {
         return ResponseEntity.ok(Map.of("imageURL", imageURL));
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
+    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id,
+            @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
         UserEntity updatedUser = userService.updateUserProfile(id, userUpdateDTO);
         return ResponseEntity.ok(updatedUser);
     }
-
 
     @PostMapping("/{id}/test-ticket-pdf")
     public ResponseEntity<?> generateTestTicket(@PathVariable Long id) {
@@ -59,24 +56,37 @@ public class UserController {
             String qrContent = "ticket-id:" + fakeTicketId;
             String qrPath = "temp/qr_" + fakeTicketId + ".png";
             String pdfPath = "temp/ticket_" + fakeTicketId + ".pdf";
-    
+
             // 1. Generar QR como imagen
             QRGenerator.generateQR(qrContent, qrPath);
-    
+
             // 2. Subir QR a Cloudinary
             File qrFile = new File(qrPath);
             String qrUrl = imageUploader.uploadImage(qrFile);
-    
+
             // 3. Generar HTML del ticket y convertir a PDF
             PDFGenerator.createTicketPDFWithHtmlTemplate(pdfPath, "Concierto de Prueba", "Usuario ID: " + id, qrUrl);
-    
+
             return ResponseEntity.ok(Map.of("qrUrl", qrUrl, "pdfPath", pdfPath));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-    
-    
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
+
+    }
+
+    @PutMapping("/{id}/password")
+    public ResponseEntity<?> changePassword(
+            @PathVariable Long id,
+            @RequestBody @Valid ChangePasswordDTO dto) {
+
+        userService.changePassword(id, dto.getCurrentPassword(), dto.getNewPassword());
+        return ResponseEntity.ok(Map.of("message", "Contraseña actualizada"));
+    }
+
 }
-
-
