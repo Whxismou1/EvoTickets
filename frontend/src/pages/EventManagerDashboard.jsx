@@ -22,9 +22,13 @@ import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import useAlert from "../hooks/useAlert"
 import Alert from "../components/Alert"
+import { getEventsByOrganizer } from "../services/eventService";
+import { useAuthStore } from "../store/authStore";
+import { useTranslation } from "react-i18next";
 
 const EventManagerDashboard = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation();
   const { alert, showAlert, hideAlert } = useAlert()
   const [activeTab, setActiveTab] = useState("overview")
   const [isLoading, setIsLoading] = useState(true)
@@ -100,58 +104,68 @@ const EventManagerDashboard = () => {
     totalTicketsSold: 0,
     totalRevenue: 0,
   })
+
   
-  const upcomingEvents = events.filter((event) => event.status === "Activo" || event.status === "Pendiente").slice(0, 3)
-  const user = { id: 1 }
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                /*const user = useAuthStore.getState().user;
+                const userId = user?.id;*/
+                const userId = 39;
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const userId = user?.id || 1
-        const response = await fetch(`/api/v1/events/organizer?organizerId=${userId}`)
-        if (!response.ok) throw new Error("Error al obtener eventos")
-        const data = await response.json()
-        setEvents(data)
+                if (!userId) {
+                    throw new Error("No se encontró el ID del organizador");
+                }
 
-        const total = data.length
-        const activos = data.filter(e => e.status === "Activo").length
-        const tickets = data.reduce((sum, e) => sum + (e.ticketsSold || 0), 0)
-        const ingresos = data.reduce((sum, e) => sum + (e.revenue || 0), 0)
+                const data = await getEventsByOrganizer(userId);
 
-        setStats({
-          totalEvents: total,
-          activeEvents: activos,
-          totalTicketsSold: tickets,
-          totalRevenue: ingresos,
-        })
-      } catch (error) {
-        showAlert({ type: "error", message: "No se pudieron cargar los eventos" })
-      } finally {
+                // Guardar eventos en estado
+                setEvents(data);
+                console.log(data);
+
+                // Calcular estadísticas
+                const total = data.length;
+                const activos = data.filter(e => e.status === "Activo").length;
+                const tickets = data.reduce((sum, e) => sum + (e.ticketsSold || 0), 0);
+                const ingresos = data.reduce((sum, e) => sum + (e.price || 0), 0);
+
+                setStats({
+                    totalEvents: total,
+                    activeEvents: activos,
+                    totalTicketsSold: tickets,
+                    totalRevenue: ingresos,
+                });
+            } catch (error) {
+                showAlert({ type: "error", message: "No se pudieron cargar los eventos" });
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchEvents();
+    }, [])
+
+    const upcomingEvents = events.filter((event) => event.status === "Confirmado" || event.status === "Pendiente").slice(0, 3)
+    
+
+    /*useEffect(() => {
+        // Simulate loading data
+        const timer = setTimeout(() => {
         setIsLoading(false)
-      }
+        }, 1000)
+
+        return () => clearTimeout(timer)
+    }, [])*/
+
+    const handleDeleteEvent = (id) => {
+        showAlert({
+        type: "info",
+        message: "Evento eliminado correctamente",
+        })
+        // Logic to delete would go here
     }
 
-    fetchEvents()
-  }, [])
-
-  useEffect(() => {
-    // Simulate loading data
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  const handleDeleteEvent = (id) => {
-    showAlert({
-      type: "info",
-      message: "Evento eliminado correctamente",
-    })
-    // Logic to delete would go here
-  }
-
-  const filteredEvents = events.filter((event) => {
+    const filteredEvents = events.filter((event) => {
     const matchesSearch =
       event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.location.toLowerCase().includes(searchQuery.toLowerCase())
@@ -159,7 +173,7 @@ const EventManagerDashboard = () => {
     const matchesFilter = filterStatus === "all" || event.status === filterStatus
 
     return matchesSearch && matchesFilter
-  })
+    })
 
   return (
     <>
@@ -176,7 +190,7 @@ const EventManagerDashboard = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-xl font-bold text-[#2E1A47] mb-6">Panel de Gestor</h2>
+              <h2 className="text-xl font-bold text-[#2E1A47] mb-6">{t("eventManagerDash.panel")}</h2>
 
               <nav className="space-y-2">
                 <button
@@ -185,7 +199,7 @@ const EventManagerDashboard = () => {
                     }`}
                 >
                   <BarChart3 className="h-5 w-5 mr-3" />
-                  <span>Resumen</span>
+                  <span>{t("eventManagerDash.summary")}</span>
                 </button>
 
                 <button
@@ -194,7 +208,7 @@ const EventManagerDashboard = () => {
                     }`}
                 >
                   <Calendar className="h-5 w-5 mr-3" />
-                  <span>Mis Eventos</span>
+                  <span>{t("eventManagerDash.myEvents")}</span>
                 </button>
 
                 <button
@@ -203,7 +217,7 @@ const EventManagerDashboard = () => {
                     }`}
                 >
                   <Ticket className="h-5 w-5 mr-3" />
-                  <span>Entradas</span>
+                  <span>{t("eventManagerDash.tickets")}</span>
                 </button>
 
                 <button
@@ -212,7 +226,7 @@ const EventManagerDashboard = () => {
                     }`}
                 >
                   <Users className="h-5 w-5 mr-3" />
-                  <span>Asistentes</span>
+                  <span>{t("eventManagerDash.attendees")}</span>
                 </button>
 
                 <button
@@ -221,7 +235,7 @@ const EventManagerDashboard = () => {
                     }`}
                 >
                   <Settings className="h-5 w-5 mr-3" />
-                  <span>Configuración</span>
+                  <span>{t("eventManagerDash.configuration")}</span>
                 </button>
               </nav>
 
@@ -231,7 +245,7 @@ const EventManagerDashboard = () => {
                   className="w-full flex items-center justify-center p-3 bg-[#5C3D8D] text-white rounded-lg hover:bg-[#2E1A47] transition-colors"
                 >
                   <Plus className="h-5 w-5 mr-2" />
-                  <span>Crear Evento</span>
+                  <span>{t("eventManagerDash.createEvent")}</span>
                 </button>
               </div>
             </motion.div>
@@ -249,7 +263,7 @@ const EventManagerDashboard = () => {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Buscar eventos..."
+                    placeholder={t("eventManagerDash.searchEvent")}
                     className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5C3D8D] focus:border-transparent"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -270,7 +284,7 @@ const EventManagerDashboard = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm text-gray-500">Total Eventos</p>
+                          <p className="text-sm text-gray-500">{t("eventManagerDash.statsCards.totalEvents")}</p>
                           <h3 className="text-2xl font-bold text-[#2E1A47]">{stats.totalEvents}</h3>
                         </div>
                         <div className="p-3 bg-[#F3F0FA] rounded-full">
@@ -287,7 +301,7 @@ const EventManagerDashboard = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm text-gray-500">Eventos Activos</p>
+                          <p className="text-sm text-gray-500">{t("eventManagerDash.statsCards.activatedEvents")}</p>
                           <h3 className="text-2xl font-bold text-[#2E1A47]">{stats.activeEvents}</h3>
                         </div>
                         <div className="p-3 bg-[#F3F0FA] rounded-full">
@@ -304,7 +318,7 @@ const EventManagerDashboard = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm text-gray-500">Entradas Vendidas</p>
+                          <p className="text-sm text-gray-500">{t("eventManagerDash.statsCards.sellTickets")}</p>
                           <h3 className="text-2xl font-bold text-[#2E1A47]">
                             {stats.totalTicketsSold.toLocaleString()}
                           </h3>
@@ -323,7 +337,7 @@ const EventManagerDashboard = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm text-gray-500">Ingresos Totales</p>
+                          <p className="text-sm text-gray-500">{t("eventManagerDash.statsCards.totalIncome")}</p>
                           <h3 className="text-2xl font-bold text-[#2E1A47]">
                             €
                             {stats.totalRevenue.toLocaleString(undefined, {
@@ -347,13 +361,13 @@ const EventManagerDashboard = () => {
                     transition={{ duration: 0.3, delay: 0.5 }}
                   >
                     <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-                      <h3 className="text-lg font-semibold text-[#2E1A47]">Próximos Eventos</h3>
+                      <h3 className="text-lg font-semibold text-[#2E1A47]">{t("eventManagerDash.upcomingEvents.nextEvents")}</h3>
                       <button
                         onClick={() => navigate('/eventCreation')}
                         className="text-sm text-[#5C3D8D] hover:text-[#2E1A47] flex items-center"
                       >
                         <Plus className="h-4 w-4 mr-1" />
-                        <span>Crear Evento</span>
+                        <span>{t("eventManagerDash.upcomingEvents.createEvent")}</span>
                       </button>
                     </div>
                     <div className="p-4">
@@ -384,7 +398,7 @@ const EventManagerDashboard = () => {
                                 <div className="ml-4">
                                   <h4 className="text-md font-medium text-[#2E1A47]">{event.name}</h4>
                                   <p className="text-sm text-gray-500">
-                                    {event.date} | {event.location}
+                                    {event.date} | {event.location.name}
                                   </p>
                                   <div className="flex items-center mt-1">
                                     <span
@@ -404,7 +418,7 @@ const EventManagerDashboard = () => {
                                 <div className="flex items-center mb-2">
                                   <Ticket className="h-4 w-4 text-gray-500 mr-1" />
                                   <span className="text-sm text-gray-700">
-                                    {event.ticketsSold} / {event.capacity} entradas
+                                    {event.ticketsSold} / {event.capacity} {t("eventManagerDash.upcomingEvents.tickets")}
                                   </span>
                                 </div>
                                 <div className="flex space-x-2">
@@ -426,7 +440,7 @@ const EventManagerDashboard = () => {
                           onClick={() => setActiveTab("events")}
                           className="text-sm text-[#5C3D8D] hover:text-[#2E1A47]"
                         >
-                          Ver todos los eventos
+                          {t("eventManagerDash.upcomingEvents.seeAllEvents")}
                         </button>
                       </div>
                     </div>
@@ -440,14 +454,14 @@ const EventManagerDashboard = () => {
                     transition={{ duration: 0.3, delay: 0.6 }}
                   >
                     <div className="p-4 border-b border-gray-100">
-                      <h3 className="text-lg font-semibold text-[#2E1A47]">Ventas Recientes</h3>
+                      <h3 className="text-lg font-semibold text-[#2E1A47]">{t("eventManagerDash.salesChart.recentSells")}</h3>
                     </div>
                     <div className="p-4">
                       <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
                         <div className="text-center">
                           <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-2" />
-                          <p className="text-gray-500">Gráfico de ventas</p>
-                          <p className="text-xs text-gray-400">Datos de los últimos 30 días</p>
+                          <p className="text-gray-500">{t("eventManagerDash.salesChart.graph")}</p>
+                          <p className="text-xs text-gray-400">{t("eventManagerDash.salesChart.lastDays")}</p>
                         </div>
                       </div>
                     </div>
@@ -463,12 +477,12 @@ const EventManagerDashboard = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-                    <h3 className="text-lg font-semibold text-[#2E1A47]">Mis Eventos</h3>
+                    <h3 className="text-lg font-semibold text-[#2E1A47]">{t("eventManagerDash.myEvents")}</h3>
                     <div className="flex items-center space-x-2">
                       <div className="relative">
                         <button className="flex items-center text-sm text-gray-600 hover:text-[#5C3D8D] p-2 border border-gray-200 rounded-lg">
                           <Filter className="h-4 w-4 mr-1" />
-                          <span>Filtrar</span>
+                          <span>{t("eventManagerDash.myEventsPage.filter")}</span>
                         </button>
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10 hidden">
                           <div className="p-2">
@@ -476,25 +490,25 @@ const EventManagerDashboard = () => {
                               onClick={() => setFilterStatus("all")}
                               className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded-lg"
                             >
-                              Todos
+                              {t("eventManagerDash.myEventsPage.all")}
                             </button>
                             <button
                               onClick={() => setFilterStatus("Activo")}
                               className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded-lg"
                             >
-                              Activos
+                              {t("eventManagerDash.myEventsPage.active")}
                             </button>
                             <button
                               onClick={() => setFilterStatus("Pendiente")}
                               className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded-lg"
                             >
-                              Pendientes
+                              {t("eventManagerDash.myEventsPage.pending")}
                             </button>
                             <button
                               onClick={() => setFilterStatus("Finalizado")}
                               className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded-lg"
                             >
-                              Finalizados
+                              {t("eventManagerDash.myEventsPage.completed")}
                             </button>
                           </div>
                         </div>
@@ -504,7 +518,7 @@ const EventManagerDashboard = () => {
                         className="flex items-center text-sm text-white bg-[#5C3D8D] hover:bg-[#2E1A47] p-2 rounded-lg"
                       >
                         <Plus className="h-4 w-4 mr-1" />
-                        <span>Crear</span>
+                        <span>{t("eventManagerDash.myEventsPage.create")}</span>
                       </button>
                     </div>
                   </div>
@@ -523,7 +537,7 @@ const EventManagerDashboard = () => {
                               <div className="ml-4">
                                 <h4 className="text-md font-medium text-[#2E1A47]">{event.name}</h4>
                                 <p className="text-sm text-gray-500">
-                                  {event.date} | {event.location}
+                                  {event.date} | {event.location.name}
                                 </p>
                                 <div className="flex items-center mt-1">
                                   <span
@@ -543,12 +557,12 @@ const EventManagerDashboard = () => {
                               <div className="flex items-center mb-2">
                                 <Ticket className="h-4 w-4 text-gray-500 mr-1" />
                                 <span className="text-sm text-gray-700">
-                                  {event.ticketsSold} / {event.capacity} entradas
+                                  {event.ticketsSold} / {event.capacity} {t("eventManagerDash.upcomingEvents.tickets")}
                                 </span>
                               </div>
                               <div className="flex items-center mb-2">
                                 <DollarSign className="h-4 w-4 text-gray-500 mr-1" />
-                                <span className="text-sm text-gray-700">€{event.revenue.toLocaleString()}</span>
+                                <span className="text-sm text-gray-700">€{event.price}</span>
                               </div>
                               <div className="flex space-x-2">
                                 <button className="p-2 text-[#5C3D8D] hover:bg-[#F3F0FA] rounded-lg transition-colors">
@@ -570,14 +584,14 @@ const EventManagerDashboard = () => {
                       ) : (
                         <div className="text-center py-8">
                           <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                          <h3 className="text-lg font-medium text-[#2E1A47] mb-1">No hay eventos</h3>
-                          <p className="text-gray-500 mb-4">No se encontraron eventos con los filtros actuales.</p>
+                          <h3 className="text-lg font-medium text-[#2E1A47] mb-1">{t("eventManagerDash.myEventsPage.noEvents")}</h3>
+                          <p className="text-gray-500 mb-4">{t("eventManagerDash.myEventsPage.noFindEvents")}</p>
                           <button
                             onClick={() => navigate('/eventCreation')}
                             className="inline-flex items-center px-4 py-2 bg-[#5C3D8D] text-white rounded-lg hover:bg-[#2E1A47] transition-colors"
                           >
                             <Plus className="h-4 w-4 mr-2" />
-                            <span>Crear Evento</span>
+                            <span>{t("eventManagerDash.myEventsPage.createEvent")}</span>
                           </button>
                         </div>
                       )}
@@ -594,19 +608,19 @@ const EventManagerDashboard = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="p-4 border-b border-gray-100">
-                    <h3 className="text-lg font-semibold text-[#2E1A47]">Gestión de Entradas</h3>
+                    <h3 className="text-lg font-semibold text-[#2E1A47]">{t("eventManagerDash.myEventsPage.filter")}</h3>
                   </div>
                   <div className="p-4">
                     <div className="text-center py-8">
                       <Ticket className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-[#2E1A47] mb-1">Gestión de Entradas</h3>
-                      <p className="text-gray-500 mb-4">Selecciona un evento para gestionar sus entradas.</p>
+                      <h3 className="text-lg font-medium text-[#2E1A47] mb-1">{t("eventManagerDash.ticketManagement.title")}</h3>
+                      <p className="text-gray-500 mb-4">{t("eventManagerDash.ticketManagement.selectEvent")}</p>
                       <button
                         onClick={() => setActiveTab("events")}
                         className="inline-flex items-center px-4 py-2 bg-[#5C3D8D] text-white rounded-lg hover:bg-[#2E1A47] transition-colors"
                       >
                         <Calendar className="h-4 w-4 mr-2" />
-                        <span>Ver Eventos</span>
+                        <span>{t("eventManagerDash.ticketManagement.seeEvent")}</span>
                       </button>
                     </div>
                   </div>
@@ -621,19 +635,19 @@ const EventManagerDashboard = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="p-4 border-b border-gray-100">
-                    <h3 className="text-lg font-semibold text-[#2E1A47]">Gestión de Asistentes</h3>
+                    <h3 className="text-lg font-semibold text-[#2E1A47]">{t("eventManagerDash.attendeesPage.title")}</h3>
                   </div>
                   <div className="p-4">
                     <div className="text-center py-8">
                       <Users className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                      <h3 className="text-lg font-medium text-[#2E1A47] mb-1">Gestión de Asistentes</h3>
-                      <p className="text-gray-500 mb-4">Selecciona un evento para gestionar sus asistentes.</p>
+                      <h3 className="text-lg font-medium text-[#2E1A47] mb-1">{t("eventManagerDash.attendeesPage.title")}</h3>
+                      <p className="text-gray-500 mb-4">{t("eventManagerDash.attendeesPage.selectEvent")}</p>
                       <button
                         onClick={() => setActiveTab("events")}
                         className="inline-flex items-center px-4 py-2 bg-[#5C3D8D] text-white rounded-lg hover:bg-[#2E1A47] transition-colors"
                       >
                         <Calendar className="h-4 w-4 mr-2" />
-                        <span>Ver Eventos</span>
+                        <span>{t("eventManagerDash.attendeesPage.seeEvent")}</span>
                       </button>
                     </div>
                   </div>
@@ -648,16 +662,16 @@ const EventManagerDashboard = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="p-4 border-b border-gray-100">
-                    <h3 className="text-lg font-semibold text-[#2E1A47]">Configuración de Cuenta</h3>
+                    <h3 className="text-lg font-semibold text-[#2E1A47]">{t("eventManagerDash.settingsPage.title")}</h3>
                   </div>
                   <div className="p-6">
                     <div className="space-y-6">
                       <div>
-                        <h4 className="text-md font-medium text-[#2E1A47] mb-4">Información de la Organización</h4>
+                        <h4 className="text-md font-medium text-[#2E1A47] mb-4">{t("eventManagerDash.settingsPage.infoOrganization.title")}</h4>
                         <div className="space-y-4">
                           <div>
                             <label htmlFor="org-name" className="block text-sm font-medium text-gray-700 mb-1">
-                              Nombre de la Organización
+                              {t("eventManagerDash.settingsPage.infoOrganization.name")}
                             </label>
                             <input
                               type="text"
@@ -669,7 +683,7 @@ const EventManagerDashboard = () => {
 
                           <div>
                             <label htmlFor="org-email" className="block text-sm font-medium text-gray-700 mb-1">
-                              Email de Contacto
+                              {t("eventManagerDash.settingsPage.infoOrganization.email")}
                             </label>
                             <input
                               type="email"
@@ -681,7 +695,7 @@ const EventManagerDashboard = () => {
 
                           <div>
                             <label htmlFor="org-phone" className="block text-sm font-medium text-gray-700 mb-1">
-                              Teléfono
+                              {t("eventManagerDash.settingsPage.infoOrganization.phone")}
                             </label>
                             <input
                               type="tel"
@@ -693,7 +707,7 @@ const EventManagerDashboard = () => {
 
                           <div>
                             <label htmlFor="org-website" className="block text-sm font-medium text-gray-700 mb-1">
-                              Sitio Web
+                              {t("eventManagerDash.settingsPage.infoOrganization.web")}
                             </label>
                             <input
                               type="url"
@@ -706,12 +720,12 @@ const EventManagerDashboard = () => {
                       </div>
 
                       <div className="pt-4 border-t border-gray-200">
-                        <h4 className="text-md font-medium text-[#2E1A47] mb-4">Preferencias de Notificación</h4>
+                        <h4 className="text-md font-medium text-[#2E1A47] mb-4">{t("eventManagerDash.settingsPage.notificationPreference.title")}</h4>
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="text-sm text-gray-700">Notificaciones por email</p>
-                              <p className="text-xs text-gray-500">Recibir notificaciones por email</p>
+                              <p className="text-sm text-gray-700">{t("eventManagerDash.settingsPage.notificationPreference.email")}</p>
+                              <p className="text-xs text-gray-500">{t("eventManagerDash.settingsPage.notificationPreference.receiveEmail")}</p>
                             </div>
                             <div className="relative inline-block w-12 h-6 rounded-full bg-[#5C3D8D]">
                               <input type="checkbox" id="email-notifications" className="sr-only" checked readOnly />
@@ -721,8 +735,8 @@ const EventManagerDashboard = () => {
 
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="text-sm text-gray-700">Notificaciones de ventas</p>
-                              <p className="text-xs text-gray-500">Recibir alertas de nuevas ventas</p>
+                              <p className="text-sm text-gray-700">{t("eventManagerDash.settingsPage.notificationPreference.sells")}</p>
+                              <p className="text-xs text-gray-500">{t("eventManagerDash.settingsPage.notificationPreference.receiveNewAlert")}</p>
                             </div>
                             <div className="relative inline-block w-12 h-6 rounded-full bg-[#5C3D8D]">
                               <input type="checkbox" id="sales-notifications" className="sr-only" checked readOnly />
@@ -732,8 +746,8 @@ const EventManagerDashboard = () => {
 
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="text-sm text-gray-700">Resumen semanal</p>
-                              <p className="text-xs text-gray-500">Recibir resumen semanal de actividad</p>
+                              <p className="text-sm text-gray-700">{t("eventManagerDash.settingsPage.notificationPreference.summary")}</p>
+                              <p className="text-xs text-gray-500">{t("eventManagerDash.settingsPage.notificationPreference.receiveSummary")}</p>
                             </div>
                             <div className="relative inline-block w-12 h-6 rounded-full bg-gray-200">
                               <input type="checkbox" id="weekly-summary" className="sr-only" />
@@ -747,10 +761,10 @@ const EventManagerDashboard = () => {
                         <button
                           className="px-4 py-2 bg-[#5C3D8D] text-white rounded-lg hover:bg-[#2E1A47] transition-colors"
                           onClick={() =>
-                            showAlert({ type: "success", message: "Configuración guardada correctamente" })
+                            showAlert({ type: "success", message: t("eventManagerDash.settingsPage.confirmation")})
                           }
                         >
-                          Guardar Cambios
+                          {t("eventManagerDash.settingsPage.saveChanges")}
                         </button>
                       </div>
                     </div>

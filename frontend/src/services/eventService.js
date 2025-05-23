@@ -56,3 +56,13 @@ export const deleteEvent = async (id) => {
   if (!res.ok) throw new Error(await res.text());
   return await res.text();
 };
+
+export const getEventsByOrganizer = async (organizerId) => {
+  const res = await fetch(`${BASE_URL}/organizer?organizerId=${organizerId}`, {
+   
+  });
+  console.log(res)
+  if (!res.ok) throw new Error(await res.text());
+  return await res.json();
+};
+

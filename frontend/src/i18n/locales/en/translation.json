@@ -549,5 +549,74 @@
         "description": "Security and trust are fundamental to everything we do, from ticket purchases to data protection."
       }
     }
+  },
+  "eventManagerDash":{
+    "panel": "Manager Dashboard",
+    "summary": "Summary",
+    "myEvents": "My Events",
+    "tickets": "Tickets",
+    "attendees": "Attendees",
+    "configuration": "Configuration",
+    "createEvent": "Create Event",
+    "searchEvent": "Search events...",
+    "statsCards":{
+      "totalEvents": "Total Events",
+      "activatedEvents": "Active Events",
+      "sellTickets": "Tickets Sold",
+      "totalIncome": "Total Revenue"
+    },
+    "upcomingEvents":{
+      "nextEvents": "Upcoming Events",
+      "tickets": "tickets",
+      "seeAllEvents": "See all events",
+      "createEvent": "Create Event"
+    },
+    "salesChart":{
+      "recentSells": "Recent Sales",
+      "graph": "Sales Graph",
+      "lastDays": "Data from the last 30 days"
+    },
+    "myEventsPage":{
+      "filter": "Filter",
+      "all": "All",
+      "active": "Active",
+      "pending": "Pending",
+      "completed": "Completed",
+      "create": "Create",
+      "noEvents": "No events",
+      "noFindEvents": "No events were found with the current filters.",
+      "createEvent": "Create Event"
+    },
+    "ticketManagement":{
+      "title": "Ticket Management",
+      "selectEvent": "Select an event to manage its tickets.",
+      "seeEvent": "View Events"
+    },
+    "attendeesPage":{
+      "title": "Attendee Management",
+      "selectEvent": "Select an event to manage its attendees.",
+      "seeEvent": "View Events"
+    },
+    "settingsPage":{
+      "title": "Account Settings",
+      "infoOrganization": {
+        "title": "Organization Information",
+        "name": "Organization Name",
+        "email": "Contact Email",
+        "phone": "Phone",
+        "web": "Website"
+      },
+      "notificationPreference":{
+        "title": "Notification Preferences",
+        "email": "Email Notifications",
+        "receiveEmail": "Receive email notifications",
+        "sells": "Sales Notifications",
+        "receiveNewAlert": "Receive new sales alerts",
+        "summary": "Weekly Summary",
+        "receiveSummary": "Receive Weekly Activity Summary"
+      },
+      "confirmation": "Settings saved successfully",
+      "saveChanges": "Save Changes"
+    }
   }
 }

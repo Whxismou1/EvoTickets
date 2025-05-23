@@ -548,5 +548,74 @@
         "description": "La seguridad y confianza son fundamentales en todo lo que hacemos, desde la compra de entradas hasta la protección de datos."
       }
     }
+  },
+  "eventManagerDash":{
+    "panel": "Panel de Gestor",
+    "summary": "Resumen",
+    "myEvents": "Mis Eventos",
+    "tickets": "Entradas",
+    "attendees": "Asistentes",
+    "configuration": "Configuración",
+    "createEvent": "Crear Evento",
+    "searchEvent": "Buscar eventos...",
+    "statsCards":{
+      "totalEvents": "Total Eventos",
+      "activatedEvents": "Eventos Activos",
+      "sellTickets": "Entradas Vendidas",
+      "totalIncome": "Ingresos Totales"
+    },
+    "upcomingEvents":{
+      "nextEvents": "Próximos Eventos",
+      "tickets": "entradas",
+      "seeAllEvents": "Ver todos los eventos",
+      "createEvent": "Crear Evento"
+    },
+    "salesChart":{
+      "recentSells":"Ventas Recientes",
+      "graph": "Gráfico de Ventas",
+      "lastDays": "Datos de los últimos 30 días"
+    },
+    "myEventsPage":{
+      "filter": "Filtrar",
+      "all": "Todos",
+      "active": "Activos",
+      "pending": "Pendientes",
+      "completed": "Finalizados",
+      "create": "Crear",
+      "noEvents": "No hay eventos",
+      "noFindEvents": "No se encontraron eventos con los filtros actuales.",
+      "createEvent": "Crear Evento"
+    },
+    "ticketManagement":{
+      "title": "Gestión de Entradas",
+      "selectEvent": "Selecciona un evento para gestionar sus entradas.",
+      "seeEvent": "Ver Eventos"
+    },
+    "attendeesPage":{
+      "title": "Gestión de Asistentes",
+      "selectEvent": "Selecciona un evento para gestionar sus asistentes.",
+      "seeEvent": "Ver Eventos"
+    },
+    "settingsPage":{
+      "title": "Configuración de Cuenta",
+      "infoOrganization": {
+        "title": "Información de la Organización",
+        "name": "Nombre de la Organización",
+        "email": "Email de Contacto",
+        "phone": "Teléfono",
+        "web": "Sitio Web"
+      },
+      "notificationPreference":{
+        "title": "Preferencias de Notificación",
+        "email": "Notificaciones por email",
+        "receiveEmail": "Recibir notificaciones por email",
+        "sells": "Notificaciones de ventas",
+        "receiveNewAlert": "Recibir alertas de nuevas ventas",
+        "summary": "Resumen semanal",
+        "receiveSummary": "Recibir resumen semanal de actividad"
+      },
+      "confirmation": "Configuración guardada correctamente",
+      "saveChanges": "Guardar Cambios"
+    }
   }
 }

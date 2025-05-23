@@ -1,5 +1,6 @@
 package com.evotickets.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +72,9 @@ public class EventController {
     }
 
     @GetMapping("/organizer")
-    public ResponseEntity<?> getAllInfo(@RequestParam Long organizedId) {
-        List<EventDTO> events = eventService.getAllInfo(organizedId);
+    public ResponseEntity<?> getAllInfo(@RequestParam Long organizerId) {
+        System.out.println(organizerId);
+        List<EventDTO> events = eventService.getAllInfo(organizerId);
         return ResponseEntity.ok().body(events);
     }
 }
