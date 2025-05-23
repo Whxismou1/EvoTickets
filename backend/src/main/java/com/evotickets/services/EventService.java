@@ -139,4 +139,14 @@ public class EventService {
             : null)
         .build();
     }
+
+    public List<EventDTO> getAllInfo(Long organizedId) {
+    List<EventEntity> events = eventRepository.findByOrganizerId(organizedId);
+    if (events.isEmpty()) {
+        throw new NoSuchEventException("No se encontraron eventos para el gestor con ID " + organizedId);
+    }
+    return events.stream()
+                 .map(this::convertToDto)
+                 .collect(Collectors.toList());
+}
 }

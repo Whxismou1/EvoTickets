@@ -27,6 +27,7 @@ import ContactPage from "./pages/ContactPage";
 import HelpCenterPage from "./pages/HelpCenterPage";
 
 import ArtistDashboard from "./pages/ArtistDashboard";
+import EventManagerDashboard from "./pages/EventManagerDashboard";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route path="/HelpCenterPage" element={<HelpCenterPage />} />
         <Route path ="/artistpage" element={<ArtistPage/>}/>
         <Route path="/artistDashboard" element={<ArtistDashboard />} />
+        <Route path="/eventManagerDashboard" element={<EventManagerDashboard />} />
 
         <Route
           path="/verifyAccount"
@@ -77,6 +79,7 @@ function App() {
           element={<RoleProtectedRoute allowedRoles={["EVENT_MANAGER"]} />}
         >
           <Route path="/eventManager" element={<EventManagerPage />} />
+          
         </Route>
 
         <Route path="*" element={<NotFound />} />

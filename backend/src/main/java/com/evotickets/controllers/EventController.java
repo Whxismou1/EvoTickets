@@ -69,4 +69,10 @@ public class EventController {
         eventService.deleteEvent(id);
         return ResponseEntity.ok().body("Evento eliminado correctamente"); 
     }
+
+    @GetMapping("/organizer")
+    public ResponseEntity<?> getAllInfo(@RequestParam Long organizedId) {
+        List<EventDTO> events = eventService.getAllInfo(organizedId);
+        return ResponseEntity.ok().body(events);
+    }
 }
