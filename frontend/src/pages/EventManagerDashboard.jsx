@@ -105,67 +105,67 @@ const EventManagerDashboard = () => {
     totalRevenue: 0,
   })
 
-  
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                /*const user = useAuthStore.getState().user;
-                const userId = user?.id;*/
-                const userId = 39;
 
-                if (!userId) {
-                    throw new Error("No se encontró el ID del organizador");
-                }
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        /*const user = useAuthStore.getState().user;
+        const userId = user?.id;*/
+        const userId = 39;
 
-                const data = await getEventsByOrganizer(userId);
+        if (!userId) {
+          throw new Error("No se encontró el ID del organizador");
+        }
 
-                // Guardar eventos en estado
-                setEvents(data);
-                console.log(data);
+        const data = await getEventsByOrganizer(userId);
 
-                // Calcular estadísticas
-                const total = data.length;
-                const activos = data.filter(e => e.status === "Activo").length;
-                const tickets = data.reduce((sum, e) => sum + (e.ticketsSold || 0), 0);
-                const ingresos = data.reduce((sum, e) => sum + (e.price || 0), 0);
+        // Guardar eventos en estado
+        setEvents(data);
+        console.log(data);
 
-                setStats({
-                    totalEvents: total,
-                    activeEvents: activos,
-                    totalTicketsSold: tickets,
-                    totalRevenue: ingresos,
-                });
-            } catch (error) {
-                showAlert({ type: "error", message: "No se pudieron cargar los eventos" });
-            } finally {
-                setIsLoading(false);
-            }
-        };
+        // Calcular estadísticas
+        const total = data.length;
+        const activos = data.filter(e => e.status === "Activo").length;
+        const tickets = data.reduce((sum, e) => sum + (e.ticketsSold || 0), 0);
+        const ingresos = data.reduce((sum, e) => sum + (e.price || 0), 0);
 
-        fetchEvents();
-    }, [])
+        setStats({
+          totalEvents: total,
+          activeEvents: activos,
+          totalTicketsSold: tickets,
+          totalRevenue: ingresos,
+        });
+      } catch (error) {
+        showAlert({ type: "error", message: "No se pudieron cargar los eventos" });
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    const upcomingEvents = events.filter((event) => event.status === "Confirmado" || event.status === "Pendiente").slice(0, 3)
-    
+    fetchEvents();
+  }, [])
 
-    /*useEffect(() => {
-        // Simulate loading data
-        const timer = setTimeout(() => {
-        setIsLoading(false)
-        }, 1000)
+  const upcomingEvents = events.filter((event) => event.status === "Confirmado" || event.status === "Pendiente").slice(0, 3)
 
-        return () => clearTimeout(timer)
-    }, [])*/
 
-    const handleDeleteEvent = (id) => {
-        showAlert({
-        type: "info",
-        message: "Evento eliminado correctamente",
-        })
-        // Logic to delete would go here
-    }
+  /*useEffect(() => {
+      // Simulate loading data
+      const timer = setTimeout(() => {
+      setIsLoading(false)
+      }, 1000)
 
-    const filteredEvents = events.filter((event) => {
+      return () => clearTimeout(timer)
+  }, [])*/
+
+  const handleDeleteEvent = (id) => {
+    showAlert({
+      type: "info",
+      message: "Evento eliminado correctamente",
+    })
+    // Logic to delete would go here
+  }
+
+  const filteredEvents = events.filter((event) => {
     const matchesSearch =
       event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.location.toLowerCase().includes(searchQuery.toLowerCase())
@@ -173,7 +173,7 @@ const EventManagerDashboard = () => {
     const matchesFilter = filterStatus === "all" || event.status === filterStatus
 
     return matchesSearch && matchesFilter
-    })
+  })
 
   return (
     <>
@@ -395,10 +395,10 @@ const EventManagerDashboard = () => {
                                 <div className="w-16 h-16 rounded-lg bg-[#F3F0FA] flex items-center justify-center text-[#5C3D8D]">
                                   <Calendar className="h-8 w-8" />
                                 </div>
-                                <div className="ml-4">
+                                <div className="ml-4 text-sm text-gray-700 space-y-1">
                                   <h4 className="text-md font-medium text-[#2E1A47]">{event.name}</h4>
                                   <p className="text-sm text-gray-500">
-                                    {event.date} | {event.location.name}
+                                    {event.startDate} – {event.endDate} | {event.location?.name}
                                   </p>
                                   <div className="flex items-center mt-1">
                                     <span
@@ -412,8 +412,16 @@ const EventManagerDashboard = () => {
                                       {event.status}
                                     </span>
                                   </div>
+                                  <p><strong>Categoría:</strong> {event.category}</p>
+                                  <p><strong>Capacidad:</strong> {event.capacity}</p>
+                                  <p><strong>Edad mínima:</strong> {event.minAge}</p>
+                                  <p><strong>Organizador:</strong> {event.organizer?.name}</p>
+                                  <p><strong>Sitio web:</strong> <a href={event.website} target="_blank" rel="noreferrer" className="text-blue-600 underline">{event.website}</a></p>
+                                  <p><strong>Descripción corta:</strong> {event.description}</p>
+                                  <p><strong>Descripción larga:</strong> {event.longDescription}</p>
                                 </div>
                               </div>
+
                               <div className="flex flex-col md:items-end">
                                 <div className="flex items-center mb-2">
                                   <Ticket className="h-4 w-4 text-gray-500 mr-1" />
@@ -431,6 +439,7 @@ const EventManagerDashboard = () => {
                                 </div>
                               </div>
                             </div>
+
                           ))
                         )}
                       </div>
@@ -761,7 +770,7 @@ const EventManagerDashboard = () => {
                         <button
                           className="px-4 py-2 bg-[#5C3D8D] text-white rounded-lg hover:bg-[#2E1A47] transition-colors"
                           onClick={() =>
-                            showAlert({ type: "success", message: t("eventManagerDash.settingsPage.confirmation")})
+                            showAlert({ type: "success", message: t("eventManagerDash.settingsPage.confirmation") })
                           }
                         >
                           {t("eventManagerDash.settingsPage.saveChanges")}
@@ -773,8 +782,8 @@ const EventManagerDashboard = () => {
               )}
             </motion.div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
 
       <Footer />
     </>
