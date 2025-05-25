@@ -28,7 +28,7 @@ import HelpCenterPage from "./pages/HelpCenterPage";
 
 import ArtistDashboard from "./pages/ArtistDashboard";
 import EventManagerDashboard from "./pages/EventManagerDashboard";
-
+import RegisterManagerPage from "./pages/RegisterManagerPage";
 function App() {
   return (
     <>
@@ -52,6 +52,8 @@ function App() {
         <Route path ="/artistpage" element={<ArtistPage/>}/>
         <Route path="/artistDashboard" element={<ArtistDashboard />} />
         <Route path="/eventManagerDashboard" element={<EventManagerDashboard />} />
+        <Route path="/register-manager" element={<RegisterManagerPage />} />
+
 
         <Route
           path="/verifyAccount"
