@@ -110,9 +110,8 @@ const EventManagerDashboard = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        /*const user = useAuthStore.getState().user;
-        const userId = user?.id;*/
-        const userId = 39;
+        const user = useAuthStore.getState().user;
+        const userId = user?.id;
 
         if (!userId) {
           throw new Error("No se encontró el ID del organizador");

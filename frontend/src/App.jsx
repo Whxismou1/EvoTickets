@@ -52,7 +52,6 @@ function App() {
         <Route path="/artistpage" element={<ArtistPage />} />
         <Route path="/artistDashboard" element={<ArtistDashboard />} />
         <Route path="/register-manager" element={<RegisterManagerPage />} />
-        <Route path="/eventManagerDashboard" element={<EventManagerDashboard />} />
 
 
         <Route
@@ -81,7 +80,7 @@ function App() {
           element={<RoleProtectedRoute allowedRoles={["EVENT_MANAGER"]} />}
         >
           <Route path="/eventManager" element={<EventManagerPage />} />
-          
+          <Route path="/eventManagerDashboard" element={<EventManagerDashboard />} />
 
         </Route>
 
