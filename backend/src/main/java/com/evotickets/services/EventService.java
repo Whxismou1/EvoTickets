@@ -2,19 +2,34 @@ package com.evotickets.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import com.evotickets.dtos.EventPhotosDTO;
 
 import org.springframework.stereotype.Service;
 
 import com.evotickets.dtos.ArtistDTO;
 import com.evotickets.dtos.EventDTO;
-import com.evotickets.dtos.UserDTO;
+import com.evotickets.dtos.FaqsDTO;
+import com.evotickets.entities.ArtistEntity;
+import com.evotickets.entities.ArtistEventEntity;
 import com.evotickets.entities.EventEntity;
+import com.evotickets.entities.EventHighlightsEntity;
+import com.evotickets.entities.EventPhotosEntity;
+import com.evotickets.entities.FaqsEntity;
 import com.evotickets.entities.LocationEntity;
+import com.evotickets.entities.ids.ArtistEventId;
 import com.evotickets.exceptions.InvalidInputException;
 import com.evotickets.exceptions.NoSuchEventException;
 import com.evotickets.repositories.ArtistEventRepository;
+import com.evotickets.repositories.ArtistsRepository;
+import com.evotickets.repositories.EventHighlightsRepository;
+import com.evotickets.repositories.EventPhotosRepository;
 import com.evotickets.repositories.EventRepository;
+import com.evotickets.repositories.FaqsRepository;
+import com.evotickets.repositories.LocationRepository;
+import com.evotickets.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,10 +37,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EventService {
     
-    
+    public final EventHighlightsRepository eventHighlightsRepository;
+
+    public final EventPhotosRepository eventPhotosRepository;
+
     public final EventRepository eventRepository;
+
+    public final LocationRepository locationRepository;
+
+    public final UserRepository userRepository;
+
+    public final FaqsRepository faqsRepository;
     
     public final ArtistEventRepository artistEventRepository;
+
+    public final ArtistsRepository artistRepository;
     
 
     public List<EventDTO> getAllServices(){
@@ -60,15 +86,118 @@ public class EventService {
 
     public EventEntity createEvent(EventDTO event){
         if(eventRepository.findByName(event.getName()) != null) throw new InvalidInputException("Ya existe un evento con el nombre " + event.getName());
-        EventEntity eventEntity = EventEntity.builder()
-        .location(event.getLocation())
-        .name(event.getName())
-        .startDate(event.getStartDate())
-        .endDate(event.getEndDate())
-        .description(event.getDescription())
-        .build();
-        return eventRepository.saveAndFlush(eventEntity);
+        if(event.getLocationName() == null) throw new InvalidInputException("La ubicación del evento no puede ser nula");
+        LocationEntity location = locationRepository.findByName(event.getLocationName());
+        if(location == null){
+            location = LocationEntity.builder()
+                .name(event.getLocationName())
+                .latitude(0.0)
+                .longitude(0.0)
+                .build();
+            location = locationRepository.saveAndFlush(location);
+        }
         
+
+        List<EventPhotosEntity> photos = event.getPhotos() != null
+            ? event.getPhotos().stream()
+                .map(photo -> EventPhotosEntity.builder()
+                    .url(photo.getUrl())
+                    .event(null)
+                    .build())
+                .collect(Collectors.toList())
+            : new ArrayList<>();
+        
+        List<FaqsEntity> faqs = event.getFaqs() != null
+            ? event.getFaqs().stream()
+                .map(faq -> FaqsEntity.builder()
+                    .question(faq.getQuestion())
+                    .answer(faq.getAnswer())
+                    .event(null) 
+                    .build())
+                .collect(Collectors.toList())
+            : new ArrayList<>();
+
+        List<EventHighlightsEntity> highlights = event.getHighlights() != null
+            ? event.getHighlights().stream()
+                .map(highlight -> EventHighlightsEntity.builder()
+                    .highlight(highlight.getHighlight())
+                    .event(null)
+                    .build())
+                .collect(Collectors.toList())
+            : new ArrayList<>();
+        
+
+        EventEntity eventEntity = EventEntity.builder()
+            .description(event.getDescription())
+            .endDate(event.getEndDate())
+            .startDate(event.getStartDate())
+            .name(event.getName())
+            .location(location)
+            .coverImage(event.getCoverImage())
+            .category(event.getCategory())
+            .organizer(userRepository.findById((long) 41).get()) //TODO: coger la id del token del usuario logueado
+            .capacity(event.getCapacity())
+            .minAge(event.getMinAge())
+            .website(event.getWebsite())
+            .longDescription(event.getLongDescription())
+            .build();
+
+        eventEntity = eventRepository.saveAndFlush(eventEntity);
+        for (EventPhotosEntity photo : photos) {
+            photo.setEvent(eventEntity);
+        }
+        if(!photos.isEmpty()){
+            eventPhotosRepository.saveAll(photos);
+            eventEntity.setPhotos(photos);
+        }
+        for (FaqsEntity faq : faqs) {
+            faq.setEvent(eventEntity);
+        }
+        if(!faqs.isEmpty()){
+            faqsRepository.saveAll(faqs);
+            eventEntity.setFaqs(faqs);
+        }
+
+        for (EventHighlightsEntity highlight : highlights) {
+            highlight.setEvent(eventEntity);
+        }
+
+        if(!highlights.isEmpty()){
+            eventHighlightsRepository.saveAll(highlights);
+            eventEntity.setHighlights(highlights);
+
+        }
+
+        if(event.getArtists() != null && !event.getArtists().isEmpty()){
+            System.out.println("Linea 175");
+            final EventEntity finalEventEntity = eventEntity;
+            event.getArtists().forEach(artistDTO -> {
+                if(artistDTO.getId() != null){
+                    System.out.println("Linea 177");
+                    Optional<ArtistEntity> optArtist = artistRepository.findById(artistDTO.getId());
+                    if(optArtist.isPresent()){
+                        System.out.println("Linea 178");
+                        ArtistEntity artistEntity = optArtist.get();
+                        ArtistEventId compositeKey = new ArtistEventId();
+                        compositeKey.setArtistId(artistEntity.getArtistId());
+                        System.out.println("Linea 182");
+                        compositeKey.setEventId(finalEventEntity.getId());
+                        System.out.println("Linea 184");
+                        ArtistEventEntity artistEvent = ArtistEventEntity.builder()
+                            .id(compositeKey)
+                            .artist(artistEntity)
+                            .event(finalEventEntity)
+                            .role(artistDTO.getRole())
+                            .build();
+                            artistEventRepository.saveAndFlush(artistEvent);
+                    }
+                }
+            });
+        }
+
+  
+
+        return eventEntity;
     }
 
     public EventEntity modifyEvent(EventEntity event, EventDTO eventUpdate) throws NoSuchEventException{
@@ -99,21 +228,21 @@ public class EventService {
         eventRepository.deleteById(id);
     }
 
-    private EventDTO convertToDto(EventEntity event) {
-        
-        List<ArtistDTO> artistDTOs = artistEventRepository.findByEvent(event)
-            .stream()
-            .map(artistEvent -> ArtistDTO.fromEntity(artistEvent.getArtist(), artistEvent.getShowsUpAt()))
-            .collect(Collectors.toList());
+private EventDTO convertToDto(EventEntity event) {
+    // Mapear información básica del evento...
+    
+    // En lugar de convertir recursivamente todos los eventos relacionados,
+    // devolvemos una lista simple con id y nombre para evitar recursión infinita.
+    List<EventDTO> relatedEventsDto = event.getRelatedEventRelations() != null 
+        ? event.getRelatedEventRelations().stream()
+            .map(er -> EventDTO.builder()
+                .id(er.getRelatedEvent().getId())
+                .name(er.getRelatedEvent().getName())
+                .build())
+            .collect(Collectors.toList())
+        : new ArrayList<>();
 
-        List<EventDTO> relatedEventsDto = event.getRelatedEventRelations() != null 
-            ? event.getRelatedEventRelations().stream()
-                .map(er -> convertToDto(er.getRelatedEvent()))
-                .collect(Collectors.toList())
-            : new ArrayList<>();
-
-        System.out.println(event);
-        return EventDTO.builder()
+    return EventDTO.builder()
         .id(event.getId())
         .name(event.getName())
         .description(event.getDescription())
@@ -122,21 +251,26 @@ public class EventService {
         .endDate(event.getEndDate())
         .coverImage(event.getCoverImage())
         .category(event.getCategory())
-        .photos(event.getPhotos())
+        .photos( event.getPhotos() != null 
+            ? event.getPhotos().stream()
+                .map(photo -> EventPhotosDTO.builder()
+                    .url(photo.getUrl())
+                    .build())
+                .collect(Collectors.toList())
+            : new ArrayList<>())
         .minAge(event.getMinAge())
         .capacity(event.getCapacity())
         .website(event.getWebsite())
         .longDescription(event.getLongDescription())
-        .faqs(event.getFaqs())
-        .artists(artistDTOs)
+        .faqs(FaqsDTO.buildFaqsDTOList(event.getFaqs()))
+        .artists(artistEventRepository.findByEvent(event)
+                .stream()
+                .map(artistEvent -> ArtistDTO.fromEntity(artistEvent.getArtist(), artistEvent.getShowsUpAt()))
+                .collect(Collectors.toList()))
         .relatedEvents(relatedEventsDto)
         .organizer(event.getOrganizer() != null 
-            ? UserDTO.builder()
-                .id(event.getOrganizer().getId())
-                .firstName(event.getOrganizer().getFirstName())
-                .lastName(event.getOrganizer().getLastName())
-                .build() 
+            ? event.getOrganizer().getFirstName() + " " + event.getOrganizer().getLastName()
             : null)
         .build();
-    }
+}
 }

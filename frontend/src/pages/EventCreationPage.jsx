@@ -1,6 +1,7 @@
 "use client"
+import { useState } from "react"
 import { Button } from "@heroui/button"
-import { Eye, Save } from "lucide-react"
+import { Eye, Save, ArrowLeft, Check, AlertTriangle } from "lucide-react"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import { useNavigate } from "react-router-dom"
@@ -21,7 +22,10 @@ import { createEvent } from "../services/eventService"
 
 export default function EventCreationPage() {
   const navigate = useNavigate()
-  const { success, error } = useAlert()
+  const { success, error, info } = useAlert()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSectionStatus, setShowSectionStatus] = useState(false)
+
   const {
     eventData,
     setEventData,
@@ -39,29 +43,56 @@ export default function EventCreationPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
 
     // Validar el formulario antes de enviar
     if (validateAndSubmit()) {
       try {
         console.log("Datos del evento a enviar:", eventData)
-        // const response = await createEvent(eventData)
+        const response = await createEvent(eventData)
         success("Evento creado correctamente")
-        // navigate(`/events/${response.id}`)
+        navigate(`/events/${response.id}`)
       } catch (err) {
         console.error("Error al crear el evento:", err)
         error(err.message || "Error al crear el evento")
+      } finally {
+        setIsSubmitting(false)
       }
+    } else {
+      setIsSubmitting(false)
+      setShowSectionStatus(true)
+      setTimeout(() => setShowSectionStatus(false), 5000)
     }
   }
 
-  // Función para navegar entre secciones sin validación
+  // Modificar la función handleSectionChange para que no valide al cambiar de sección
   const handleSectionChange = (section) => {
     toggleSection(section)
   }
 
-  // Función para marcar sección como completada sin validación
-  const handleSectionComplete = (section) => {
-    markSectionAsCompleted(section)
+  // Modificar la función handleSectionComplete para que sea opcional la validación
+  const handleSectionComplete = (section, validate = false) => {
+    return markSectionAsCompleted(section, validate)
+  }
+
+  // Función para verificar el estado de cada sección
+  const getSectionStatus = (section) => {
+    if (completedSections[section]) return "completed"
+    if (showSectionStatus && section === openSection) return "active"
+    return "pending"
+  }
+
+  // Renderizar el indicador de estado para cada sección
+  const renderSectionStatus = (section) => {
+    const status = getSectionStatus(section)
+
+    if (status === "completed") {
+      return <Check size={16} className="text-green-500" />
+    } else if (status === "active" && showSectionStatus) {
+      return <AlertTriangle size={16} className="text-amber-500" />
+    }
+
+    return null
   }
 
   return (
@@ -69,33 +100,117 @@ export default function EventCreationPage() {
       <Navbar isAuthenticated={true} />
       <main className="min-h-screen bg-[#F3F0FA] pt-24 pb-12 px-4">
         <div className="container mx-auto max-w-4xl">
+          {/* Cabecera */}
           <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-            <div className="flex items-center justify-between mb-6">
-              <h1 className="text-2xl font-bold text-[#2E1A47]">Crear nuevo evento</h1>
-              <div className="flex gap-2">
-                <Button
-                  variant="light"
-                  className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
-                  startContent={<Eye size={18} />}
-                  onClick={handlePreview}
-                >
-                  Vista previa
-                </Button>
-                <Button
-                  className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white"
-                  startContent={<Save size={18} />}
-                  onClick={handleSubmit}
-                >
-                  Guardar evento
-                </Button>
+            <div className="flex items-center mb-6">
+              <Button
+                as="a"
+                href="/events"
+                variant="light"
+                className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10 mr-4"
+                startContent={<ArrowLeft size={18} />}
+              >
+                Volver
+              </Button>
+              <div>
+                <h1 className="text-2xl font-bold text-[#2E1A47]">Crear nuevo evento</h1>
+                <p className="text-sm text-[#5C3D8D]">
+                  Completa todas las secciones para crear tu evento. Las secciones marcadas con{" "}
+                  <span className="text-red-500">*</span> son obligatorias.
+                </p>
               </div>
             </div>
 
-            <div className="text-sm text-[#5C3D8D] mb-6">
-              <p>
-                Completa todas las secciones para crear tu evento. Las secciones marcadas con{" "}
-                <span className="text-red-500">*</span> son obligatorias.
-              </p>
+            {/* Progreso */}
+            <div className="bg-[#F3F0FA]/50 p-4 rounded-lg mb-6">
+              <div className="flex flex-wrap gap-2">
+                <div
+                  onClick={() => handleSectionChange("basic")}
+                  className={`flex items-center px-3 py-1.5 rounded-full text-sm cursor-pointer ${
+                    openSection === "basic"
+                      ? "bg-[#5C3D8D] text-white"
+                      : completedSections.basic
+                        ? "bg-green-100 text-green-800"
+                        : "bg-white text-[#5C3D8D]"
+                  }`}
+                >
+                  Información básica {renderSectionStatus("basic")}
+                </div>
+                <div
+                  onClick={() => handleSectionChange("details")}
+                  className={`flex items-center px-3 py-1.5 rounded-full text-sm cursor-pointer ${
+                    openSection === "details"
+                      ? "bg-[#5C3D8D] text-white"
+                      : completedSections.details
+                        ? "bg-green-100 text-green-800"
+                        : "bg-white text-[#5C3D8D]"
+                  }`}
+                >
+                  Detalles {renderSectionStatus("details")}
+                </div>
+                <div
+                  onClick={() => handleSectionChange("artists")}
+                  className={`flex items-center px-3 py-1.5 rounded-full text-sm cursor-pointer ${
+                    openSection === "artists"
+                      ? "bg-[#5C3D8D] text-white"
+                      : completedSections.artists
+                        ? "bg-green-100 text-green-800"
+                        : "bg-white text-[#5C3D8D]"
+                  }`}
+                >
+                  Artistas {renderSectionStatus("artists")}
+                </div>
+                <div
+                  onClick={() => handleSectionChange("gallery")}
+                  className={`flex items-center px-3 py-1.5 rounded-full text-sm cursor-pointer ${
+                    openSection === "gallery"
+                      ? "bg-[#5C3D8D] text-white"
+                      : completedSections.gallery
+                        ? "bg-green-100 text-green-800"
+                        : "bg-white text-[#5C3D8D]"
+                  }`}
+                >
+                  Galería {renderSectionStatus("gallery")}
+                </div>
+                <div
+                  onClick={() => handleSectionChange("faqs")}
+                  className={`flex items-center px-3 py-1.5 rounded-full text-sm cursor-pointer ${
+                    openSection === "faqs"
+                      ? "bg-[#5C3D8D] text-white"
+                      : completedSections.faqs
+                        ? "bg-green-100 text-green-800"
+                        : "bg-white text-[#5C3D8D]"
+                  }`}
+                >
+                  FAQs {renderSectionStatus("faqs")}
+                </div>
+                <div
+                  onClick={() => handleSectionChange("tickets")}
+                  className={`flex items-center px-3 py-1.5 rounded-full text-sm cursor-pointer ${
+                    openSection === "tickets"
+                      ? "bg-[#5C3D8D] text-white"
+                      : completedSections.tickets
+                        ? "bg-green-100 text-green-800"
+                        : "bg-white text-[#5C3D8D]"
+                  }`}
+                >
+                  Entradas {renderSectionStatus("tickets")}
+                </div>
+                {eventData.hasSeating && (
+                  <div
+                    onClick={() => handleSectionChange("seating")}
+                    className={`flex items-center px-3 py-1.5 rounded-full text-sm cursor-pointer ${
+                      openSection === "seating"
+                        ? "bg-[#5C3D8D] text-white"
+                        : completedSections.seating
+                          ? "bg-green-100 text-green-800"
+                          : "bg-white text-[#5C3D8D]"
+                    }`}
+                  >
+                    Asientos {renderSectionStatus("seating")}
+                  </div>
+                )}
+              </div>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -105,8 +220,9 @@ export default function EventCreationPage() {
                 toggleOpen={() => handleSectionChange("basic")}
                 isCompleted={completedSections.basic}
                 onNext={() => {
-                  handleSectionComplete("basic")
-                  handleSectionChange("details")
+                  if (handleSectionComplete("basic", true)) {
+                    handleSectionChange("details")
+                  }
                 }}
                 eventData={eventData}
                 setEventData={setEventData}
@@ -119,8 +235,9 @@ export default function EventCreationPage() {
                 isCompleted={completedSections.details}
                 onPrevious={() => handleSectionChange("basic")}
                 onNext={() => {
-                  handleSectionComplete("details")
-                  handleSectionChange("artists")
+                  if (handleSectionComplete("details", true)) {
+                    handleSectionChange("artists")
+                  }
                 }}
                 eventData={eventData}
                 setEventData={setEventData}
@@ -133,8 +250,9 @@ export default function EventCreationPage() {
                 isCompleted={completedSections.artists}
                 onPrevious={() => handleSectionChange("details")}
                 onNext={() => {
-                  handleSectionComplete("artists")
-                  handleSectionChange("gallery")
+                  if (handleSectionComplete("artists", true)) {
+                    handleSectionChange("gallery")
+                  }
                 }}
                 eventData={eventData}
                 setEventData={setEventData}
@@ -147,8 +265,9 @@ export default function EventCreationPage() {
                 isCompleted={completedSections.gallery}
                 onPrevious={() => handleSectionChange("artists")}
                 onNext={() => {
-                  handleSectionComplete("gallery")
-                  handleSectionChange("faqs")
+                  if (handleSectionComplete("gallery", true)) {
+                    handleSectionChange("faqs")
+                  }
                 }}
                 eventData={eventData}
                 setEventData={setEventData}
@@ -161,8 +280,9 @@ export default function EventCreationPage() {
                 isCompleted={completedSections.faqs}
                 onPrevious={() => handleSectionChange("gallery")}
                 onNext={() => {
-                  handleSectionComplete("faqs")
-                  handleSectionChange("tickets")
+                  if (handleSectionComplete("faqs", true)) {
+                    handleSectionChange("tickets")
+                  }
                 }}
                 eventData={eventData}
                 setEventData={setEventData}
@@ -175,11 +295,12 @@ export default function EventCreationPage() {
                 isCompleted={completedSections.tickets}
                 onPrevious={() => handleSectionChange("faqs")}
                 onNext={() => {
-                  handleSectionComplete("tickets")
-                  if (eventData.hasSeating) {
-                    handleSectionChange("seating")
-                  } else {
-                    success("Todas las secciones completadas", "Puedes guardar el evento cuando estés listo")
+                  if (handleSectionComplete("tickets", true)) {
+                    if (eventData.hasSeating) {
+                      handleSectionChange("seating")
+                    } else {
+                      success("Todas las secciones completadas", "Puedes guardar el evento cuando estés listo")
+                    }
                   }
                 }}
                 eventData={eventData}
@@ -194,8 +315,11 @@ export default function EventCreationPage() {
                   isCompleted={completedSections.seating}
                   onPrevious={() => handleSectionChange("tickets")}
                   onFinish={() => {
-                    handleSectionComplete("seating")
-                    success("Todas las secciones completadas", "Puedes guardar el evento cuando estés listo")
+                    // Solo validar cuando el usuario hace clic en "Finalizar"
+                    const isCompleted = handleSectionComplete("seating", true)
+                    if (isCompleted) {
+                      success("Todas las secciones completadas", "Puedes guardar el evento cuando estés listo")
+                    }
                   }}
                   eventData={eventData}
                   setEventData={setEventData}
@@ -204,19 +328,31 @@ export default function EventCreationPage() {
             </form>
           </div>
 
+          {/* Acciones finales */}
           <div className="bg-white rounded-xl shadow-md p-6 mt-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div>
                 <h2 className="text-lg font-semibold text-[#2E1A47]">¿Todo listo?</h2>
                 <p className="text-sm text-[#5C3D8D]">Revisa toda la información antes de guardar tu evento.</p>
               </div>
-              <Button
-                className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white"
-                startContent={<Save size={18} />}
-                onClick={handleSubmit}
-              >
-                Guardar evento
-              </Button>
+              <div className="flex gap-3">
+                <Button
+                  variant="light"
+                  className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
+                  startContent={<Eye size={18} />}
+                  onClick={handlePreview}
+                >
+                  Vista previa
+                </Button>
+                <Button
+                  className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white"
+                  startContent={<Save size={18} />}
+                  onClick={handleSubmit}
+                  isLoading={isSubmitting}
+                >
+                  Guardar evento
+                </Button>
+              </div>
             </div>
           </div>
         </div>

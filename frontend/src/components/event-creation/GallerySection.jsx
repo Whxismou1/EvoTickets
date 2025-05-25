@@ -52,6 +52,12 @@ const GallerySection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
     setEventData({ ...eventData, previousEvents: newPreviousEvents })
   }
 
+  // Modificar la función onNext para validar antes de avanzar
+  const handleNext = () => {
+    // Aquí puedes añadir tu propia validación si es necesario
+    onNext()
+  }
+
   return (
     <AccordionSection
       title="Galería de ediciones anteriores (Opcional)"
@@ -144,7 +150,7 @@ const GallerySection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
         <Button type="button" variant="light" className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10" onClick={onPrevious}>
           Volver a Artistas
         </Button>
-        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={onNext}>
+        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={handleNext}>
           Siguiente: FAQs
         </Button>
       </div>

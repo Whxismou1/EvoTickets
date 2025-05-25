@@ -2,8 +2,6 @@ package com.evotickets.dtos;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
 import lombok.Getter;
 import lombok.Setter;
 

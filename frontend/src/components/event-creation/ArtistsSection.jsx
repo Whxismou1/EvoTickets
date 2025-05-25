@@ -8,12 +8,12 @@ import FormField from "./FormField"
 
 // Datos de ejemplo para artistas
 const mockArtists = [
-  { id: 1, name: "Bad Bunny", genre: "Urbano", image: "/placeholder.svg" },
-  { id: 2, name: "Rosalía", genre: "Flamenco/Pop", image: "/placeholder.svg" },
-  { id: 3, name: "Coldplay", genre: "Rock/Pop", image: "/placeholder.svg" },
-  { id: 4, name: "Dua Lipa", genre: "Pop", image: "/placeholder.svg" },
-  { id: 5, name: "J Balvin", genre: "Reggaeton", image: "/placeholder.svg" },
-  { id: 6, name: "Billie Eilish", genre: "Pop", image: "/placeholder.svg" },
+  { id: 1, artisticName: "Bad Bunny", genre: "Urbano", image: "/placeholder.svg" },
+  { id: 2, artisticName: "Rosalía", genre: "Flamenco/Pop", image: "/placeholder.svg" },
+  { id: 3, artisticName: "Coldplay", genre: "Rock/Pop", image: "/placeholder.svg" },
+  { id: 4, artisticName: "Dua Lipa", genre: "Pop", image: "/placeholder.svg" },
+  { id: 5, artisticName: "J Balvin", genre: "Reggaeton", image: "/placeholder.svg" },
+  { id: 6, artisticName: "Billie Eilish", genre: "Pop", image: "/placeholder.svg" },
 ]
 
 const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, eventData, setEventData }) => {
@@ -72,6 +72,12 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
     }
   }
 
+  // Modificar la función onNext para validar antes de avanzar
+  const handleNext = () => {
+    // Aquí puedes añadir tu propia validación si es necesario
+    onNext()
+  }
+
   return (
     <AccordionSection
       title="Artistas"
@@ -101,7 +107,7 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
               <h4 className="text-sm font-medium text-[#5C3D8D] mb-2">Artistas encontrados:</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {mockArtists
-                  .filter((artist) => artist.name.toLowerCase().includes(artistSearchQuery.toLowerCase()))
+                  .filter((artist) => artist.artisticName.toLowerCase().includes(artistSearchQuery.toLowerCase()))
                   .slice(0, 4)
                   .map((artist, idx) => (
                     <button
@@ -114,7 +120,7 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
                         {artist.image ? (
                           <img
                             src={artist.image || "/placeholder.svg"}
-                            alt={artist.name}
+                            alt={artist.artisticName}
                             className="w-full h-full rounded-full object-cover"
                           />
                         ) : (
@@ -122,7 +128,7 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
                         )}
                       </div>
                       <div className="text-left">
-                        <div className="font-medium text-[#2E1A47]">{artist.name}</div>
+                        <div className="font-medium text-[#2E1A47]">{artist.artisticName}</div>
                         <div className="text-xs text-[#5C3D8D]">{artist.genre}</div>
                       </div>
                     </button>
@@ -159,14 +165,14 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
                       {artist.image ? (
                         <img
                           src={artist.image || "/placeholder.svg"}
-                          alt={artist.name}
+                          alt={artist.artisticName}
                           className="w-full h-full rounded-full object-cover"
                         />
                       ) : (
                         <Users className="w-6 h-6 text-[#5C3D8D]" />
                       )}
                     </div>
-                    <h3 className="font-medium text-[#2E1A47]">{artist.name}</h3>
+                    <h3 className="font-medium text-[#2E1A47]">{artist.artisticName}</h3>
                     {artist.isNew && (
                       <span className="bg-[#5C3D8D]/10 text-[#5C3D8D] text-xs px-2 py-1 rounded-full">
                         Nuevo artista
@@ -230,7 +236,7 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
         <Button type="button" variant="light" className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10" onClick={onPrevious}>
           Volver a Detalles
         </Button>
-        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={onNext}>
+        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={handleNext}>
           Siguiente: Galería
         </Button>
       </div>

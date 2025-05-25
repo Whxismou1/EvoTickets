@@ -18,10 +18,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -29,6 +31,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "events")
+@ToString(exclude="artistEvents")
 public class EventEntity {
     
     @Id
@@ -46,17 +49,17 @@ public class EventEntity {
     @Column(nullable = false, length = 1000)
     private String description;
     
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_date")
     private LocalDateTime startDate;
     
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date")
     private LocalDateTime endDate;
 
     @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<EventPhotosEntity> photos;
 
-    @Column(name = "cover_image", length = 255)
+    @Column(name = "cover_image", columnDefinition = "TEXT")
     private String coverImage;
 
     @Column(name = "category")
@@ -77,11 +80,19 @@ public class EventEntity {
     @Column(name = "long_description", columnDefinition = "LONGTEXT")
     private String longDescription;
 
-    @OneToMany(mappedBy="event", fetch= FetchType.EAGER)
+    @OneToMany(mappedBy="event", fetch= FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<FaqsEntity> faqs;
 
-    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "event-relations")
     private List<EventRelationEntity> relatedEventRelations;
+
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<EventHighlightsEntity> highlights;
+
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "event-artists_events")
+    private List<ArtistEventEntity> artistEvents;
 }

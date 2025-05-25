@@ -22,6 +22,12 @@ const DetailsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
     setEventData({ ...eventData, highlights: newHighlights })
   }
 
+  // Modificar la función onNext para validar antes de avanzar
+  const handleNext = () => {
+    // Aquí puedes añadir tu propia validación si es necesario
+    onNext()
+  }
+
   return (
     <AccordionSection
       title="Detalles del evento"
@@ -76,7 +82,8 @@ const DetailsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
         <Button type="button" variant="light" className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10" onClick={onPrevious}>
           Volver a Información básica
         </Button>
-        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={onNext}>
+        {/* Actualizar el botón de Siguiente para usar handleNext */}
+        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={handleNext}>
           Siguiente: Artistas
         </Button>
       </div>

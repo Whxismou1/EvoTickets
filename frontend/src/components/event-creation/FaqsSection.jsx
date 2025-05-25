@@ -25,6 +25,12 @@ const FaqsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, even
     setEventData({ ...eventData, faqs: newFaqs })
   }
 
+  // Modificar la función onNext para validar antes de avanzar
+  const handleNext = () => {
+    // Aquí puedes añadir tu propia validación si es necesario
+    onNext()
+  }
+
   return (
     <AccordionSection
       title="Preguntas frecuentes"
@@ -82,7 +88,7 @@ const FaqsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, even
         <Button type="button" variant="light" className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10" onClick={onPrevious}>
           Volver a Galería
         </Button>
-        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={onNext}>
+        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={handleNext}>
           Siguiente: Entradas
         </Button>
       </div>

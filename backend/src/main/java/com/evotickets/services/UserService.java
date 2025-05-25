@@ -85,21 +85,6 @@ public class UserService {
     @Transactional
     public void deleteUserById(Long id) {
         UserEntity user = userRepo.findById(id).orElseThrow(()-> new UserNotFoundException("Usuario no enconradp"));
-
-        switch (user.getUserRole()) {
-            case ARTIST:
-                ArtistEntity ar = artistRepo.findByUser(user);
-
-                artistEventRepo.deleteAllByArtist(ar);
-                artistRepo.delete(ar);
-                break;
-            case ADMIN:
-                break;
-            case EVENT_MANAGER:
-                break;
-        }
-        
-        
         userRepo.delete(user);
         
         
