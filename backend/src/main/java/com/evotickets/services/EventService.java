@@ -284,4 +284,4 @@ private EventDTO convertToDto(EventEntity event) {
 
 }
 
-}
+
