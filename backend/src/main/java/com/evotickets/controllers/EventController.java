@@ -73,7 +73,6 @@ public class EventController {
 
     @GetMapping("/organizer")
     public ResponseEntity<?> getAllInfo(@RequestParam Long organizerId) {
-        System.out.println(organizerId);
         List<EventDTO> events = eventService.getAllInfo(organizerId);
         return ResponseEntity.ok().body(events);
     }

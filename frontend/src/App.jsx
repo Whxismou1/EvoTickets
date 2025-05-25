@@ -34,7 +34,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/events" element={<EventsPage />}/>
+        <Route path="/events" element={<EventsPage />} />
         <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -49,9 +49,8 @@ function App() {
         <Route path="/AboutUsPage" element={<AboutUsPage />} />
         <Route path="/ContactPage" element={<ContactPage />} />
         <Route path="/HelpCenterPage" element={<HelpCenterPage />} />
-        <Route path ="/artistpage" element={<ArtistPage/>}/>
+        <Route path="/artistpage" element={<ArtistPage />} />
         <Route path="/artistDashboard" element={<ArtistDashboard />} />
-        <Route path="/eventManagerDashboard" element={<EventManagerDashboard />} />
         <Route path="/register-manager" element={<RegisterManagerPage />} />
 
 
@@ -66,7 +65,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
-        <Route path="/profile" element={<Profile/>}/>
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         <Route element={<RoleProtectedRoute allowedRoles={["ADMIN"]} />}>
@@ -81,7 +80,8 @@ function App() {
           element={<RoleProtectedRoute allowedRoles={["EVENT_MANAGER"]} />}
         >
           <Route path="/eventManager" element={<EventManagerPage />} />
-          
+          <Route path="/eventManagerDashboard" element={<EventManagerDashboard />} />
+
         </Route>
 
         <Route path="*" element={<NotFound />} />

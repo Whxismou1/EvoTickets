@@ -58,11 +58,9 @@ export const deleteEvent = async (id) => {
 };
 
 export const getEventsByOrganizer = async (organizerId) => {
-  const res = await fetch(`${BASE_URL}/organizer?organizerId=${organizerId}`, {
-   
-  });
-  console.log(res)
+  const res = await fetch(`${BASE_URL}/organizer?organizerId=${organizerId}`);
   if (!res.ok) throw new Error(await res.text());
   return await res.json();
 };
+
 

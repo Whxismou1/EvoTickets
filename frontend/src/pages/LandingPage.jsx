@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@heroui/button";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -19,6 +19,7 @@ export default function Home() {
 
   const howSteps = t("how_steps", { returnObjects: true }) || [];
   const organizerSteps = t("organizers_steps", { returnObjects: true });
+  const navigate = useNavigate();
 
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -379,11 +380,12 @@ export default function Home() {
               </ul>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register-manager">
-                  <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
-                    {t("contact_support")}
-                  </Button>
-                </Link>
+                <Button
+                  onClick={() => navigate("/register-manager")}
+                  className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white"
+                >
+                  {t("contact_support")}
+                </Button>
               </div>
             </motion.div>
           </div>
