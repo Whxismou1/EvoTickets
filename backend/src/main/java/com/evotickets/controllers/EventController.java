@@ -1,5 +1,6 @@
 package com.evotickets.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +70,12 @@ public class EventController {
     public ResponseEntity<?> deleteEvent(@RequestParam Long id){
         eventService.deleteEvent(id);
         return ResponseEntity.ok().body("Evento eliminado correctamente"); 
+    }
+    
+
+    @GetMapping("/organizer")
+    public ResponseEntity<?> getAllInfo(@RequestParam Long organizerId) {
+        List<EventDTO> events = eventService.getAllInfo(organizerId);
+        return ResponseEntity.ok().body(events);
     }
 }

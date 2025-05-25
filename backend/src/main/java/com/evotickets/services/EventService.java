@@ -272,5 +272,16 @@ private EventDTO convertToDto(EventEntity event) {
             ? event.getOrganizer().getFirstName() + " " + event.getOrganizer().getLastName()
             : null)
         .build();
+
+    }
+
+    public List<EventDTO> getAllInfo(Long organizerId) {
+        List<EventEntity> events = eventRepository.findByOrganizerId(organizerId);
+        return events.stream()
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList());
+    }
+
 }
-}
+
+
