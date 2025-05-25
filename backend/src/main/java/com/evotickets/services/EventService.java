@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.evotickets.dtos.ArtistDTO;
 import com.evotickets.dtos.EventDTO;
 import com.evotickets.dtos.FaqsDTO;
-import com.evotickets.dtos.UserDTO;
 import com.evotickets.entities.ArtistEntity;
 import com.evotickets.entities.ArtistEventEntity;
 import com.evotickets.entities.EventEntity;

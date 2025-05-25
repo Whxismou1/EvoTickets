@@ -3,7 +3,7 @@ package com.evotickets.dtos;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.evotickets.dtos.EventHighlightsDTO;
+
 import com.evotickets.entities.LocationEntity;
 import com.evotickets.entities.enums.EventCategory;
 

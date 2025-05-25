@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.evotickets.entities.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,6 +20,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -88,10 +90,17 @@ public class UserEntity implements UserDetails {
     @Builder.Default
     @Column(name = "failed_login_attempts", nullable = false)
     private int failedLoginAttempts = 0;
-
+    
+    @Builder.Default
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(nullable = true)
+    private String phone;
+    @Column(nullable = true)
+    private String location;
     @Column(name = "notifications_enabled", nullable = false)
     @Builder.Default
-    private boolean notificationsEnabled = true;    
+    private boolean notificationsEnabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -133,4 +142,13 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "organizer")
     @JsonIgnore
     private List<EventEntity> organizedEvents;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<NotificationEntity> notifications;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private ArtistEntity artist;
+
 }

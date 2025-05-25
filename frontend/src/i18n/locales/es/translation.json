@@ -45,9 +45,7 @@
     "tech": "Tecnología",
     "food": "Gastronomía",
     "about": "Sobre Nosotros",
-    "careers": "Carreras",
-    "blog": "Blog",
-    "press": "Prensa",
+    "workWithUs": "Trabaja con Nosotros",
     "help": "Centro de Ayuda",
     "contact": "Contáctanos",
     "privacy": "Privacidad",
@@ -183,5 +181,372 @@
     "see_event": "Ver evento",
     "trending": "Tendencias",
     "see_more": "Ver más"
+  },
+  "privacyPolicy": {
+    "backToHome": "Volver al inicio",
+    "title": "Política de Privacidad",
+    "lastUpdated": "Última actualización: 15 de mayo de 2023",
+    "intro1": "En EvoTickets, accesible desde www.evotickets.com, una de nuestras principales prioridades es la privacidad de nuestros visitantes. Este documento de Política de Privacidad contiene los tipos de información que se recopilan y registran por EvoTickets y cómo la utilizamos.",
+    "intro2": "Si tienes preguntas adicionales o requieres más información sobre nuestra Política de Privacidad, no dudes en contactarnos.",
+
+    "section1Title": "1. Información que recopilamos",
+    "section1_1Title": "1.1 Información personal",
+    "section1_1Desc": "Cuando te registras en nuestro sitio, podemos recopilar la siguiente información:",
+    "section1_1List": [
+      "Nombre y apellidos",
+      "Dirección de correo electrónico",
+      "Número de teléfono",
+      "Dirección de facturación y envío",
+      "Información de pago (procesada de forma segura a través de nuestros proveedores de pago)",
+      "Cualquier otra información que decidas proporcionarnos"
+    ],
+    "section1_2Title": "1.2 Información de uso",
+    "section1_2Desc": "También podemos recopilar información sobre cómo accedes y utilizas nuestro sitio web:",
+    "section1_2List": [
+      "Dirección IP",
+      "Tipo de navegador",
+      "Páginas visitadas",
+      "Tiempo de acceso",
+      "Tiempo dedicado en cada página",
+      "Clicks en enlaces",
+      "Otros datos de diagnóstico"
+    ],
+
+    "section2Title": "2. Cómo utilizamos tu información",
+    "section2Desc": "Utilizamos la información recopilada para diversos fines:",
+    "section2List": [
+      "Proporcionar y mantener nuestro servicio",
+      "Notificarte sobre cambios en nuestro servicio",
+      "Permitirte participar en funciones interactivas de nuestro servicio cuando decidas hacerlo",
+      "Proporcionar atención al cliente",
+      "Recopilar análisis o información valiosa para mejorar nuestro servicio",
+      "Monitorear el uso de nuestro servicio",
+      "Detectar, prevenir y abordar problemas técnicos",
+      "Procesar tus transacciones",
+      "Enviarte información sobre eventos que puedan interesarte, siempre que hayas dado tu consentimiento"
+    ],
+
+    "section3Title": "3. Cookies y tecnologías de seguimiento",
+    "section3_1": "Utilizamos cookies y tecnologías de seguimiento similares para rastrear la actividad en nuestro servicio y almacenar cierta información. Las cookies son archivos con una pequeña cantidad de datos que pueden incluir un identificador único anónimo.",
+    "section3_2": "Puedes indicar a tu navegador que rechace todas las cookies o que te avise cuando se envía una cookie. Sin embargo, si no aceptas cookies, es posible que no puedas utilizar algunas partes de nuestro servicio.",
+    "section3_3": "Utilizamos los siguientes tipos de cookies:",
+    "section3List": [
+      "Cookies esenciales: Necesarias para el funcionamiento del sitio web.",
+      "Cookies de preferencias: Permiten recordar información que cambia el comportamiento o el aspecto del sitio.",
+      "Cookies estadísticas: Ayudan a entender cómo los visitantes interactúan con el sitio.",
+      "Cookies de marketing: Utilizadas para rastrear a los visitantes en los sitios web con el fin de mostrar anuncios relevantes."
+    ],
+
+    "section4Title": "4. Compartir tu información personal",
+    "section4Desc": "Podemos compartir tu información personal en las siguientes situaciones:",
+    "section4List": [
+      "Con proveedores de servicios: Para monitorear y analizar el uso de nuestro servicio, para contactarte.",
+      "Con organizadores de eventos: Cuando compras entradas para un evento, compartimos la información necesaria con los organizadores para facilitar tu acceso al evento.",
+      "Para transferencias comerciales: Podemos compartir o transferir tu información en relación con, o durante las negociaciones de, cualquier fusión, venta de activos de la empresa, financiación o adquisición.",
+      "Con afiliados: Podemos compartir tu información con nuestros afiliados, en cuyo caso exigiremos a esos afiliados que respeten esta Política de Privacidad.",
+      "Con socios comerciales: Podemos compartir tu información con nuestros socios comerciales para ofrecerte ciertos productos, servicios o promociones.",
+      "Con otros usuarios: Cuando compartes información personal o interactúas en áreas públicas con otros usuarios, dicha información puede ser vista por todos los usuarios.",
+      "Con tu consentimiento: Podemos divulgar tu información personal para cualquier otro propósito con tu consentimiento."
+    ],
+
+    "section5Title": "5. Seguridad de tus datos personales",
+    "section5Desc": "La seguridad de tus datos personales es importante para nosotros, pero recuerda que ningún método de transmisión por Internet o método de almacenamiento electrónico es 100% seguro. Si bien nos esforzamos por utilizar medios comercialmente aceptables para proteger tus datos personales, no podemos garantizar su seguridad absoluta.",
+
+    "section6Title": "6. Tus derechos de protección de datos",
+    "section6_1": "Si eres residente del Espacio Económico Europeo (EEE), tienes ciertos derechos de protección de datos. EvoTickets tiene como objetivo tomar medidas razonables para permitirte corregir, modificar, eliminar o limitar el uso de tus datos personales.",
+    "section6_2": "Si deseas ser informado sobre qué datos personales tenemos sobre ti y si deseas que sean eliminados de nuestros sistemas, por favor contáctanos.",
+    "section6_3": "En determinadas circunstancias, tienes los siguientes derechos de protección de datos:",
+    "section6List": [
+      "El derecho de acceso, actualización o eliminación de la información que tenemos sobre ti.",
+      "El derecho de rectificación: Tienes el derecho de rectificar tu información si esa información es inexacta o incompleta.",
+      "El derecho de oposición: Tienes el derecho de oponerte a que procesemos tus datos personales.",
+      "El derecho de restricción: Tienes el derecho de solicitar que restrinjamos el procesamiento de tu información personal.",
+      "El derecho a la portabilidad de datos: Tienes el derecho de recibir una copia de la información que tenemos sobre ti en un formato estructurado, legible por máquina y de uso común.",
+      "El derecho a retirar el consentimiento: También tienes el derecho de retirar tu consentimiento en cualquier momento cuando EvoTickets se basó en tu consentimiento para procesar tu información personal."
+    ],
+
+    "section7Title": "7. Enlaces a otros sitios web",
+    "section7_1": "Nuestro servicio puede contener enlaces a otros sitios que no son operados por nosotros. Si haces clic en un enlace de terceros, serás dirigido al sitio de ese tercero. Te recomendamos encarecidamente que revises la Política de Privacidad de cada sitio que visites.",
+    "section7_2": "No tenemos control ni asumimos responsabilidad alguna por el contenido, las políticas de privacidad o las prácticas de sitios o servicios de terceros.",
+
+    "section8Title": "8. Cambios a esta Política de Privacidad",
+    "section8_1": "Podemos actualizar nuestra Política de Privacidad de vez en cuando. Te notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta página.",
+    "section8_2": "Te informaremos por correo electrónico y/o un aviso destacado en nuestro servicio, antes de que el cambio entre en vigencia y actualizaremos la fecha de última actualización en la parte superior de esta Política de Privacidad.",
+    "section8_3": "Se te aconseja revisar esta Política de Privacidad periódicamente para cualquier cambio. Los cambios a esta Política de Privacidad son efectivos cuando se publican en esta página.",
+    
+    "section9Title": "9. Contáctanos",
+    "section9_1": "Si tienes alguna pregunta sobre esta Política de Privacidad, puedes contactarnos:",
+    "section9List": [
+      "Por correo electrónico",
+      "Por teléfono",
+      "Por correo postal"
+    ]
+  },
+  "termsPage": {
+    "backToHome": "Volver al inicio",
+    "title": "Términos y Condiciones",
+    "lastUpdated": "Última actualización: 12 de mayo de 2025",
+
+    "section1Title": "1. Introducción",
+    "section1Text": "Estos Términos y Condiciones (\"Términos\") rigen el uso de la plataforma EvoTickets (la \"Plataforma\"), operada por EvoTickets S.L. Al acceder o utilizar nuestra Plataforma, usted acepta estar sujeto a estos Términos. Si no está de acuerdo con estos Términos, por favor, no utilice nuestra Plataforma.",
+
+    "section2Title": "2. Definiciones",
+    "section2List":[
+      "\"Usuario\": Cualquier persona que acceda, navegue o utilice la Plataforma.",
+      "\"Organizador\": Usuario que crea y gestiona eventos en la Plataforma.",
+      "\"Asistente\": Usuario que compra entradas para eventos a través de la Plataforma.",
+      "\"Contenido\": Incluye, pero no se limita a, texto, gráficos, logotipos, imágenes, audio, video, software y otros materiales."
+    ],
+
+    "section3Title": "3. Registro de cuenta",
+    "section3Text1": "Para acceder a ciertas funciones de la Plataforma, es posible que deba registrarse y crear una cuenta. Usted es responsable de mantener la confidencialidad de su información de cuenta y contraseña, y de restringir el acceso a su dispositivo. Usted acepta la responsabilidad por todas las actividades que ocurran bajo su cuenta.",
+    "section3Text2": "Nos reservamos el derecho de cerrar cuentas y eliminar o editar contenido si consideramos que un usuario ha violado estos Términos.",
+
+    "section4Title": "4. Compra de entradas",
+    "section4Intro": "Al comprar entradas a través de nuestra Plataforma, usted acepta:",
+    "section4List": [
+      "Proporcionar información precisa y completa para la compra.",
+      "Pagar el precio total indicado, incluidas las tarifas de servicio aplicables.",
+      "Que las entradas están sujetas a disponibilidad.",
+      "Que las entradas no son reembolsables, excepto en los casos especificados por la ley o por la política del Organizador."
+    ],
+
+    "section5Title": "5. Organización de eventos",
+    "section5Intro": "Los Organizadores son responsables de:",
+    "section5List": [
+      "Proporcionar información precisa y completa sobre sus eventos.",
+      "Cumplir con todas las leyes y regulaciones aplicables.",
+      "Obtener todos los permisos y licencias necesarios para sus eventos.",
+      "Gestionar la política de reembolsos y cancelaciones de sus eventos."
+    ],
+    "section5Note": "EvoTickets no es responsable de la calidad, seguridad, legalidad o cualquier otro aspecto de los eventos listados en nuestra Plataforma.",
+
+    "section6Title": "6. Propiedad intelectual",
+    "section6Text1": "Todo el Contenido incluido en la Plataforma, como texto, gráficos, logotipos, iconos, imágenes, clips de audio, descargas digitales y compilaciones de datos, es propiedad de EvoTickets o de sus proveedores de contenido y está protegido por las leyes internacionales de derechos de autor.",
+    "section6Text2": "No puede reproducir, distribuir, modificar, crear trabajos derivados, exhibir públicamente, ejecutar públicamente, republicar, descargar, almacenar o transmitir cualquier material de nuestra Plataforma, excepto según lo permitido por estos Términos.",
+
+    "section7Title": "7. Limitación de responsabilidad",
+    "section7Text": "En ningún caso EvoTickets, sus directores, empleados, socios, agentes, proveedores o afiliados serán responsables por cualquier daño indirecto, incidental, especial, consecuente o punitivo, incluyendo sin limitación, pérdida de beneficios, datos, uso, buena voluntad, u otras pérdidas intangibles, resultantes de:",
+    "section7List": [
+      "Su acceso o uso o incapacidad para acceder o usar la Plataforma.",
+      "Cualquier conducta o contenido de terceros en la Plataforma.",
+      "Cualquier contenido obtenido de la Plataforma.",
+      "Acceso no autorizado, uso o alteración de sus transmisiones o contenido."
+    ],
+
+    "section8Title": "8. Modificaciones",
+    "section8Text1": "Nos reservamos el derecho, a nuestra sola discreción, de modificar o reemplazar estos Términos en cualquier momento. Si una revisión es material, intentaremos proporcionar un aviso con al menos 30 días de anticipación antes de que los nuevos términos entren en vigor. Lo que constituye un cambio material será determinado a nuestra sola discreción.",
+    "section8Text2": "Al continuar accediendo o utilizando nuestra Plataforma después de que esas revisiones entren en vigor, usted acepta estar sujeto a los términos revisados.",
+
+    "section9Title": "9. Ley aplicable",
+    "section9Text1": "Estos Términos se regirán e interpretarán de acuerdo con las leyes de España, sin tener en cuenta sus disposiciones sobre conflictos de leyes.",
+    "section9Text2": "Nuestra falta de hacer cumplir cualquier derecho o disposición de estos Términos no se considerará una renuncia a esos derechos. Si alguna disposición de estos Términos es considerada inválida o inaplicable por un tribunal, las disposiciones restantes de estos Términos permanecerán en vigor.",
+
+    "section10Title": "10. Contacto",
+    "section10Text": "Si tiene alguna pregunta sobre estos Términos, por favor contáctenos en:",
+    "section10Contact": [
+      "legal@evotickets.com",
+      "EvoTickets S.L.",
+      "Calle Principal 123",
+      "28001 Madrid, España"
+    ]
+  },
+  "workWithUs": {
+      "fileSizeError": "El archivo no debe superar los 5MB",
+      "requiredFieldsError": "Por favor completa todos los campos requeridos",
+      "invalidEmailError": "Por favor ingresa un correo electrónico válido",
+      "successMessage": "¡Gracias por tu interés! Hemos recibido tu información.",
+      "submitError": "Hubo un error al enviar tu información. Por favor intenta nuevamente.",
+      "title": "Trabaja con nosotros",
+      "description": "¿Te gustaría formar parte de nuestro equipo? Completa el siguiente formulario y nos pondremos en contacto contigo si hay una oportunidad que se ajuste a tu perfil.",
+      "form": {
+        "fullNameLabel": "Nombre completo *",
+        "fullNamePlaceholder": "Tu nombre completo",
+        "emailLabel": "Correo electrónico *",
+        "emailPlaceholder": "tu@email.com",
+        "phoneLabel": "Teléfono",
+        "phonePlaceholder": "+34 600 000 000",
+        "motivationLabel": "¿Por qué quieres trabajar con nosotros? *",
+        "motivationPlaceholder": "Cuéntanos sobre ti, tu experiencia y por qué te gustaría unirte a nuestro equipo...",
+        "resumeLabel": "Currículum (PDF, máx. 5MB)",
+        "uploadText": "Haz clic para subir",
+        "orDragText": "o arrastra y suelta",
+        "resumePlaceholder": "PDF (máx. 5MB)",
+        "sendingText": "Enviando...",
+        "submitText": "Enviar solicitud"
+      },
+      "privacy": {
+        "text": "Al enviar este formulario, aceptas nuestra",
+        "policy": "Política de Privacidad",
+        "terms": "Términos y Condiciones"
+      }
+    },
+  "helpCenter": {
+      "pageTitle": "Centro de Ayuda",
+      "pageDescription": "Encuentra respuestas a tus preguntas sobre EvoTickets, compra de entradas, eventos y más.",
+      "faqTitle": "Preguntas frecuentes",
+      "contactTitle": "¿No encuentras lo que buscas?",
+      "contactDescription": "Nuestro equipo de soporte está listo para ayudarte con cualquier pregunta que tengas.",
+      "contactButton": "Contactar con soporte",
+      "contactRedirectMessage": "Te redirigiremos a nuestro formulario de contacto",
+      "categories": {
+        "general": {
+          "title": "Preguntas generales",
+          "questions": [
+            {
+              "question": "¿Cómo puedo comprar entradas?",
+              "answer": "Puedes comprar entradas seleccionando el evento que te interesa, eligiendo la cantidad de entradas y completando el proceso de pago con tu método de pago preferido."
+            },
+            {
+              "question": "¿Cómo puedo contactar con atención al cliente?",
+              "answer": "Puedes contactar con nuestro equipo de atención al cliente a través del formulario de contacto en nuestra página web, por correo electrónico a soporte@evotickets.com o por teléfono al +34 900 123 456."
+            },
+            {
+              "question": "¿Cuáles son los métodos de pago aceptados?",
+              "answer": "Aceptamos tarjetas de crédito/débito (Visa, Mastercard, American Express), PayPal y transferencia bancaria para ciertos eventos."
+            }
+          ]
+        },
+        "tickets": {
+          "title": "Entradas y eventos",
+          "questions": [
+            {
+              "question": "¿Cómo recibo mis entradas?",
+              "answer": "Recibirás tus entradas por correo electrónico inmediatamente después de completar tu compra. También puedes acceder a ellas en cualquier momento desde tu cuenta en la sección 'Mis entradas'."
+            },
+            {
+              "question": "¿Puedo transferir mis entradas a otra persona?",
+              "answer": "Sí, puedes transferir tus entradas a otra persona desde la sección 'Mis entradas' en tu cuenta. Solo necesitas el correo electrónico de la persona a la que quieres transferir la entrada."
+            },
+            {
+              "question": "¿Qué hago si no puedo asistir al evento?",
+              "answer": "Si no puedes asistir al evento, puedes transferir tu entrada a otra persona o solicitar un reembolso según la política de cancelación del evento específico."
+            }
+          ]
+        },
+        "account": {
+          "title": "Cuenta y perfil",
+          "questions": [
+            {
+              "question": "¿Cómo puedo cambiar mi contraseña?",
+              "answer": "Puedes cambiar tu contraseña accediendo a la sección 'Perfil' en tu cuenta y seleccionando 'Cambiar contraseña'."
+            },
+            {
+              "question": "¿Cómo puedo actualizar mi información de contacto?",
+              "answer": "Puedes actualizar tu información de contacto en la sección 'Perfil' de tu cuenta."
+            },
+            {
+              "question": "He olvidado mi contraseña, ¿qué puedo hacer?",
+              "answer": "Si has olvidado tu contraseña, puedes restablecerla haciendo clic en 'Olvidé mi contraseña' en la página de inicio de sesión y siguiendo las instrucciones que recibirás por correo electrónico."
+            }
+          ]
+        }
+      }
+  },
+  "contact": {
+    "title": "Contacto",
+    "description": "¿Tienes alguna pregunta o comentario? Estamos aquí para ayudarte. Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.",
+    "info": {
+      "title": "Información de contacto",
+      "phone": "Teléfono",
+      "hours": "Lun-Vie: 9:00 - 18:00",
+      "email": "Email",
+      "response": "Respondemos en 24-48h",
+      "address": "Dirección"
+    },
+    "form": {
+      "title": "Envíanos un mensaje",
+      "name": "Nombre completo",
+      "email": "Correo electrónico",
+      "subject": "Asunto",
+      "message": "Mensaje",
+      "privacy": "He leído y acepto la",
+      "privacyLink": "política de privacidad",
+      "submit": "Enviar mensaje",
+      "sending": "Enviando..."
+    },
+    "alert": {
+      "required": "Por favor, completa todos los campos obligatorios",
+      "success": "Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo pronto.",
+      "error": "Tu mensaje no se ha enviado correctamente."
+    }
+  },
+  "aboutUs": {
+    "title": "Sobre Nosotros",
+    "heroDescription": "Transformando la forma en que las personas descubren, compran y disfrutan de eventos en vivo.",
+    "missionTitle": "Nuestra Misión",
+    "missionP1": "En EvoTickets, nuestra misión es conectar a las personas con experiencias inolvidables a través de una plataforma de venta de entradas segura, accesible y fácil de usar.",
+    "missionP2": "Creemos que cada evento tiene el poder de crear recuerdos duraderos, y trabajamos incansablemente para asegurarnos de que nuestros usuarios puedan descubrir y asistir a los eventos que más les apasionan.",
+    "missionP3": "Nuestra visión es convertirnos en la plataforma líder de venta de entradas en Europa, ofreciendo la mejor experiencia tanto para organizadores como para asistentes.",
+    "stats": {
+      "users": "Usuarios activos",
+      "events": "Eventos anuales",
+      "countries": "Países",
+      "satisfaction": "Satisfacción"
+    },
+    "historyTitle": "Nuestra Historia",
+    "milestones": {
+      "2025-feb": {
+        "year": "Febrero-2025",
+        "title": "Fundación de EvoTickets",
+        "description": "EvoTickets nace como una startup con la misión de revolucionar la venta de entradas online."
+      },
+      "2025-abr": {
+        "year": "Abril-2025",
+        "title": "Primera prueba de Evotickets",
+        "description": "El equipo de desarrollo lanza su primera versión de Evotickets."
+      },
+      "2025-may": {
+        "year": "Mayo-2025",
+        "title": "Lanzamiento de Evotickets",
+        "description": "El equipo de desarrollo lanza la versión final de Evotickets."
+      },
+      "prox": {
+        "year": "Proximamente",
+        "title": "Lanzamiento de Evotickets en dispositivos telefónicos",
+        "description": "Evotickets se lanzará como aplicación de smartphone para una accesibilidad mejorada."
+      }
+    },
+    "teamTitle": "Nuestro Equipo",
+    "members": {
+      "mouhcine": {
+        "name": "Mouhcine El Oualidi",
+        "role": "CEO & Fundador",
+        "bio": "Mouhcine fundó EvoTickets con la visión de transformar la experiencia de compra de entradas para eventos."
+      },
+      "javier": {
+        "name": "Javier Troyano",
+        "role": "CTO",
+        "bio": "Javier lidera el equipo técnico y es responsable de la innovación tecnológica de la plataforma."
+      },
+      "oscar": {
+        "name": "Óscar Díez",
+        "role": "Director de Marketing",
+        "bio": "Óscar tiene más de 10 años de experiencia en marketing digital y estrategias de crecimiento."
+      },
+      "cristian": {
+        "name": "Cristian Álvarez",
+        "role": "Director de Operaciones",
+        "bio": "Cristian supervisa todas las operaciones diarias y asegura que cada evento sea un éxito."
+      }
+    },
+    "joinTitle": "¿Quieres unirte a nuestro equipo?",
+    "joinDescription": "Estamos siempre buscando personas talentosas y apasionadas para unirse a nuestro equipo. Consulta nuestras...",
+    "jobOffer": "Ver ofertas de empleo",
+    "values":{
+      "title": "Nuestro Valores",
+      "innovation": {
+        "title": "Innovación",
+        "description": "Buscamos constantemente nuevas formas de mejorar nuestra plataforma y ofrecer soluciones innovadoras."
+      },
+      "community":{
+        "title": "Comunidad",
+        "description": "Creemos en el poder de los eventos para unir a las personas y crear comunidades vibrantes."
+      },
+      "trust":{
+        "title": "Confianza",
+        "description": "La seguridad y confianza son fundamentales en todo lo que hacemos, desde la compra de entradas hasta la protección de datos."
+      }
+    }
   }
 }
