@@ -28,11 +28,12 @@ public class EventRelationEntity {
     @ManyToOne
     @MapsId("eventId")
     @JoinColumn(name = "event_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("event-relations")
     private EventEntity event;
 
     @ManyToOne
     @MapsId("relatedEventId")
     @JoinColumn(name = "related_event_id", nullable = false)
+    @JsonBackReference("related-event-relations")
     private EventEntity relatedEvent;
 }

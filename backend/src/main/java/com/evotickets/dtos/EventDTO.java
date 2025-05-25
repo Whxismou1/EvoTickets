@@ -3,7 +3,7 @@ package com.evotickets.dtos;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.evotickets.entities.EventPhotosEntity;
+import com.evotickets.dtos.EventHighlightsDTO;
 import com.evotickets.entities.LocationEntity;
 import com.evotickets.entities.enums.EventCategory;
 
@@ -20,7 +20,7 @@ public class EventDTO {
 
     private Long id;
 
-    private List<EventPhotosEntity> photos;
+    private List<EventPhotosDTO> photos;
 
     private String website;
 
@@ -33,6 +33,8 @@ public class EventDTO {
     private int capacity;
 
     private int minAge;
+
+    private List<EventHighlightsDTO> highlights;
 
     private String longDescription;
     

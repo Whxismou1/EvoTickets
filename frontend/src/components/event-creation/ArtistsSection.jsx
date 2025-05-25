@@ -8,12 +8,12 @@ import FormField from "./FormField"
 
 // Datos de ejemplo para artistas
 const mockArtists = [
-  { id: 1, name: "Bad Bunny", genre: "Urbano", image: "/placeholder.svg" },
-  { id: 2, name: "Rosalía", genre: "Flamenco/Pop", image: "/placeholder.svg" },
-  { id: 3, name: "Coldplay", genre: "Rock/Pop", image: "/placeholder.svg" },
-  { id: 4, name: "Dua Lipa", genre: "Pop", image: "/placeholder.svg" },
-  { id: 5, name: "J Balvin", genre: "Reggaeton", image: "/placeholder.svg" },
-  { id: 6, name: "Billie Eilish", genre: "Pop", image: "/placeholder.svg" },
+  { id: 1, artisticName: "Bad Bunny", genre: "Urbano", image: "/placeholder.svg" },
+  { id: 2, artisticName: "Rosalía", genre: "Flamenco/Pop", image: "/placeholder.svg" },
+  { id: 3, artisticName: "Coldplay", genre: "Rock/Pop", image: "/placeholder.svg" },
+  { id: 4, artisticName: "Dua Lipa", genre: "Pop", image: "/placeholder.svg" },
+  { id: 5, artisticName: "J Balvin", genre: "Reggaeton", image: "/placeholder.svg" },
+  { id: 6, artisticName: "Billie Eilish", genre: "Pop", image: "/placeholder.svg" },
 ]
 
 const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, eventData, setEventData }) => {
@@ -37,13 +37,13 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
     if (artistSearchQuery.trim()) {
       setEventData({
         ...eventData,
-        artists: [...eventData.artists, { artisticName: artistSearchQuery, role: "", day: "", time: "", isNew: true }],
+        artists: [...eventData.artists, { name: artistSearchQuery, role: "", day: "", time: "", isNew: true }],
       })
       setArtistSearchQuery("")
     } else {
       setEventData({
         ...eventData,
-        artists: [...eventData.artists, { artisticName: "", role: "", day: "", time: "", isNew: true }],
+        artists: [...eventData.artists, { name: "", role: "", day: "", time: "", isNew: true }],
       })
     }
   }
@@ -70,6 +70,12 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
       }
       reader.readAsDataURL(file)
     }
+  }
+
+  // Modificar la función onNext para validar antes de avanzar
+  const handleNext = () => {
+    // Aquí puedes añadir tu propia validación si es necesario
+    onNext()
   }
 
   return (
@@ -230,7 +236,7 @@ const ArtistsSection = ({ isOpen, toggleOpen, isCompleted, onPrevious, onNext, e
         <Button type="button" variant="light" className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10" onClick={onPrevious}>
           Volver a Detalles
         </Button>
-        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={onNext}>
+        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={handleNext}>
           Siguiente: Galería
         </Button>
       </div>

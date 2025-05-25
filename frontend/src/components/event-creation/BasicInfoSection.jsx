@@ -19,10 +19,16 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
     if (file) {
       const reader = new FileReader()
       reader.onload = () => {
-        setEventData({ ...eventData, image: reader.result })
+        setEventData({ ...eventData, coverImage: reader.result })
       }
       reader.readAsDataURL(file)
     }
+  }
+
+  // Modificar la función onNext para validar antes de avanzar
+  const handleNext = () => {
+    // Aquí puedes añadir tu propia validación si es necesario
+    onNext()
   }
 
   return (
@@ -37,17 +43,17 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
         <div className="md:col-span-2">
           <FormField label="Imagen principal del evento" required>
             <div className="mt-1 flex items-center">
-              {eventData.image ? (
+              {eventData.coverImage ? (
                 <div className="relative">
                   <img
-                    src={eventData.image || "/placeholder.svg"}
+                    src={eventData.coverImage || "/placeholder.svg"}
                     alt="Vista previa"
                     className="h-32 w-full object-cover rounded-lg"
                   />
                   <button
                     type="button"
                     className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md"
-                    onClick={() => setEventData({ ...eventData, image: null })}
+                    onClick={() => setEventData({ ...eventData, coverImage: null })}
                   >
                     <X className="h-4 w-4 text-red-500" />
                   </button>
@@ -88,12 +94,12 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
             className="w-full px-3 py-2 border border-[#A28CD4]/30 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5C3D8D]/50"
           >
             <option value="">Selecciona una categoría</option>
-            <option value="concerts">Concierto</option>
-            <option value="festivals">Festival</option>
-            <option value="sports">Deporte</option>
-            <option value="theater">Teatro</option>
-            <option value="comedy">Comedia</option>
-            <option value="other">Otro</option>
+            <option value="CONCERT">Concierto</option>
+            <option value="FESTIVAL">Festival</option>
+            <option value="SPORT">Deporte</option>
+            <option value="THEATRE">Teatro</option>
+            <option value="EXPO">Exposición</option>
+            <option value="OTHER">Otro</option>
           </select>
         </FormField>
 
@@ -111,8 +117,8 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
         <FormField label="Ubicación" required>
           <input
             type="text"
-            name="location"
-            value={eventData.location || ""}
+            name="locationName"
+            value={eventData.locationName || ""}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-[#A28CD4]/30 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5C3D8D]/50"
             placeholder="Ej. Wizink Center"
@@ -202,8 +208,8 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
         <FormField label="Edad mínima" required={false}>
           <input
             type="number"
-            name="minAge"
-            value={eventData.minAge || ""}
+            name="minimumAge"
+            value={eventData.minimumAge || ""}
             onChange={handleChange}
             min="0"
             className="w-full px-3 py-2 border border-[#A28CD4]/30 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5C3D8D]/50"
@@ -242,7 +248,7 @@ const BasicInfoSection = ({ isOpen, toggleOpen, isCompleted, onNext, eventData, 
       </div>
 
       <div className="flex justify-end mt-4">
-        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={onNext}>
+        <Button type="button" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onClick={handleNext}>
           Siguiente: Detalles
         </Button>
       </div>

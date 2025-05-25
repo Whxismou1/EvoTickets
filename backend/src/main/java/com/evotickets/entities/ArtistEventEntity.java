@@ -6,12 +6,16 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 import com.evotickets.entities.ids.ArtistEventId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "artistsEvents")
+@ToString(exclude = "event")
 public class ArtistEventEntity {
 
     @EmbeddedId
@@ -20,11 +24,13 @@ public class ArtistEventEntity {
     @ManyToOne
     @MapsId("artistId")
     @JoinColumn(name = "artist_id")
+    @JsonBackReference(value = "artist-artists_events")
     private ArtistEntity artist;
     
     @ManyToOne
     @MapsId("eventId")
     @JoinColumn(name = "event_id")
+    @JsonBackReference(value = "event-artists_events")
     private EventEntity event;
     
     @Column(name = "shows_up_at")

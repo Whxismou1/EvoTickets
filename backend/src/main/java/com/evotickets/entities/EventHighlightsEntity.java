@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Eventhighlights")
+@Table(name = "event_highlights")
 public class EventHighlightsEntity {
 
     @Id

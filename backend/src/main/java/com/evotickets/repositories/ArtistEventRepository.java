@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.evotickets.entities.ArtistEventEntity;
 import com.evotickets.entities.EventEntity;
+import com.evotickets.entities.ids.ArtistEventId;
 
-public interface ArtistEventRepository extends JpaRepository<ArtistEventEntity, Long>{
+public interface ArtistEventRepository extends JpaRepository<ArtistEventEntity, ArtistEventId>{
     public abstract List<ArtistEventEntity> findByEvent(EventEntity evento);
 }
