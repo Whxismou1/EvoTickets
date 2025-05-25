@@ -25,6 +25,7 @@ import Alert from "../components/Alert"
 import { getEventsByOrganizer } from "../services/eventService";
 import { useAuthStore } from "../store/authStore";
 import { useTranslation } from "react-i18next";
+import { deleteEvent } from "../services/eventService";
 
 const EventManagerDashboard = () => {
   const navigate = useNavigate()
@@ -157,11 +158,26 @@ const EventManagerDashboard = () => {
       return () => clearTimeout(timer)
   }, [])*/
 
-  const handleDeleteEvent = (id) => {
-    showAlert({
-      type: "info",
-      message: "Evento eliminado correctamente",
-    })
+  const handleDeleteEvent = async (id) => {
+
+    try {
+
+      await deleteEvent(id); // llamada real
+      setEvents((prev) => prev.filter((event) => event.id !== id)); // actualiza lista
+      showAlert({
+        type: "success",
+        message: "Evento eliminado correctamente",
+      });
+
+    } catch (error) {
+
+      showAlert({
+        type: "error",
+        message: "Error al eliminar el evento",
+      });
+      console.error(error);
+
+    }
     // Logic to delete would go here
   }
 
