@@ -12,17 +12,17 @@ export const useEventForm = () => {
 
   // Estado para los datos del evento
   const [eventData, setEventData] = useState({
-    title: "",
+    name: "",
     category: "",
     description: "",
     longDescription: "",
-    location: "",
+    locationName: "",
     address: "",
-    date: "",
+    startDate: "",
     endDate: "",
     dateToBeConfirmed: false,
     endDateToBeConfirmed: false,
-    image: null,
+    coverImage: null,
     organizer: "",
     website: "",
     minimumAge: "",
@@ -32,7 +32,7 @@ export const useEventForm = () => {
     artists: [],
     previousEvents: [{ year: "", images: [] }],
     faqs: [{ question: "", answer: "" }],
-    ticketTypes: [{ name: "", price: "", description: "", limit: "" }],
+    tickets: [{ name: "", price: "", description: "", limit: "" }],
     seatingMap: {
       sections: [],
       rows: 0,
@@ -46,20 +46,21 @@ export const useEventForm = () => {
 
     switch (section) {
       case "basic":
+        console.log(eventData)
         isValid = !!(
-          eventData.title &&
+          eventData.name &&
           eventData.category &&
           eventData.description &&
-          eventData.location &&
-          (eventData.date || eventData.dateToBeConfirmed) &&
-          eventData.image
+          eventData.locationName &&
+          (eventData.startDate || eventData.dateToBeConfirmed) &&
+          eventData.coverImage
         )
         break
       case "details":
         isValid = !!(eventData.longDescription && eventData.highlights.length > 0 && eventData.highlights[0] !== "")
         break
       case "artists":
-        isValid = !!(eventData.artists.length > 0 && eventData.artists[0]?.name)
+        isValid = !!(eventData.artists.length > 0 && eventData.artists[0]?.artisticName)
         break
       case "gallery":
         // Opcional, siempre válido
@@ -71,9 +72,9 @@ export const useEventForm = () => {
         break
       case "tickets":
         isValid = !!(
-          eventData.ticketTypes.length > 0 &&
-          eventData.ticketTypes[0]?.name &&
-          eventData.ticketTypes[0]?.price
+          eventData.tickets.length > 0 &&
+          eventData.tickets[0]?.name &&
+          eventData.tickets[0]?.price
         )
         break
       case "seating":

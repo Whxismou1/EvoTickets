@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@heroui/button";
 import { Menu, Moon, Sun, Ticket, X, User, Bell, Settings, LogOut } from 'lucide-react';
 import { useTheme } from "../context/ThemeContext";
 import { useTranslation } from "react-i18next";
-
+import { useAuthStore } from "../store/authStore"
 const languages = [
   { code: "es", name: "Español", flag: "https://flagcdn.com/es.svg" },
   { code: "en", name: "English", flag: "https://flagcdn.com/gb.svg" },
 ];
 
 export default function Navbar({ isAuthenticated = false }) {
+  const navigate = useNavigate();
+  const { logout } = useAuthStore();
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -110,11 +112,11 @@ export default function Navbar({ isAuthenticated = false }) {
               >
                 <User className="h-5 w-5 text-[#5C3D8D]" />
               </button>
-              
+
               {isUserMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-[#A28CD4]/20">
-                  <Link 
-                    to="/profile?tab=info" 
+                  <Link
+                    to="/profile?tab=info"
                     className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10"
                     onClick={() => setIsUserMenuOpen(false)}
                   >
@@ -123,26 +125,28 @@ export default function Navbar({ isAuthenticated = false }) {
                       {t("navBar.my_profile")}
                     </span>
                   </Link>
-                  <Link 
-                    to="/profile?tab=tickets" 
+                  <Link
+                    to="/profile?tab=tickets"
                     className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10"
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     <Ticket className="h-4 w-4 text-[#5C3D8D]" />
                     <span className="text-sm text-[#2E1A47]">{t("navBar.my_events")}</span>
                   </Link>
-                  <Link 
-                    to="/profile?tab=settings" 
+                  <Link
+                    to="/profile?tab=settings"
                     className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10"
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     <Settings className="h-4 w-4 text-[#5C3D8D]" />
                     <span className="text-sm text-[#2E1A47]">{t("navBar.settings")}</span>
                   </Link>
-                  <Link 
-                    to="/logout" 
+                  <Link
                     className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10 border-t border-[#A28CD4]/20 mt-1 pt-1"
-                    onClick={() => setIsUserMenuOpen(false)}
+                    onClick={() => {
+                      logout();
+                      navigate("/login");
+                    }}
                   >
                     <LogOut className="h-4 w-4 text-red-500" />
                     <span className="text-sm text-red-500">{t("navBar.close_session")}</span>
@@ -214,11 +218,10 @@ export default function Navbar({ isAuthenticated = false }) {
                   <button
                     key={language.code}
                     onClick={() => changeLanguage(language)}
-                    className={`flex items-center gap-1 p-1 rounded ${
-                      currentLanguage.code === language.code
-                        ? "bg-[#A28CD4]/20"
-                        : "hover:bg-[#A28CD4]/10"
-                    }`}
+                    className={`flex items-center gap-1 p-1 rounded ${currentLanguage.code === language.code
+                      ? "bg-[#A28CD4]/20"
+                      : "hover:bg-[#A28CD4]/10"
+                      }`}
                   >
                     <img
                       src={language.flag || "/placeholder.svg"}
@@ -259,14 +262,18 @@ export default function Navbar({ isAuthenticated = false }) {
                   <Settings className="h-5 w-5" />
                   Ajustes
                 </Link>
-                <Link
-                  to="/logout"
-                  className="flex items-center gap-2 py-2 text-red-500"
-                  onClick={() => setIsMenuOpen(false)}
+                <Button
+
+                  className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10 border-t border-[#A28CD4]/20 mt-1 pt-1"
+                  onClick={() => {
+                    logout();
+                    navigate("/login");
+                  }}
                 >
+
                   <LogOut className="h-5 w-5" />
                   Cerrar Sesión
-                </Link>
+                </Button>
               </div>
             ) : (
               <div className="flex gap-2 py-2">

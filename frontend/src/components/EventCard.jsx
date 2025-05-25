@@ -19,7 +19,7 @@ export default function EventCard({ event, compact = false }) {
       <Link to={`/events/${event.id}`} className="block h-full">
         <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow h-full overflow-hidden">
           <div className="relative h-40">
-            <img src={event.image || "/placeholder.svg"} alt={event.title} className="w-full h-full object-cover" />
+            <img src={event.image || "/placeholder.svg"} alt={event.name} className="w-full h-full object-cover" />
             <button
               onClick={toggleLike}
               className="absolute top-2 right-2 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
@@ -28,7 +28,7 @@ export default function EventCard({ event, compact = false }) {
             </button>
           </div>
           <div className="p-3">
-            <h3 className="font-semibold text-[#2E1A47] text-sm line-clamp-1">{event.title}</h3>
+            <h3 className="font-semibold text-[#2E1A47] text-sm line-clamp-1">{event.name}</h3>
             <div className="flex items-center text-xs text-[#5C3D8D] mt-1">
               <Calendar className="h-3 w-3 mr-1" /> {formatDate(event.date)}
             </div>
@@ -42,7 +42,7 @@ export default function EventCard({ event, compact = false }) {
     <Link to={`/events/${event.id}`} className="block h-full">
       <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow h-full overflow-hidden">
         <div className="relative h-48">
-          <img src={event.image || "/placeholder.svg"} alt={event.title} className="w-full h-full object-cover" />
+          <img src={event.image || "/placeholder.svg"} alt={event.name} className="w-full h-full object-cover" />
           <button
             onClick={toggleLike}
             className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors"
@@ -56,7 +56,7 @@ export default function EventCard({ event, compact = false }) {
           )}
         </div>
         <div className="p-4">
-          <h3 className="font-semibold text-[#2E1A47] mb-2">{event.title}</h3>
+          <h3 className="font-semibold text-[#2E1A47] mb-2">{event.name}</h3>
           <div className="flex items-center text-sm text-[#5C3D8D] mb-2">
             <Calendar className="h-4 w-4 mr-1" /> {formatDate(event.date)}
           </div>

@@ -1,26 +1,104 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@heroui/button"
-import { User, Ticket, Settings, Bell, CreditCard, Calendar, Heart, Edit, Camera, LogOut } from "lucide-react"
+import { User, Ticket, Settings, Bell, CreditCard, Calendar, Heart, Edit, Camera, LogOut, Users } from "lucide-react"
 import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import EventCard from "../components/EventCard"
 import { useTranslation } from "react-i18next"
+import { getUserById, updateUserProfile, uploadProfilePicture, changeUserPassword, deleteAccount } from "../services/userService"
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore"
 
 export default function Profile() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    location: '',
+    dateOfBirth: '',
+    gender: '',
+  });
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const { logout } = useAuthStore()
+  const navigate = useNavigate()
   const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState("info")
+  const [user, setUser] = useState(null)
+  const fileInputRef = useRef()
+  const userId = 50
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await getUserById(userId);
+        console.log(user);
+        setUser(user);
+      } catch (error) {
+        showAlert("Error al obtener el usuario:", error);
+      }
+    };
 
-  const user = {
-    name: "Juan Pérez",
-    email: "juan.perez@example.com",
-    avatar: "/images/avatar.jpg",
-    joinDate: "Enero 2023",
-    location: "Madrid, España",
-    phone: "+34 612 345 678",
-  }
+    fetchUser();
+  }, []);
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        phone: user.phone || "",
+        location: user.location || "",
+        dateOfBirth: user.dateOfBirth || "",
+        gender: user.gender || "",
+      });
+    }
+  }, [user]);
+
+  if (!user) return <div className="text-center py-12">Cargando perfil...</div>
+
+
+  //   const user = {
+  //   name: "Juan Pérez",
+  //   email: "juan.perez@example.com",
+  //   avatar: "/images/avatar.jpg",
+  //   joinDate: "Enero 2023",
+  //   location: "Madrid, España",
+  //   phone: "+34 612 345 678",
+  //   artistsFollow:{},
+  //   purchasedEvents:{
+  //     [
+  //   {
+  //     id: 1,
+  //     title: "Concierto de Rock en Vivo",
+  //     date: "2023-06-15T20:00:00",
+  //     location: "Wizink Center, Madrid",
+  //     image: "/images/event1.jpg",
+  //     price: "45",
+  //     category: "concerts",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Festival de Verano",
+  //     date: "2023-07-22T18:00:00",
+  //     location: "Parque Tierno Galván, Madrid",
+  //     image: "/images/event2.jpg",
+  //     price: "60",
+  //     category: "festivals",
+  //   },
+  // ],
+  //   }
+  // }
+
+
 
   const purchasedEvents = [
     {
@@ -79,6 +157,59 @@ export default function Profile() {
   const handleTabChange = (tab) => {
     setActiveTab(tab)
   }
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+    const res = await uploadProfilePicture(userId, file);
+    setUser((prev) => ({ ...prev, profilePicture: res.imageUrl }));
+
+  }
+
+  const handleChangePassword = async () => {
+    try {
+      await changeUserPassword(userId, passwordData);
+      alert("Contraseña actualizada con éxito.");
+      setShowPasswordModal(false);
+      setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    } catch (error) {
+      alert("Error al cambiar la contraseña: " + error.message);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      const result = await deleteAccount(userId);
+      if (result) {
+        alert("Cuenta eliminada con éxito.");
+        logout();         
+        navigate("/");    
+      }
+    } catch (error) {
+      alert("Error al eliminar la cuenta: " + error.message);
+    }
+  };
+
+
+
+
+  const handleEdit = async () => {
+    const updated = {
+      firstName: "NuevoNombre",
+      lastName: "NuevoApellido",
+      email: "NuevoEmail",
+      phone: "NuevoTeléfono",
+      location: "NuevaUbicación",
+      dateOfBirth: user.dateOfBirth,
+
+      notificationsEnabled: user.notificationsEnabled,
+    }
+    const updatedUser = await updateUserProfile(userId, updated)
+    setUser(updatedUser)
+  }
+
+
+
+
 
   return (
     <>
@@ -90,29 +221,37 @@ export default function Profile() {
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
               <div className="relative">
                 <div className="h-24 w-24 md:h-32 md:w-32 rounded-full overflow-hidden bg-[#5C3D8D]">
-                  {user.avatar ? (
+                  {user.profilePicture ? (
                     <img
-                      src={user.avatar || "/placeholder.svg"}
-                      alt={user.name}
+                      src={user.profilePicture || "/placeholder.svg"}
+                      alt={`${user.firstName} ${user.lastName}`}
                       className="w-full h-full object-cover"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-white text-2xl">
-                      {user.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
+                      {user.firstName[0]}
+                      {user.lastName[0]}
                     </div>
                   )}
                 </div>
-                <Button
-                  size="sm"
-                  isIconOnly
-                  className="absolute bottom-0 right-0 h-8 w-8 min-w-0 rounded-full bg-[#5C3D8D] hover:bg-[#2E1A47] text-white"
-                >
-                  <Camera size={14} />
-                </Button>
               </div>
+
+              <Button
+                size="sm"
+                isIconOnly
+                className="absolute bottom-0 right-0 h-8 w-8 min-w-0 rounded-full bg-[#5C3D8D] hover:bg-[#2E1A47] text-white"
+                onPress={() => fileInputRef.current.click()}
+              >
+                <Camera size={14} />
+              </Button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handleImageUpload}
+              />
+
 
               <div className="flex-grow text-center md:text-left">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -121,15 +260,36 @@ export default function Profile() {
                     <p className="text-[#5C3D8D]">{user.email}</p>
                   </div>
                   <div className="mt-4 md:mt-0 flex justify-center md:justify-end gap-3">
+                    {isEditing ? (
+                      <Button
+                        onPress={async () => {
+                          const updatedUser = await updateUserProfile(userId, formData);
+                          setUser(updatedUser);
+                          setIsEditing(false);
+                        }}
+                        variant="solid"
+                        className="bg-[#5C3D8D] text-white hover:bg-[#2E1A47]"
+                        size="sm"
+                      >
+                        Guardar Cambios
+
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="bordered"
+                        className="border-[#5C3D8D] text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
+                        size="sm"
+                        onPress={() => setIsEditing(true)}
+                      >
+                        Editar Perfil
+                      </Button>
+                    )}
+
                     <Button
-                      variant="bordered"
-                      className="border-[#5C3D8D] text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
-                      size="sm"
-                      startContent={<Edit size={16} />}
-                    >
-                      Editar Perfil
-                    </Button>
-                    <Button
+                      onPress={() => {
+                        logout();         // Limpia el estado
+                        navigate("/login"); // Redirige al login
+                      }}
                       variant="light"
                       className="text-red-500 hover:bg-red-50 hover:text-red-600"
                       size="sm"
@@ -137,13 +297,20 @@ export default function Profile() {
                     >
                       Cerrar Sesión
                     </Button>
+
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="bg-[#F3F0FA] p-3 rounded-lg">
                     <p className="text-sm text-[#5C3D8D]">Miembro desde</p>
-                    <p className="font-medium text-[#2E1A47]">{user.joinDate}</p>
+                    <p className="font-medium text-[#2E1A47]">
+                      {new Date(user.createdAt).toLocaleDateString("es-ES", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
                   </div>
                   <div className="bg-[#F3F0FA] p-3 rounded-lg">
                     <p className="text-sm text-[#5C3D8D]">Ubicación</p>
@@ -151,7 +318,7 @@ export default function Profile() {
                   </div>
                   <div className="bg-[#F3F0FA] p-3 rounded-lg">
                     <p className="text-sm text-[#5C3D8D]">Teléfono</p>
-                    <p className="font-medium text-[#2E1A47]">{user.phone}</p>
+                    <p className="text-[#2E1A47]">{user.phone}</p>
                   </div>
                   <div className="bg-[#F3F0FA] p-3 rounded-lg">
                     <p className="text-sm text-[#5C3D8D]">Eventos asistidos</p>
@@ -170,17 +337,15 @@ export default function Profile() {
                 { id: "info", icon: <User size={16} />, label: "Información" },
                 { id: "tickets", icon: <Ticket size={16} />, label: "Mis Tickets" },
                 { id: "saved", icon: <Heart size={16} />, label: "Guardados" },
-                { id: "calendar", icon: <Calendar size={16} />, label: "Calendario" },
-                { id: "payment", icon: <CreditCard size={16} />, label: "Pagos" },
+                { id: "artists", icon: <Users size={16} />, label: "Artistas Seguidos" },
                 { id: "notifications", icon: <Bell size={16} />, label: "Notificaciones" },
                 { id: "settings", icon: <Settings size={16} />, label: "Ajustes" },
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
-                  className={`rounded-md px-4 py-2 transition-colors flex items-center ${
-                    activeTab === tab.id ? "bg-[#5C3D8D] text-white" : "bg-white text-[#5C3D8D] hover:bg-[#A28CD4]/20"
-                  }`}
+                  className={`rounded-md px-4 py-2 transition-colors flex items-center ${activeTab === tab.id ? "bg-[#5C3D8D] text-white" : "bg-white text-[#5C3D8D] hover:bg-[#A28CD4]/20"
+                    }`}
                 >
                   <span className="mr-2">{tab.icon}</span> {tab.label}
                 </button>
@@ -194,23 +359,69 @@ export default function Profile() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="text-sm font-medium text-[#5C3D8D] mb-1">Nombre Completo</h3>
-                    <p className="text-[#2E1A47]">{user.name}</p>
+                    {isEditing ? (
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          className="form-input border border-gray-200 rounded-md px-3 py-1 w-full"
+                          value={formData.firstName}
+                          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                          placeholder="Nombre"
+                        />
+                        <input
+                          type="text"
+                          className="form-input border border-gray-200 rounded-md px-3 py-1 w-full"
+                          value={formData.lastName}
+                          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                          placeholder="Apellidos"
+                        />
+                      </div>
+                    ) : (
+                      <p className="text-[#2E1A47]">{`${user?.firstName || ''} ${user?.lastName || ''}`}</p>
+                    )}
                   </div>
+
                   <div>
                     <h3 className="text-sm font-medium text-[#5C3D8D] mb-1">Email</h3>
-                    <p className="text-[#2E1A47]">{user.email}</p>
-                  </div>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        className="form-input border border-gray-200 rounded-md px-3 py-1 w-full"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      />
+                    ) : (
+                      <p className="text-[#2E1A47]">{user.email}</p>
+                    )}                  </div>
                   <div>
                     <h3 className="text-sm font-medium text-[#5C3D8D] mb-1">Teléfono</h3>
-                    <p className="text-[#2E1A47]">{user.phone}</p>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        className="form-input border border-gray-200 rounded-md px-3 py-1 w-full"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      />
+                    ) : (
+                      <p className="text-[#2E1A47]">{user.phone}</p>
+                    )}
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-[#5C3D8D] mb-1">Ubicación</h3>
-                    <p className="text-[#2E1A47]">{user.location}</p>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        className="form-input border border-gray-200 rounded-md px-3 py-1 w-full"
+                        value={formData.location}
+                        onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                      />
+                    ) : (
+                      <p className="text-[#2E1A47]">{user.location}</p>
+                    )}
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-[#5C3D8D] mb-1">Fecha de Nacimiento</h3>
-                    <p className="text-[#2E1A47]">15 de Marzo de 1990</p>
+                    <p className="text-[#2E1A47]">{user.dateOfBirth}</p>
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-[#5C3D8D] mb-1">Género</h3>
@@ -218,7 +429,7 @@ export default function Profile() {
                   </div>
                 </div>
 
-                <div className="mt-8">
+                {/* <div className="mt-8">
                   <h2 className="text-xl font-bold text-[#2E1A47] mb-6">Preferencias</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -244,7 +455,7 @@ export default function Profile() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             )}
 
@@ -304,6 +515,35 @@ export default function Profile() {
               </div>
             )}
 
+            {activeTab === "artists" && (
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <h2 className="text-xl font-bold text-[#2E1A47] mb-6">Artistas Seguidos</h2>
+
+                {savedEvents.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {savedEvents.map((event) => (
+                      <motion.div
+                        key={event.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <EventCard event={event} />
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <Heart className="h-16 w-16 mx-auto text-[#A28CD4] mb-4" />
+                    <h3 className="text-lg font-medium text-[#2E1A47] mb-2">No tienes ningún artista en favorito</h3>
+                    <p className="text-[#5C3D8D] mb-6">Sigue a tus artistas para no perdértelos en tu ciudad</p>
+                    <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">Explorar Artistas</Button>
+                  </div>
+                )}
+              </div>
+            )}
+
+
             {activeTab === "notifications" && (
               <div className="bg-white rounded-xl shadow-sm p-6">
                 <h2 className="text-xl font-bold text-[#2E1A47] mb-6">Preferencias de Notificaciones</h2>
@@ -315,18 +555,23 @@ export default function Profile() {
                       <p className="text-sm text-[#5C3D8D]">Recibe actualizaciones sobre tus eventos</p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" className="sr-only peer" defaultChecked />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#5C3D8D]"></div>
-                    </label>
-                  </div>
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
+                        checked={user.notificationsEnabled}
+                        onChange={async (e) => {
+                          const newValue = e.target.checked;
 
-                  <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg">
-                    <div>
-                      <h3 className="font-medium text-[#2E1A47]">Notificaciones Push</h3>
-                      <p className="text-sm text-[#5C3D8D]">Recibe alertas en tu dispositivo</p>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" className="sr-only peer" defaultChecked />
+                          try {
+                            const updatedUser = await updateUserProfile(user.id, {
+                              notificationsEnabled: newValue,
+                            });
+                            setUser(updatedUser);
+                          } catch (error) {
+                            throw new Error("Error actualizando notificaciones:", error);
+                          }
+                        }}
+                      />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#5C3D8D]"></div>
                     </label>
                   </div>
@@ -367,17 +612,27 @@ export default function Profile() {
                     <p className="text-sm text-[#5C3D8D] mb-4">
                       Actualiza tu contraseña regularmente para mayor seguridad
                     </p>
-                    <Button variant="bordered" className="border-[#5C3D8D] text-[#5C3D8D] hover:bg-[#5C3D8D]/10">
+                    <Button
+                      variant="bordered"
+                      className="border-[#5C3D8D] text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
+                      onPress={() => setShowPasswordModal(true)}
+                    >
                       Cambiar Contraseña
                     </Button>
+
                   </div>
 
                   <div className="p-4 border border-gray-100 rounded-lg">
                     <h3 className="font-medium text-red-500 mb-2">Eliminar Cuenta</h3>
                     <p className="text-sm text-[#5C3D8D] mb-4">Esta acción no se puede deshacer</p>
-                    <Button color="danger" variant="flat">
+                    <Button
+                      color="danger"
+                      variant="flat"
+                      onPress={handleDeleteAccount}
+                    >
                       Eliminar mi cuenta
                     </Button>
+
                   </div>
                 </div>
               </div>
@@ -385,7 +640,48 @@ export default function Profile() {
           </div>
         </div>
       </main>
+
+      {showPasswordModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+            <h2 className="text-lg font-bold mb-4 text-[#2E1A47]">Cambiar Contraseña</h2>
+            <div className="space-y-4">
+              <input
+                type="password"
+                placeholder="Contraseña actual"
+                className="w-full border rounded px-3 py-2"
+                value={passwordData.currentPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+              />
+              <input
+                type="password"
+                placeholder="Nueva contraseña"
+                className="w-full border rounded px-3 py-2"
+                value={passwordData.newPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+              />
+              <input
+                type="password"
+                placeholder="Confirmar nueva contraseña"
+                className="w-full border rounded px-3 py-2"
+                value={passwordData.confirmPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+              />
+              <div className="flex justify-end gap-2">
+                <Button onPress={() => setShowPasswordModal(false)} variant="light">
+                  Cancelar
+                </Button>
+                <Button onPress={handleChangePassword} className="bg-[#5C3D8D] text-white">
+                  Guardar
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
+
     </>
   )
 }

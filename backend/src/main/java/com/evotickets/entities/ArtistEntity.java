@@ -1,6 +1,9 @@
 package com.evotickets.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,7 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -16,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -23,6 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "artists")
+@ToString(exclude="artistEvents")
 public class ArtistEntity {
 
     @Id
@@ -30,9 +36,9 @@ public class ArtistEntity {
     @Column(name = "artist_id")
     private Long artistId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
-    private UserEntity userId;
+    private UserEntity user;
 
 
     @Column(name = "profile_image", columnDefinition = "TEXT")
@@ -61,6 +67,10 @@ public class ArtistEntity {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
+
+    @OneToMany(mappedBy = "artist")
+    @JsonManagedReference(value = "artist-artists_events")
+    private List<ArtistEventEntity> artistEvents;
 
     @PreUpdate
     protected void onUpdate() {
