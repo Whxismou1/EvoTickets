@@ -10,19 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.evotickets.dtos.ArtistAllDTO;
+import com.evotickets.dtos.ArtistEventDTO;
 import com.evotickets.services.ArtistService;
 
 @RestController
 @RequestMapping("/api/v1/artists")
 public class ArtistController {
-    
+
     @Autowired
     private ArtistService artistService;
 
-
-
     @GetMapping()
-    public ResponseEntity<?> getAllArtists(){
+    public ResponseEntity<?> getAllArtists() {
         List<ArtistAllDTO> artists = artistService.getAllArtists();
         return ResponseEntity.ok(artists);
     }
@@ -33,5 +32,9 @@ public class ArtistController {
         return ResponseEntity.ok(artist);
     }
 
-
+    @GetMapping("/by-artist/{artistId}")
+    public ResponseEntity<List<ArtistEventDTO>> getEventsByArtist(@PathVariable Long artistId) {
+        List<ArtistEventDTO> events = artistService.getEventsByArtistId(artistId);
+        return ResponseEntity.ok(events);
+    }
 }

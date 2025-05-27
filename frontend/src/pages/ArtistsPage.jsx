@@ -23,43 +23,6 @@ const ArtistsPage = () => {
   const [artists, setArtists] = useState([]);
   const [followStates, setFollowStates] = useState({});
 
-  // useEffect(() => {
-  //   const fetchArtists = async () => {
-  //     try {
-  //       const data = await getAllArtists();
-
-  //       const transformed = data.map((artist) => ({
-  //         id: artist.id,
-  //         name: artist.artisticName,
-  //         followers: Math.floor(Math.random() * 10000 + 1000),
-  //         image: artist.profileImage || "/placeholder.svg?height=300&width=300",
-  //       }));
-
-  //       setArtists(transformed);
-  //     } catch (err) {
-  //       console.error("Error cargando artistas:", err);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchArtists();
-  // }, []);
-
-  // useEffect(() => {
-  //   const fetchUserFollowed = async () => {
-  //     const currentUser = useAuthStore.getState().userId;
-  //     try {
-  //       const user = await getUserById(currentUser);
-  //       setFollowedArtistIds(user.followedArtistIds || []);
-  //     } catch (err) {
-  //       console.error("Error cargando usuario:", err);
-  //     }
-  //   };
-
-  //   fetchUserFollowed();
-  // }, [currentUser.id]);
-
   useEffect(() => {
     const fetchArtistsAndFollows = async () => {
       try {

@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@heroui/button";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import {
   Calendar,
   Clock,
@@ -26,7 +28,11 @@ import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import { getEventById } from "../services/eventService";
 import { useAuthStore } from "../store/authStore";
-import { removeFavorite, addFavorite, getUserById } from "../services/userService";
+import {
+  removeFavorite,
+  addFavorite,
+  getUserById,
+} from "../services/userService";
 
 export default function EventDetail() {
   const navigate = useNavigate();
@@ -40,16 +46,16 @@ export default function EventDetail() {
   useEffect(() => {
     const fetchEventAndCheckFavorite = async () => {
       if (!id) return;
-  
+
       const userId = useAuthStore.getState().userId;
-  
+
       try {
         const event = await getEventById(id);
         setEventData(event);
         console.log("Event data fetched successfully:", event);
-  
+
         const userData = await getUserById(userId);
-        
+
         const favoritos = userData.favoriteEventIds || [];
         setIsLiked(favoritos.includes(parseInt(id)));
       } catch (error) {
@@ -58,10 +64,9 @@ export default function EventDetail() {
         setIsLoading(false);
       }
     };
-  
+
     fetchEventAndCheckFavorite();
   }, [id]);
-  
 
   const FAQItem = ({ faq, index }) => {
     const [open, setOpen] = useState(false);
@@ -89,7 +94,6 @@ export default function EventDetail() {
       </motion.div>
     );
   };
-  // Retornos condicionales basados en el estado
   if (isLoading) {
     return (
       <>
@@ -137,7 +141,6 @@ export default function EventDetail() {
       }
       groupsMap.get(year).push(ev);
     });
-    // Convierte a array y opcionalmente ordénalo (por ejemplo, de menor a mayor año)
     relatedGroups.push(
       ...Array.from(groupsMap, ([year, events]) => ({ year, events }))
     );
@@ -147,16 +150,15 @@ export default function EventDetail() {
   const toggleLike = async () => {
     const userId = useAuthStore.getState().userId;
 
-    try{
+    try {
       if (isLiked) {
         await removeFavorite(userId, eventData.id);
       } else {
         await addFavorite(userId, eventData.id);
       }
-    }catch (error) {
+    } catch (error) {
       console.error("Error al guardar el evento:", error);
     }
-
 
     setIsLiked(!isLiked);
   };
@@ -257,13 +259,6 @@ export default function EventDetail() {
                     <div className="flex items-center gap-3 mt-4 md:mt-0">
                       <Button
                         variant="light"
-                        className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
-                        startContent={<Share2 size={18} />}
-                      >
-                        Compartir
-                      </Button>
-                      <Button
-                        variant="light"
                         className={
                           isLiked
                             ? "text-red-500 hover:bg-red-50"
@@ -277,7 +272,6 @@ export default function EventDetail() {
                         }
                         onPress={toggleLike}
                       >
-                        {/* //TODO: Llamar a una función que guarde en la base de datos el evento si se guarda por el usuario*/}
                         {isLiked ? "Guardado" : "Guardar"}
                       </Button>
                     </div>
@@ -478,13 +472,19 @@ export default function EventDetail() {
                 </div>
               </div>
               <div className="rounded-lg overflow-hidden h-64 bg-[#F3F0FA]">
-                {/* Aquí iría un mapa real */}
-                <div className="w-full h-full flex items-center justify-center bg-[#F3F0FA]">
-                  <div className="text-center">
-                    <MapPin className="h-8 w-8 text-[#5C3D8D] mx-auto mb-2" />
-                    <p className="text-[#5C3D8D]">Mapa de ubicación</p>
-                  </div>
-                </div>
+                <MapContainer
+                  center={[eventData.location.latitude, eventData.location.longitude]}
+                  zoom={15}
+                  className="w-full h-full"
+                >
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution="&copy; OpenStreetMap contributors"
+                  />
+                  <Marker position={[eventData.location.latitude, eventData.location.longitude]}>
+                    <Popup>Ubicación del evento</Popup>
+                  </Marker>
+                </MapContainer>
               </div>
             </div>
           </div>
@@ -536,9 +536,6 @@ export default function EventDetail() {
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {/*
-                  Para el grupo activo, se recorren todos sus eventos y se muestran todas sus fotos.
-                */}
                 {relatedGroups[activeGalleryIndex].events.map((ev) =>
                   ev.photos.map((image, index) => (
                     <motion.div

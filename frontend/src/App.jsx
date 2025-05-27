@@ -24,8 +24,9 @@ import ContactPage from "./pages/ContactPage";
 import HelpCenterPage from "./pages/HelpCenterPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import ArtistPublicProfile from "./pages/ArtistPublicProfile";
+import 'leaflet/dist/leaflet.css';
 
-import ArtistDashboard from "./pages/ArtistDashboard";
+// import ArtistDashboard from "./pages/ArtistDashboard";
 import EventManagerDashboard from "./pages/EventManagerDashboard";
 import RegisterManagerPage from "./pages/RegisterManagerPage";
 function App() {
@@ -63,20 +64,18 @@ function App() {
           <Route path="/profile" element={<Profile />} />
         </Route>
 
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route
-          element={<RoleProtectedRoute allowedRoles={["ADMIN"]} />}
-        ></Route>
-
-        <Route element={<RoleProtectedRoute allowedRoles={["ARTIST"]} />}>
+        <Route element={<RoleProtectedRoute allowedRoles={["ADMIN"]} />}>
+          <Route path="/admin" element={<AdminDashboard />} />
         </Route>
-          <Route path="/artistDashboard" element={<ArtistDashboard />} />
 
-          <Route path="/eventCreation" element={<EventCreationPage />} />
+        {/* <Route element={<RoleProtectedRoute allowedRoles={["ARTIST"]} />}>
+          <Route path="/artistDashboard" element={<ArtistDashboard />} />
+        </Route> */}
+
         <Route
           element={<RoleProtectedRoute allowedRoles={["EVENT_MANAGER"]} />}
         >
-
+        <Route path="/eventCreation" element={<EventCreationPage />} />
           <Route
             path="/eventManagerDashboard"
             element={<EventManagerDashboard />}
