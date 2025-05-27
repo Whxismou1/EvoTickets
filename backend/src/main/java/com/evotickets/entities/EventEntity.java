@@ -32,6 +32,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Table(name = "events")
 @ToString(exclude="artistEvents")
+
 public class EventEntity {
     
     @Id

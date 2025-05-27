@@ -2,6 +2,7 @@ package com.evotickets.entities;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -90,7 +92,7 @@ public class UserEntity implements UserDetails {
     @Builder.Default
     @Column(name = "failed_login_attempts", nullable = false)
     private int failedLoginAttempts = 0;
-    
+
     @Builder.Default
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -150,5 +152,27 @@ public class UserEntity implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private ArtistEntity artist;
+
+    @ElementCollection
+    @Column(name = "followed_artist_id")
+    private List<Long> followedArtistIds = new ArrayList<>();
+
+    @ElementCollection
+    @Column(name = "favorite_event_id")
+    private List<Long> favoriteEventIds = new ArrayList<>();
+
+    public void addFavorite(Long eventId) {
+        if (!favoriteEventIds.contains(eventId)) {
+            favoriteEventIds.add(eventId);
+        }
+    }
+
+    public void removeFavorite(Long eventId) {
+        favoriteEventIds.remove(eventId);
+    }
+
+    public boolean isFavorited(Long eventId) {
+        return favoriteEventIds.contains(eventId);
+    }
 
 }

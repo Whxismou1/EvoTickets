@@ -9,14 +9,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import RoleProtectedRoute from "./components/RoleProtectedRoute";
 import VerifyAccountGuard from "./components/VerifyAccountGuard";
 import NotFound from "./pages/NotFound";
-import AdminPage from "./pages/AdminPage";
 import ArtistPage from "./pages/ArtistsPage";
-import EventManagerPage from "./pages/EventManagerPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
-import EventsPage from "./pages/EventsPage"
-// import EventDetail from "./pages/EventDetail";
+import EventsPage from "./pages/EventsPage";
 import EventCreationPage from "./pages/EventCreationPage";
 import EventDetail from "./pages/EventDetails";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
@@ -25,6 +22,8 @@ import WorkWithUsPage from "./pages/WorkWithUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import ContactPage from "./pages/ContactPage";
 import HelpCenterPage from "./pages/HelpCenterPage";
+import AdminDashboard from "./pages/AdminDashboard";
+import ArtistPublicProfile from "./pages/ArtistPublicProfile";
 
 import ArtistDashboard from "./pages/ArtistDashboard";
 import EventManagerDashboard from "./pages/EventManagerDashboard";
@@ -38,21 +37,17 @@ function App() {
         <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/verifyAccount" element={<VerifyAccount />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/resetPassword/:token" element={<ResetPassword />} />
-        {/* <Route path="/event/:id" element={<EventDetail />} /> */}
-        <Route path="/eventCreation" element={<EventCreationPage />} />
         <Route path="/PrivacyPolicyPage" element={<PrivacyPolicyPage />} />
         <Route path="/TermsPage" element={<TermsPage />} />
         <Route path="/WorkWithUsPage" element={<WorkWithUsPage />} />
         <Route path="/AboutUsPage" element={<AboutUsPage />} />
         <Route path="/ContactPage" element={<ContactPage />} />
         <Route path="/HelpCenterPage" element={<HelpCenterPage />} />
-        <Route path="/artistpage" element={<ArtistPage />} />
-        <Route path="/artistDashboard" element={<ArtistDashboard />} />
+        <Route path="/artists" element={<ArtistPage />} />
+        <Route path="/artists/:id" element={<ArtistPublicProfile />} />
         <Route path="/register-manager" element={<RegisterManagerPage />} />
-
 
         <Route
           path="/verifyAccount"
@@ -68,20 +63,24 @@ function App() {
           <Route path="/profile" element={<Profile />} />
         </Route>
 
-        <Route element={<RoleProtectedRoute allowedRoles={["ADMIN"]} />}>
-          <Route path="/admin" element={<AdminPage />} />
-        </Route>
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route
+          element={<RoleProtectedRoute allowedRoles={["ADMIN"]} />}
+        ></Route>
 
         <Route element={<RoleProtectedRoute allowedRoles={["ARTIST"]} />}>
-          <Route path="/artist" element={<ArtistPage />} />
         </Route>
+          <Route path="/artistDashboard" element={<ArtistDashboard />} />
 
+          <Route path="/eventCreation" element={<EventCreationPage />} />
         <Route
           element={<RoleProtectedRoute allowedRoles={["EVENT_MANAGER"]} />}
         >
-          <Route path="/eventManager" element={<EventManagerPage />} />
-          <Route path="/eventManagerDashboard" element={<EventManagerDashboard />} />
 
+          <Route
+            path="/eventManagerDashboard"
+            element={<EventManagerDashboard />}
+          />
         </Route>
 
         <Route path="*" element={<NotFound />} />

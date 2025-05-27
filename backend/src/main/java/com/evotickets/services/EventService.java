@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import com.evotickets.dtos.EventPhotosDTO;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.evotickets.dtos.ArtistDTO;
@@ -56,6 +58,15 @@ public class EventService {
 
     public List<EventDTO> getAllServices(){
         List<EventEntity> events = eventRepository.findAll();
+        return events.stream()
+                .map(this::convertToDto)
+            .collect(Collectors.toList());
+    }
+
+    public List<EventDTO> getAllServicesLimited(int limit){
+        Pageable pageable = PageRequest.of(0, limit);
+
+        List<EventEntity> events = eventRepository.findLimited(pageable);
         return events.stream()
                 .map(this::convertToDto)
             .collect(Collectors.toList());

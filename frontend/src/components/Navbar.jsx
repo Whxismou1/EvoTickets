@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@heroui/button";
-import { Menu, Moon, Sun, Ticket, X, User, Bell, Settings, LogOut } from 'lucide-react';
-import { useTheme } from "../context/ThemeContext";
+import { LogOut, Menu, Settings, Ticket, User, X } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuthStore } from "../store/authStore"
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 const languages = [
   { code: "es", name: "Español", flag: "https://flagcdn.com/es.svg" },
   { code: "en", name: "English", flag: "https://flagcdn.com/gb.svg" },
@@ -14,16 +13,17 @@ export default function Navbar({ isAuthenticated = false }) {
   const navigate = useNavigate();
   const { logout } = useAuthStore();
   const { t, i18n } = useTranslation();
-  const { theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const location = useLocation();
-  const isEventsPage = location.pathname === '/events';
+  const isEventsPage = location.pathname === "/events";
+  const isArtistsPage = location.pathname === "/artists";
 
   const currentLangCode = i18n.language || "es";
-  const currentLanguage = languages.find((l) => l.code === currentLangCode) || languages[0];
+  const currentLanguage =
+    languages.find((l) => l.code === currentLangCode) || languages[0];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleLanguageMenu = () => setIsLanguageMenuOpen(!isLanguageMenuOpen);
@@ -46,23 +46,22 @@ export default function Navbar({ isAuthenticated = false }) {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
-          {!isEventsPage && (
-            <Link to="/events" className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors">
-              {t("events")}
-            </Link>
+          {!isArtistsPage && (
+            <button
+              onClick={() => navigate("/artists")}
+              className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors"
+            >
+              {t("artists")}
+            </button>
           )}
-
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 rounded-full hover:bg-[#A28CD4]/10"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5 text-[#5C3D8D]" />
-            ) : (
-              <Moon className="h-5 w-5 text-[#5C3D8D]" />
-            )}
-          </button>
+          {!isEventsPage && (
+            <button
+              onClick={() => navigate("/events")}
+              className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors"
+            >
+              {t("events")}
+            </button>
+          )}
 
           {/* Language Dropdown */}
           <div className="relative">
@@ -131,7 +130,9 @@ export default function Navbar({ isAuthenticated = false }) {
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     <Ticket className="h-4 w-4 text-[#5C3D8D]" />
-                    <span className="text-sm text-[#2E1A47]">{t("navBar.my_events")}</span>
+                    <span className="text-sm text-[#2E1A47]">
+                      {t("navBar.my_events")}
+                    </span>
                   </Link>
                   <Link
                     to="/profile?tab=settings"
@@ -139,7 +140,9 @@ export default function Navbar({ isAuthenticated = false }) {
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     <Settings className="h-4 w-4 text-[#5C3D8D]" />
-                    <span className="text-sm text-[#2E1A47]">{t("navBar.settings")}</span>
+                    <span className="text-sm text-[#2E1A47]">
+                      {t("navBar.settings")}
+                    </span>
                   </Link>
                   <Link
                     className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10 border-t border-[#A28CD4]/20 mt-1 pt-1"
@@ -149,7 +152,9 @@ export default function Navbar({ isAuthenticated = false }) {
                     }}
                   >
                     <LogOut className="h-4 w-4 text-red-500" />
-                    <span className="text-sm text-red-500">{t("navBar.close_session")}</span>
+                    <span className="text-sm text-red-500">
+                      {t("navBar.close_session")}
+                    </span>
                   </Link>
                 </div>
               )}
@@ -191,37 +196,39 @@ export default function Navbar({ isAuthenticated = false }) {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-b border-[#A28CD4]/20">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
+            {!isArtistsPage && (
+              <button
+                onClick={() => {
+                  navigate("/artists");
+                  setIsMenuOpen(false);
+                }}
+                className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors py-2 text-left"
+              >
+                {t("artists")}
+              </button>
+            )}
             {!isEventsPage && (
-              <Link
-                to="/events"
-                className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
+              <button
+                onClick={() => {
+                  navigate("/events");
+                  setIsMenuOpen(false);
+                }}
+                className="text-[#2E1A47] hover:text-[#5C3D8D] transition-colors py-2 text-left"
               >
                 {t("events")}
-              </Link>
+              </button>
             )}
             <div className="flex items-center gap-4 py-2">
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-full hover:bg-[#A28CD4]/10"
-                aria-label="Toggle theme"
-              >
-                {theme === "dark" ? (
-                  <Sun className="h-5 w-5 text-[#5C3D8D]" />
-                ) : (
-                  <Moon className="h-5 w-5 text-[#5C3D8D]" />
-                )}
-              </button>
-
               <div className="flex items-center gap-2">
                 {languages.map((language) => (
                   <button
                     key={language.code}
                     onClick={() => changeLanguage(language)}
-                    className={`flex items-center gap-1 p-1 rounded ${currentLanguage.code === language.code
-                      ? "bg-[#A28CD4]/20"
-                      : "hover:bg-[#A28CD4]/10"
-                      }`}
+                    className={`flex items-center gap-1 p-1 rounded ${
+                      currentLanguage.code === language.code
+                        ? "bg-[#A28CD4]/20"
+                        : "hover:bg-[#A28CD4]/10"
+                    }`}
                   >
                     <img
                       src={language.flag || "/placeholder.svg"}
@@ -263,14 +270,12 @@ export default function Navbar({ isAuthenticated = false }) {
                   Ajustes
                 </Link>
                 <Button
-
                   className="flex items-center gap-2 w-full px-4 py-2 text-left hover:bg-[#A28CD4]/10 border-t border-[#A28CD4]/20 mt-1 pt-1"
                   onClick={() => {
                     logout();
                     navigate("/login");
                   }}
                 >
-
                   <LogOut className="h-5 w-5" />
                   Cerrar Sesión
                 </Button>

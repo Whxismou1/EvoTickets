@@ -89,4 +89,33 @@ public class UserController {
         return ResponseEntity.ok(Map.of("message", "Contraseña actualizada"));
     }
 
+    @PostMapping("/{userId}/favorites/{eventId}")
+    public ResponseEntity<?> addFavorite(@PathVariable Long userId, @PathVariable Long eventId) {
+        userService.addFavorite(userId, eventId);
+        return ResponseEntity.ok(Map.of("message", "Added to favorites"));
+    }
+
+    @DeleteMapping("/{userId}/favorites/{eventId}")
+    public ResponseEntity<?> removeFavorite(@PathVariable Long userId, @PathVariable Long eventId) {
+        userService.removeFavorite(userId, eventId);
+        return ResponseEntity.ok(Map.of("message", "Removed from favorites"));
+    }
+
+    @PostMapping("/{userId}/follow/{artistId}")
+    public ResponseEntity<?> followArtist(@PathVariable Long userId, @PathVariable Long artistId) {
+        userService.followArtist(userId, artistId);
+        return ResponseEntity.ok(Map.of("message", "Artista seguido"));
+    }
+
+    @DeleteMapping("/{userId}/unfollow/{artistId}")
+    public ResponseEntity<?> unfollowArtist(@PathVariable Long userId, @PathVariable Long artistId) {
+        userService.unfollowArtist(userId, artistId);
+        return ResponseEntity.ok(Map.of("message", "Artista dejado de seguir"));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
 }

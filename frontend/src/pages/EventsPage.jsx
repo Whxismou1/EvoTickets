@@ -8,8 +8,10 @@ import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { getAllEvents } from "../services/eventService";
+import { useNavigate } from "react-router-dom";
 
 export default function EventsPage() {
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -146,11 +148,9 @@ export default function EventsPage() {
                   <div className="p-4">
                     <h2 className="text-lg font-bold text-[#2E1A47] mb-2">{event.name}</h2>
                     <p className="text-sm text-[#5C3D8D] mb-4">{event.description.slice(0, 100)}...</p>
-                    <Link to={`/events/${event.id}`}>
-                      <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white w-full">
+                      <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white w-full" onPress={() => {navigate(`/events/${event.id}`)}}>
                         Ver detalles
                       </Button>
-                    </Link>
                   </div>
                 </motion.div>
               ))}

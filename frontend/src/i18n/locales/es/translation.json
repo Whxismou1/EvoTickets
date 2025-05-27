@@ -1,6 +1,7 @@
 {
   "events": "Eventos",
   "login": "Iniciar sesión",
+  "view_details": "Ver detalles",
   "signup": "Registrarse",
   "hero_title1": "Descubre y Vive",
   "hero_title2": "Experiencias Únicas",
@@ -177,11 +178,14 @@
     "see_calendar": "Ver Calendario",
     "see": "Ver",
     "followed_artist": "Artistas que sigues",
+    "visit_artist": "Visitar perfil del artista",
     "see_all": "Ver todos",
     "see_event": "Ver evento",
     "trending": "Tendencias",
-    "see_more": "Ver más"
+    "see_more": "Ver más",
+    "no_followed_artists" : "No sigues a ningún artista aún. Explora y sigue a tus favoritos para ver sus eventos aquí."
   },
+  "artists": "Artistas",
   "privacyPolicy": {
     "backToHome": "Volver al inicio",
     "title": "Política de Privacidad",

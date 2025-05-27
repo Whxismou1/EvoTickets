@@ -7,11 +7,13 @@ export const useAuthStore = create(
     (set, get) => ({
       token: null,
       role: null,
+      userId: null,
       setToken: (token) => {
         const decodedToken = jwtDecode(token);
         const role = decodedToken.role.replace("ROLE_", "");
+        const userId = decodedToken.userId;
 
-        set({ token, role });
+        set({ token, role, userId });
         const expiryTime = decodedToken.exp * 1000; 
         const currentTime = Date.now();
         const timeout = expiryTime - currentTime;
@@ -22,7 +24,7 @@ export const useAuthStore = create(
           }, timeout);
         }
       },
-      logout: () => set({ token: null, role: null }),
+      logout: () => set({ token: null, role: null, userId: null }),
     }),
     {
       name: "auth-storage",
