@@ -2,11 +2,12 @@ package com.evotickets.entities;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,6 +30,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Table(name = "artists")
 @ToString(exclude="artistEvents")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ArtistEntity {
 
     @Id
@@ -39,7 +41,6 @@ public class ArtistEntity {
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private UserEntity user;
-
 
     @Column(name = "profile_image", columnDefinition = "TEXT")
     private String profileImage;
@@ -63,7 +64,6 @@ public class ArtistEntity {
     @Builder.Default
     private int followers = 0;
 
-
     @Column(name="artistic_name")
     private String artisticName;
 
@@ -73,8 +73,9 @@ public class ArtistEntity {
         updatedAt = LocalDateTime.now();
     }
 
-    @OneToMany(mappedBy = "artist")
-    @JsonManagedReference(value = "artist-artists_events")
+    // Agregamos @JsonIgnore para evitar la serialización de la relación
+    @OneToMany(mappedBy = "artist", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ArtistEventEntity> artistEvents;
 
     @PreUpdate

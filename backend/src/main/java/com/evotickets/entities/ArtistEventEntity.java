@@ -24,13 +24,13 @@ public class ArtistEventEntity {
     @ManyToOne
     @MapsId("artistId")
     @JoinColumn(name = "artist_id")
-    @JsonBackReference(value = "artist-artists_events")
+    @JsonBackReference()
     private ArtistEntity artist;
     
     @ManyToOne
     @MapsId("eventId")
     @JoinColumn(name = "event_id")
-    @JsonBackReference(value = "event-artists_events")
+    @JsonBackReference()
     private EventEntity event;
     
     @Column(name = "shows_up_at")
