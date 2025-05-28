@@ -29,7 +29,9 @@ public class StripeService {
         TicketEntity ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new CustomException("Ticket no encontrado"));
 
-        long priceInCents = ticket.getPrice().multiply(BigDecimal.valueOf(100)).longValue();
+        long priceInCents = BigDecimal.valueOf(ticket.getTicketType().getPrice())
+        .multiply(BigDecimal.valueOf(100))
+        .longValue();
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -45,7 +47,7 @@ public class StripeService {
                                                 .setUnitAmount(priceInCents)
                                                 .setProductData(
                                                         SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                .setName("Entrada para " + ticket.getEvent().getName())
+                                                                .setName("Entrada para " + ticket.getTicketType().getEvent().getName())
                                                                 .build()
                                                 )
                                                 .build()

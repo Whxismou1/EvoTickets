@@ -36,7 +36,7 @@ public class AuthController {
 
     private final JwtService jwtService;
 
-    private AuthService authService;
+    private final AuthService authService;
 
     public AuthController(JwtService jwtService, AuthService authService, PDFStorageService pdfStorageService) {
         this.jwtService = jwtService;

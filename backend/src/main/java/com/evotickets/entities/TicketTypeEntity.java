@@ -1,6 +1,5 @@
 package com.evotickets.entities;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,22 +18,19 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tickets")
-public class TicketEntity {
+@Table(name = "ticket_types")
+public class TicketTypeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ticket_id")
-    private Long id;
-    
+    @Column(name = "type_id")
+    int id;
+
     @ManyToOne
-    @JoinColumn(name = "ticket_type_id", nullable = false)
-    private TicketTypeEntity ticketType;
-    
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-    
-    @Column(length = 10)
-    private String seat;
+    @JoinColumn(name = "event_id", nullable = false)
+    private EventEntity event;
+
+    double price;
+
+    String name;
 }
