@@ -124,7 +124,7 @@ const ArtistsPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar isAuthenticated={Boolean(useAuthStore.getState().userId)}/>
       <Alert
         type={alert.type}
         message={alert.message}

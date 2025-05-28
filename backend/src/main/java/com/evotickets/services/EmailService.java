@@ -137,7 +137,7 @@ public class EmailService {
         }
     }
 
-    public void sendTicketEmail(String to, String userName, String eventName, String eventDate, String ticketUrl, File pdfFile) {
+    public void sendTicketEmail(String to, String userName, String eventName, String eventDate, String ticketUrl, File pdfFile, String eventLocation, String ticketNumber, String qrCodeUrl) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -151,6 +151,9 @@ public class EmailService {
             emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{EVENT_NAME}}", eventName);
             emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{EVENT_DATE}}", eventDate);
             emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{TICKET_URL}}", ticketUrl);
+            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{EVENT_LOCATION}}", eventLocation);
+            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{TICKET_NUMBER}}", ticketNumber);
+            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{QR_CODE_URL}}", qrCodeUrl);
     
             helper.setText(emailContent, true);
     

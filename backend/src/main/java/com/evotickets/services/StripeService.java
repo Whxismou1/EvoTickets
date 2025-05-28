@@ -181,7 +181,12 @@ public class StripeService {
                                 ticketType.getEvent().getName(),
                                 ticketType.getEvent().getStartDate().toString(),
                                 pdfUrl,
-                                pdfFile);
+                                pdfFile,
+                                ticketType.getEvent().getLocation().getName(),
+                                ticketNumber,
+                                qrUrl
+                               
+                                );
                     }
 
                 } catch (Exception ex) {

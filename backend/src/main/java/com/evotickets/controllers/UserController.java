@@ -1,5 +1,6 @@
 package com.evotickets.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.evotickets.dtos.ChangePasswordDTO;
+import com.evotickets.dtos.TicketResponseDTO;
 import com.evotickets.dtos.UserUpdateDTO;
 import com.evotickets.entities.UserEntity;
 import com.evotickets.services.UserService;
@@ -28,14 +30,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
 
         return ResponseEntity.ok(userService.getUserByID(id));
     }
 
-    @PostMapping("/{id}/upload-profile-picture")
+    @PutMapping("/{id}/profile-picture")
     public ResponseEntity<?> uploadProfilePicture(
             @PathVariable Long id,
             @RequestParam("file") MultipartFile file) {
@@ -51,12 +52,16 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
 
+    }
+
+    @GetMapping("/{id}/my-tickets")
+    public List<TicketResponseDTO> getUserTickets(@PathVariable Long id) {
+        return userService.getUserTickets(id);
     }
 
     @PutMapping("/{id}/password")

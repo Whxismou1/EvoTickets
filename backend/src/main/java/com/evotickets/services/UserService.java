@@ -9,15 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.evotickets.dtos.AdminUserDTO;
+import com.evotickets.dtos.TicketResponseDTO;
 import com.evotickets.dtos.UserUpdateDTO;
 import com.evotickets.entities.ArtistEntity;
+import com.evotickets.entities.TicketEntity;
 import com.evotickets.entities.UserEntity;
 import com.evotickets.exceptions.CustomException;
 import com.evotickets.exceptions.InvalidCredentialsException;
 import com.evotickets.exceptions.UserNotFoundException;
-import com.evotickets.repositories.ArtistEventRepository;
 import com.evotickets.repositories.ArtistRepository;
-import com.evotickets.repositories.EventRepository;
+import com.evotickets.repositories.TicketRepository;
 import com.evotickets.repositories.UserRepository;
 import com.evotickets.utils.ImageUploader;
 
@@ -36,10 +37,7 @@ public class UserService {
     private ArtistRepository artistRepo;
 
     @Autowired
-    private ArtistEventRepository artistEventRepo;
-
-    @Autowired
-    private EventRepository eventRepo;
+    private TicketRepository ticketRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -166,6 +164,23 @@ public class UserService {
             user.getFollowedArtistIds().remove(artistId);
             userRepo.save(user);
         }
+    }
+
+    public List<TicketResponseDTO> getUserTickets(Long userId) {
+         List<TicketEntity> tickets = ticketRepository.findByUserId(userId);
+
+         return tickets.stream().map(ticket -> {
+            TicketResponseDTO dto = new TicketResponseDTO();
+            dto.setTicketId(ticket.getId());
+            dto.setSeat(ticket.getSeat());
+            dto.setImage(ticket.getTicketType().getEvent().getCoverImage());
+            dto.setPrice(ticket.getTicketType().getPrice());
+            dto.setEventName(ticket.getTicketType().getEvent().getName());
+            dto.setEventDate(ticket.getTicketType().getEvent().getStartDate().toString());
+            dto.setEventLocation(ticket.getTicketType().getEvent().getLocation().getName());
+            return dto;
+        }).collect(Collectors.toList());
+
     }
 
 }

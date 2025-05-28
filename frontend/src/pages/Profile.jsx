@@ -23,11 +23,12 @@ import {
   uploadProfilePicture,
   changeUserPassword,
   deleteAccount,
+  getUserTickets,
 } from "../services/userService";
 
 import { getEventById } from "../services/eventService";
 import { getAllArtists } from "../services/artistService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { useAlert } from "../context/AlertContext";
 
@@ -58,10 +59,21 @@ export default function Profile() {
   const [isLoadingEvents, setIsLoadingEvents] = useState(true);
   const [favoriteArtists, setFavoriteArtists] = useState([]);
   const [isLoadingArtists, setIsLoadingArtists] = useState(true);
-
+  const [isLoadingTickets, setIsLoadingTickets] = useState(true);
+  const [tickets, setTickets] = useState([]);
+  const location = useLocation();
   const fileInputRef = useRef();
 
   const { success, error, warning, confirmDelete } = useAlert();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tabFromUrl = params.get("tab");
+    if (tabFromUrl) {
+      setActiveTab(tabFromUrl);
+    }
+  }, [location.search]);
+
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -91,6 +103,35 @@ export default function Profile() {
       });
     }
   }, [user]);
+
+  useEffect(() => {
+    const fetchTickets = async () => {
+      if (!userId) return;
+      setIsLoadingTickets(true);
+      try {
+        const userTickets = await getUserTickets(userId);
+        const formattedTickets = userTickets.map((ticket) => ({
+          id: ticket.ticketId,
+          title: ticket.eventName,
+          date: ticket.eventDate,
+          location: ticket.eventLocation,
+          image: ticket.image || "/placeholder.svg?height=300&width=300",
+          price: ticket.price,
+        }));
+
+        setTickets(formattedTickets);
+      } catch (err) {
+        error(
+          "Error al obtener los tickets: " +
+            (err.message || "Error desconocido")
+        );
+      } finally {
+        setIsLoadingTickets(false);
+      }
+    };
+
+    fetchTickets();
+  }, [userId, error]);
 
   useEffect(() => {
     const fetchFavoriteEvents = async () => {
@@ -161,27 +202,6 @@ export default function Profile() {
 
   if (!user) return <div className="text-center py-12">Cargando perfil...</div>;
 
-  const purchasedEvents = [
-    {
-      id: 1,
-      title: "Concierto de Rock en Vivo",
-      date: "2023-06-15T20:00:00",
-      location: "Wizink Center, Madrid",
-      image: "/images/event1.jpg",
-      price: "45",
-      category: "concerts",
-    },
-    {
-      id: 2,
-      title: "Festival de Verano",
-      date: "2023-07-22T18:00:00",
-      location: "Parque Tierno Galván, Madrid",
-      image: "/images/event2.jpg",
-      price: "60",
-      category: "festivals",
-    },
-  ];
-  // Definir todas las pestañas disponibles
   const allTabs = [
     {
       id: "info",
@@ -234,8 +254,12 @@ export default function Profile() {
 
     try {
       const res = await uploadProfilePicture(userId, file);
-      setUser((prev) => ({ ...prev, profilePicture: res.imageUrl }));
+      setUser((prev) => ({ ...prev, profilePicture: res.imageURL  }));
       success("Imagen de perfil actualizada correctamente");
+      setFormData((prev) => ({
+        profilePicture: res.imageURL ,
+        ...prev,
+      }));
     } catch (err) {
       error(
         "Error al subir la imagen: " + (err.message || "Error desconocido")
@@ -598,9 +622,9 @@ export default function Profile() {
                   Mis Tickets
                 </h2>
 
-                {purchasedEvents.length > 0 ? (
+                {tickets.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {purchasedEvents.map((event) => (
+                    {tickets.map((event) => (
                       <motion.div
                         key={event.id}
                         initial={{ opacity: 0, y: 20 }}

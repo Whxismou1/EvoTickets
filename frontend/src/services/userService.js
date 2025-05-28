@@ -39,7 +39,7 @@ export const updateUserProfile = async (userId, data) => {
 
 export const uploadProfilePicture = async (userId, file) => {
   const formData = new FormData();
-  formData.append("profilePicture", file);
+  formData.append("file", file);
 
   const res = await fetch(`${BASE_URL}/${userId}/profile-picture`, {
     method: "PUT",
@@ -180,3 +180,21 @@ export const unfollowArtist = async (userId, artistId) => {
   }
 };
 
+export const getUserTickets = async (userId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${userId}/my-tickets`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "No se pudieron obtener los tickets del usuario");
+    }
+
+    return await res.json();
+  } catch (error) {
+    throw new Error(error.message || "Error al obtener los tickets del usuario");
+  }
+};
