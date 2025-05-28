@@ -31,11 +31,30 @@ const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
+  const calculateTotalSales = (events) => {
+    let total = 0;
+  
+    events.forEach(event => {
+      if (Array.isArray(event.tickets)) {
+        event.tickets.forEach(ticket => {
+          const price = parseFloat(ticket.price);
+          if (!isNaN(price)) {
+            total += price * 0.1; 
+          }
+        });
+      }
+    });
+  
+    return total;
+  };
+
+
+  const totalSales = calculateTotalSales(events);
+
   const stats = {
     totalUsers: users.length,
     totalEvents: events.length,
-    totalSales: 256789.5,
-    pendingApprovals: 24,
+    totalSales: totalSales,
   };
 
   function formatEventDateRange(start, end) {

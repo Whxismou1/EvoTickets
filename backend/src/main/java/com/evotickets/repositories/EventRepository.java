@@ -20,5 +20,5 @@ public interface EventRepository extends JpaRepository<EventEntity, Long> {
     @Query("SELECT e FROM EventEntity e")
     List<EventEntity> findLimited(Pageable pageable);
 
-    List<EventEntity> findByOrganizerId(Long organizedId);
+    List<EventEntity> findAllByOrganizerId(Long organizedId);
 }

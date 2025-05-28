@@ -63,8 +63,15 @@ export const modifyEvent = async (id, eventUpdate) => {
 export const deleteEvent = async (id) => {
   const res = await fetch(`${BASE_URL}?id=${id}`, {
     method: "DELETE",
-    headers: getAuthHeaders(),
   });
   if (!res.ok) throw new Error(await res.text());
   return await res.text();
 };
+
+export const getEventsOrganizedByUser = async (userId) => {
+  const res = await fetch(`${BASE_URL}/user/${userId}`, {
+    method: "GET",
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return await res.json();
+}

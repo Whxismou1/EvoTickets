@@ -39,10 +39,16 @@ public class EventController {
              : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay eventos disponibles");
     }
 
-    // @PostMapping("/limit")
-    // public ResponseEntity<?> getAllEventsWithLimit(@RequestBody Integer limit) {
-    //     return ResponseEntity.ok().body(eventService.getAllServicesLimited(limit.intValue()));
-    // }
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getAllEventsByUser(@PathVariable Long id){
+        List<EventDTO> events = eventService.getAllInfo(id);
+        return ResponseEntity.ok(events);
+    }
+
+    @PostMapping("/limit")
+    public ResponseEntity<?> getAllEventsWithLimit(@RequestBody Integer limit) {
+        return ResponseEntity.ok().body(eventService.getAllServicesLimited(limit.intValue()));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEventById(@PathVariable Long id){

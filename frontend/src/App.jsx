@@ -1,5 +1,5 @@
 import "./App.css";
-import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/leaflet.css";
 import LandingPage from "./pages/LandingPage";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
@@ -51,10 +51,12 @@ function App() {
         <Route path="/artists/:id" element={<ArtistPublicProfile />} />
         <Route path="/register-manager" element={<RegisterManagerPage />} />
 
-        <Route path="/ticket-selection/:eventId" element={<TicketSelectionPage />} />
+        <Route
+          path="/ticket-selection/:eventId"
+          element={<TicketSelectionPage />}
+        />
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/error" element={<ErrorPage />} />
-
 
         <Route
           path="/verifyAccount"
@@ -74,18 +76,14 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
         </Route>
 
-        {/* <Route element={<RoleProtectedRoute allowedRoles={["ARTIST"]} />}>
-          <Route path="/artistDashboard" element={<ArtistDashboard />} />
-        </Route> */}
-
         <Route
           element={<RoleProtectedRoute allowedRoles={["EVENT_MANAGER"]} />}
         >
-        <Route path="/eventCreation" element={<EventCreationPage />} />
           <Route
             path="/eventManagerDashboard"
             element={<EventManagerDashboard />}
           />
+          <Route path="/eventCreation" element={<EventCreationPage />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

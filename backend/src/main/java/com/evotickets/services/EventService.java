@@ -307,7 +307,7 @@ public class EventService {
     }
 
     public List<EventDTO> getAllInfo(Long organizerId) {
-        List<EventEntity> events = eventRepository.findByOrganizerId(organizerId);
+        List<EventEntity> events = eventRepository.findAllByOrganizerId(organizerId);
         return events.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());

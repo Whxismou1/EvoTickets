@@ -105,7 +105,7 @@ export default function EventCreationPage() {
             <div className="flex items-center mb-6">
               <Button
                 as="a"
-                href="/events"
+                onPress={() => navigate(-1)}
                 variant="light"
                 className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10 mr-4"
                 startContent={<ArrowLeft size={18} />}
