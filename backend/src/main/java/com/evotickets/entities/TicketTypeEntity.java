@@ -33,4 +33,6 @@ public class TicketTypeEntity {
     double price;
     @Column(name = "quality_name")   
     String name;
+
+    int quantity;
 }
