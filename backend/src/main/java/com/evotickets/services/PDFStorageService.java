@@ -1,5 +1,8 @@
 package com.evotickets.services;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +38,19 @@ public class PDFStorageService {
         s3Client.putObject(req, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
 
         System.out.println("File uploaded successfully: " + file.getOriginalFilename());
+
+        return s3Client.utilities().getUrl(GetUrlRequest.builder().bucket(bucketName).key(keyName).build())
+                .toExternalForm();
+    }
+
+    public String uploadPDF(File file, String keyName) throws IOException {
+        PutObjectRequest req = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(keyName)
+                .contentType("application/pdf")
+                .build();
+
+        s3Client.putObject(req, RequestBody.fromFile(file));
 
         return s3Client.utilities().getUrl(GetUrlRequest.builder().bucket(bucketName).key(keyName).build())
                 .toExternalForm();

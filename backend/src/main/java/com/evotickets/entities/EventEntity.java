@@ -31,28 +31,28 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "events")
-@ToString(exclude="artistEvents")
+@ToString(exclude = "artistEvents")
 
 public class EventEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
     private Long id;
-    
+
     @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)
     private LocationEntity location;
-    
+
     @Column(nullable = false, unique = true, length = 150)
     private String name;
-    
+
     @Column(nullable = false, length = 1000)
     private String description;
-    
+
     @Column(name = "start_date")
     private LocalDateTime startDate;
-    
+
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
@@ -77,11 +77,11 @@ public class EventEntity {
     private int minAge;
 
     private String website;
-    
+
     @Column(name = "long_description", columnDefinition = "LONGTEXT")
     private String longDescription;
 
-    @OneToMany(mappedBy="event", fetch= FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<FaqsEntity> faqs;
 
@@ -96,4 +96,9 @@ public class EventEntity {
     @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "event-artists_events")
     private List<ArtistEventEntity> artistEvents;
+
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<TicketTypeEntity> ticketTypes;
+
 }

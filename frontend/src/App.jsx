@@ -1,4 +1,5 @@
 import "./App.css";
+import 'leaflet/dist/leaflet.css';
 import LandingPage from "./pages/LandingPage";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
@@ -24,11 +25,11 @@ import ContactPage from "./pages/ContactPage";
 import HelpCenterPage from "./pages/HelpCenterPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import ArtistPublicProfile from "./pages/ArtistPublicProfile";
-import 'leaflet/dist/leaflet.css';
-
-// import ArtistDashboard from "./pages/ArtistDashboard";
 import EventManagerDashboard from "./pages/EventManagerDashboard";
 import RegisterManagerPage from "./pages/RegisterManagerPage";
+import TicketSelectionPage from "./pages/TicketSelectionPage";
+import SuccessPage from "./pages/SuccessPage";
+import ErrorPage from "./pages/ErrorPage";
 function App() {
   return (
     <>
@@ -49,6 +50,11 @@ function App() {
         <Route path="/artists" element={<ArtistPage />} />
         <Route path="/artists/:id" element={<ArtistPublicProfile />} />
         <Route path="/register-manager" element={<RegisterManagerPage />} />
+
+        <Route path="/ticket-selection/:eventId" element={<TicketSelectionPage />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/error" element={<ErrorPage />} />
+
 
         <Route
           path="/verifyAccount"

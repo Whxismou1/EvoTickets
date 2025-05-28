@@ -245,7 +245,6 @@ export default function EventDetail() {
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[#5C3D8D]">
                         <div className="flex items-center">
                           <Calendar className="h-4 w-4 mr-1.5" />
-                          {/* //TODO formatear la hora que viene junto al dia en el mismo parametro startDate*/}
                           <span className="text-sm">
                             {formatDate(eventData.startDate)}
                           </span>
@@ -294,6 +293,7 @@ export default function EventDetail() {
                       </div>
                       <div className="mt-6">
                         <Button
+                          onPress={() => {navigate(`/ticket-selection/${eventData.id}`, { state: { eventData } })}}
                           className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white w-full md:w-auto"
                           size="lg"
                           startContent={<Ticket size={18} />}
@@ -331,7 +331,7 @@ export default function EventDetail() {
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-[#5C3D8D]">Organizador</span>
-                          <span className="font-medium text-[#2E1A47]">{`${eventData.organizer.firstName} ${eventData.organizer.lastName}`}</span>
+                          <span className="font-medium text-[#2E1A47]">{`${eventData.organizer} `}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#5C3D8D]">Capacidad</span>
@@ -592,27 +592,6 @@ export default function EventDetail() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-12 px-4 bg-gradient-to-r from-[#5C3D8D] to-[#2E1A47]">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                ¿Listo para vivir esta experiencia?
-              </h2>
-              <p className="text-[#D7A6F3] mb-6 max-w-2xl mx-auto">
-                No te pierdas la oportunidad de asistir a uno de los eventos más
-                esperados del año. ¡Consigue tus entradas ahora!
-              </p>
-              <Button
-                className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47]"
-                size="lg"
-                startContent={<Ticket size={18} />}
-              >
-                Conseguir Entradas
-              </Button>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </>

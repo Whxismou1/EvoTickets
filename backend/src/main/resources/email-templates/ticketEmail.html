@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu entrada para {{EVENT_NAME}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f8f8f9;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(to right, #5C3D8D, #2E1A47);
+      padding: 30px 20px;
+      text-align: center;
+      color: white;
+    }
+    
+    .logo-container {
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+    
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: #D7A6F3;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    
+    .content {
+      padding: 40px 30px;
+      background-color: #f3f0fa;
+    }
+    
+    .title {
+      color: #5C3D8D;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .message {
+      color: #555;
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 30px;
+      line-height: 1.8;
+    }
+    
+    .ticket-container {
+      background-color: #ffffff;
+      border: 2px solid #A28CD4;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 30px 0;
+      box-shadow: 0 4px 15px rgba(92, 61, 141, 0.15);
+    }
+    
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px dashed #A28CD4;
+    }
+    
+    .event-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #2E1A47;
+    }
+    
+    .ticket-type {
+      font-size: 14px;
+      color: #5C3D8D;
+      background-color: rgba(92, 61, 141, 0.1);
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+    
+    .ticket-details {
+      margin-bottom: 20px;
+    }
+    
+    .detail-row {
+      display: flex;
+      margin-bottom: 12px;
+    }
+    
+    .detail-label {
+      width: 120px;
+      font-weight: 600;
+      color: #5C3D8D;
+      font-size: 14px;
+    }
+    
+    .detail-value {
+      flex: 1;
+      color: #333;
+      font-size: 14px;
+    }
+    
+    .ticket-qr {
+      text-align: center;
+      margin: 25px 0;
+    }
+    
+    .qr-code {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      background-color: #f3f0fa;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    
+    .button-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    
+    .button {
+      display: inline-block;
+      background: linear-gradient(to right, #5C3D8D, #2E1A47);
+      color: white;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(92, 61, 141, 0.3);
+    }
+    
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(92, 61, 141, 0.4);
+    }
+    
+    .note {
+      color: #808389;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 20px;
+      background-color: rgba(215, 166, 243, 0.1);
+      padding: 12px;
+      border-radius: 6px;
+    }
+    
+    .divider {
+      height: 1px;
+      background-color: #5C3D8D;
+      margin: 30px 0;
+      opacity: 0.2;
+    }
+    
+    .support {
+      text-align: center;
+      font-size: 14px;
+      color: #808389;
+    }
+    
+    .support a {
+      color: #5C3D8D;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .support a:hover {
+      text-decoration: underline;
+    }
+    
+    .footer {
+      background-color: #2E1A47;
+      padding: 20px;
+      text-align: center;
+      color: #A28CD4;
+      font-size: 14px;
+    }
+    
+    .footer p {
+      margin: 5px 0;
+    }
+    
+    .automated-message {
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+      margin-top: 15px;
+      font-style: italic;
+    }
+    
+    @media only screen and (max-width: 600px) {
+      .email-container {
+        width: 100%;
+        border-radius: 0;
+      }
+      
+      .content {
+        padding: 30px 20px;
+      }
+      
+      .title {
+        font-size: 24px;
+      }
+      
+      .ticket-container {
+        padding: 15px;
+      }
+      
+      .event-name {
+        font-size: 18px;
+      }
+      
+      .detail-row {
+        flex-direction: column;
+      }
+      
+      .detail-label {
+        width: 100%;
+        margin-bottom: 4px;
+      }
+      
+      .button {
+        padding: 12px 25px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div style="padding: 20px;">
+    <div class="email-container">
+      <div class="header">
+        <div class="logo-container">
+          <!-- Imagen del ticket como base64 para mayor compatibilidad -->
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABYUlEQVR4nO2WTU7DMBCFPxDiBFyAA3AFWLFkBRdgwYIDsOIUXIFDsGHDFVixYMmSBQIJqUgI8SNEQrQUNXHiJqTQRZzEb/LGM/P8PDOxA39dI2AB2IAHpMAncA9cAQfAGKiRUQNYA+6AHHgHboEzYBfYBjaAVWAeaAILwDJwDJwDj8AH8AKcAF1KqgVcAG/AI3AKbAHzZdYCOsAu8AS8AlfAEhXUBB6Ad+AQmKvCeQxsAjPAFLADvALnVDg7FeBbwDQwCewDz5ScjRSwGZwvAk/AHhXPRgr4JDifAR6BDgVnIwXcC84XgRsKzkYKOAjOp4FrCs5GCrgMzueAGwrORgo4Cc5ngCsKzkYKuA3OW8A+BWcjBbwF5y3ggIKzkQJmg/M2cEjB2UgBG8H5EnBKwdlIAdeD8w5wRMHZSAGHwfkqcEbB2UgBe8H5JnBMwdlIAefB+TpwSsHZSAGXwfkacE/B2fxr/QDwcgwUVp94vwAAAABJRU5ErkJggg==" alt="Ticket Icon" style="width: 40px; height: 40px; vertical-align: middle;">
+          <span class="logo-text">🎟️ EvoTickets</span>
+        </div>
+      </div>
+      
+      <div class="content">
+        <h1 class="title">¡Tu entrada está lista!</h1>
+        <p class="message">
+          Hola <strong>{{USER_NAME}}</strong>, gracias por tu compra. Aquí tienes tu entrada para el evento.
+        </p>
+        
+        <div class="ticket-container">
+          <div class="ticket-header">
+            <div class="event-name">{{EVENT_NAME}}</div>
+            <div class="ticket-type">Entrada</div>
+          </div>
+          
+          <div class="ticket-details">
+            <div class="detail-row">
+              <div class="detail-label">Fecha:</div>
+              <div class="detail-value">{{EVENT_DATE}}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Hora:</div>
+              <div class="detail-value">{{EVENT_TIME}}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Ubicación:</div>
+              <div class="detail-value">{{EVENT_LOCATION}}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Asistente:</div>
+              <div class="detail-value">{{USER_NAME}}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Nº de Ticket:</div>
+              <div class="detail-value">{{TICKET_NUMBER}}</div>
+            </div>
+          </div>
+          
+          <div class="ticket-qr">
+            <div class="qr-code">
+              <img src="{{QR_CODE_URL}}" alt="Código QR de entrada" style="width: 100%; height: 100%;">
+            </div>
+            <p style="font-size: 12px; color: #666; margin-top: 8px;">Escanea este código en la entrada del evento</p>
+          </div>
+        </div>
+        
+        <div class="button-container">
+          <a href="{{TICKET_URL}}" class="button">Ver mi entrada</a>
+        </div>
+        
+        <p class="note">
+          Puedes encontrar tu entrada en el PDF adjunto o acceder desde el botón anterior. Recuerda presentar tu entrada (impresa o en tu móvil) el día del evento.
+        </p>
+        
+        <div class="divider"></div>
+        
+        <div class="support">
+          ¿Necesitas ayuda? Contacta con nuestro equipo de soporte en
+          <a href="mailto:s.evotickets@gmail.com">s.evotickets@gmail.com</a>
+        </div>
+        
+        <p class="automated-message">
+          Este es un mensaje automático. Por favor, no respondas directamente a este correo.
+        </p>
+      </div>
+      
+      <div class="footer">
+        <p>© 2025 EvoTickets. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

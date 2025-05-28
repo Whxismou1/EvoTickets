@@ -1,5 +1,7 @@
 package com.evotickets.services;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.mail.javamail.JavaMailSender;
@@ -134,5 +136,32 @@ public class EmailService {
             throw new EmailSendingException("Error sending work application email: " + e.getMessage());
         }
     }
+
+    public void sendTicketEmail(String to, String userName, String eventName, String eventDate, String ticketUrl, File pdfFile) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    
+            helper.setTo(to);
+            helper.setSubject("Tu entrada para " + eventName);
+            
+            // Cargar plantilla base
+            String emailContent = emailTemplateService.loadTemplate("ticketEmail.html");
+            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{USER_NAME}}", userName);
+            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{EVENT_NAME}}", eventName);
+            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{EVENT_DATE}}", eventDate);
+            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{TICKET_URL}}", ticketUrl);
+    
+            helper.setText(emailContent, true);
+    
+            // Adjuntar PDF
+            helper.addAttachment("entrada_" + eventName + ".pdf", pdfFile);
+    
+            javaMailSender.send(message);
+        } catch (Exception e) {
+            throw new EmailSendingException("Error sending ticket email: " + e.getMessage());
+        }
+    }
+    
 }
 
