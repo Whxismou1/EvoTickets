@@ -31,6 +31,6 @@ public class TicketTypeEntity {
     private EventEntity event;
 
     double price;
-
+    @Column(name = "quality_name")   
     String name;
 }
