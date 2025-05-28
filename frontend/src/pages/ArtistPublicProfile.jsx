@@ -48,6 +48,14 @@ const ArtistPublicProfile = () => {
 
   const handleFollow = async () => {
     const userId = useAuthStore.getState().userId;
+    if (!userId) {
+      showAlert({
+        type: "error",
+        message: "Debes iniciar sesión para seguir a un artista.",
+      });
+      return;
+    }
+
 
     try {
       if (isFollowing) {

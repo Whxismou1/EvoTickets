@@ -33,8 +33,11 @@ import {
   addFavorite,
   getUserById,
 } from "../services/userService";
+import useAlert from "../hooks/useAlert";
+import Alert from "../components/Alert";
 
 export default function EventDetail() {
+  const { alert, showAlert, hideAlert } = useAlert();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { id } = useParams();
@@ -149,6 +152,13 @@ export default function EventDetail() {
 
   const toggleLike = async () => {
     const userId = useAuthStore.getState().userId;
+    if (!userId) {
+      showAlert({
+        type: "error",
+        message: t("alert.notAuthenticated"),
+      });
+      return;
+    }
 
     try {
       if (isLiked) {
@@ -473,7 +483,10 @@ export default function EventDetail() {
               </div>
               <div className="rounded-lg overflow-hidden h-64 bg-[#F3F0FA]">
                 <MapContainer
-                  center={[eventData.location.latitude, eventData.location.longitude]}
+                  center={[
+                    eventData.location.latitude,
+                    eventData.location.longitude,
+                  ]}
                   zoom={15}
                   className="w-full h-full"
                 >
@@ -481,7 +494,12 @@ export default function EventDetail() {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution="&copy; OpenStreetMap contributors"
                   />
-                  <Marker position={[eventData.location.latitude, eventData.location.longitude]}>
+                  <Marker
+                    position={[
+                      eventData.location.latitude,
+                      eventData.location.longitude,
+                    ]}
+                  >
                     <Popup>Ubicación del evento</Popup>
                   </Marker>
                 </MapContainer>

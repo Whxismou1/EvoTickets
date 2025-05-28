@@ -341,7 +341,7 @@ export default function Home() {
             >
               <div className="relative z-10 rounded-xl overflow-hidden shadow-2xl border-8 border-white">
                 <img
-                  src="/placeholder.svg?height=600&width=800"
+                  src="/home.png"
                   alt="EvoTickets App"
                   className="w-full"
                 />
@@ -366,7 +366,7 @@ export default function Home() {
             >
               <div className="relative z-10 rounded-xl overflow-hidden shadow-2xl border-8 border-white">
                 <img
-                  src="/placeholder.svg?height=600&width=800"
+                  src="/dashboardManager.png"
                   alt="EvoTickets para Organizadores"
                   className="w-full"
                 />

@@ -64,7 +64,15 @@ const ArtistsPage = () => {
 
   const handleFollow = async (artistId, isFollowing, setFollowStates) => {
     const userId = useAuthStore.getState().userId;
-    console.log("User ID:", userId);
+    if(!userId) {
+      showAlert({
+        type: "error",
+        message: "Debes iniciar sesión para seguir artistas",
+      });
+      return;
+    }
+
+
     try {
       if (isFollowing) {
         await unfollowArtist(userId, artistId);
