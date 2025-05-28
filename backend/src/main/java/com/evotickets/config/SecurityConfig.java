@@ -65,7 +65,7 @@ public class SecurityConfig {
             throws Exception {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**", "/api/v1/users/**", "/api/v1/notifications/**", "/api/v1/stripe/**", "/api/v1/events/**", "/api/v1/contact/**").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**", "/api/v1/users/**", "/api/v1/notifications/**", "/api/v1/stripe/**", "/api/v1/events/**", "/api/v1/contact/**", "/api/v1/artists/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

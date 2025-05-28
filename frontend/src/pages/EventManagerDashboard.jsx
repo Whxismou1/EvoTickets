@@ -22,7 +22,7 @@ import Nav from "../components/Navbar"
 import Footer from "../components/Footer"
 import useAlert from "../hooks/useAlert"
 import Alert from "../components/Alert"
-import { getEventsByOrganizer } from "../services/eventService";
+import { getEventById } from "../services/eventService";
 import { useAuthStore } from "../store/authStore";
 import { useTranslation } from "react-i18next";
 import { deleteEvent } from "../services/eventService";
@@ -36,67 +36,6 @@ const EventManagerDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [filterStatus, setFilterStatus] = useState("all")
 
-
-  // // Mock data
-  // const stats = {
-  //   totalEvents: 24,
-  //   activeEvents: 8,
-  //   totalTicketsSold: 3567,
-  //   totalRevenue: 85430.75,
-  // }
-
-  // const events = [
-  //   {
-  //     id: 1,
-  //     name: "Festival de Verano",
-  //     date: "2023-06-15",
-  //     location: "Parque Central, Madrid",
-  //     status: "Activo",
-  //     ticketsSold: 1245,
-  //     capacity: 2000,
-  //     revenue: 24900,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Concierto Rock en Vivo",
-  //     date: "2023-06-20",
-  //     location: "Palacio de Deportes, Barcelona",
-  //     status: "Pendiente",
-  //     ticketsSold: 876,
-  //     capacity: 1500,
-  //     revenue: 17520,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Teatro: Romeo y Julieta",
-  //     date: "2023-06-25",
-  //     location: "Teatro Principal, Valencia",
-  //     status: "Activo",
-  //     ticketsSold: 450,
-  //     capacity: 500,
-  //     revenue: 13500,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Exposición de Arte",
-  //     date: "2023-06-30",
-  //     location: "Galería Central, Sevilla",
-  //     status: "Finalizado",
-  //     ticketsSold: 320,
-  //     capacity: 400,
-  //     revenue: 6400,
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Conferencia Tech",
-  //     date: "2023-07-05",
-  //     location: "Centro de Convenciones, Bilbao",
-  //     status: "Activo",
-  //     ticketsSold: 678,
-  //     capacity: 800,
-  //     revenue: 23730,
-  //   },
-  // ]
 
   const [events, setEvents] = useState([])
   const [stats, setStats] = useState({
@@ -117,9 +56,8 @@ const EventManagerDashboard = () => {
           throw new Error("No se encontró el ID del organizador");
         }
 
-        const data = await getEventsByOrganizer(userId);
+        const data = await getEventById(userId);
 
-        // Guardar eventos en estado
         setEvents(data);
         console.log(data);
 
@@ -161,7 +99,7 @@ const EventManagerDashboard = () => {
 
     try {
 
-      await deleteEvent(id); // llamada real
+      await deleteEvent(id);
       setEvents((prev) => prev.filter((event) => event.id !== id)); // actualiza lista
       showAlert({
         type: "success",

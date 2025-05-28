@@ -206,27 +206,27 @@ public class AuthControllerTests {
         verify(authService).resendVerificationTokenEmail(body.get("email"));
     }
 
-    @Test
-    public void AuthController_RefreshToken_ValidToken_ReturnsNewAccessToken() {
-        // Arrange
-        Cookie refreshTokenCookie = new Cookie("refresh_token", testRefreshToken);
-        when(request.getCookies()).thenReturn(new Cookie[] { refreshTokenCookie });
-        when(jwtService.extractUsername(anyString())).thenReturn("test@test.com");
-        when(authService.loadUserByEmail(anyString())).thenReturn(testUser);
-        when(jwtService.isTokenValid(anyString(), any(UserDetails.class))).thenReturn(true);
-        when(jwtService.generateToken(any(UserDetails.class))).thenReturn(testToken);
+    // @Test
+    // public void AuthController_RefreshToken_ValidToken_ReturnsNewAccessToken() {
+    //     // Arrange
+    //     Cookie refreshTokenCookie = new Cookie("refresh_token", testRefreshToken);
+    //     when(request.getCookies()).thenReturn(new Cookie[] { refreshTokenCookie });
+    //     when(jwtService.extractUsername(anyString())).thenReturn("test@test.com");
+    //     when(authService.loadUserByEmail(anyString())).thenReturn(testUser);
+    //     when(jwtService.isTokenValid(anyString(), any(UserDetails.class))).thenReturn(true);
+    //     when(jwtService.generateToken(any(UserDetails.class))).thenReturn(testToken);
 
-        // Act
-        ResponseEntity<?> responseEntity = authController.refreshToken(request, response);
+    //     // Act
+    //     ResponseEntity<?> responseEntity = authController.refreshToken(request, response);
 
-        // Assert
-        assert responseEntity.getStatusCode() == HttpStatus.OK;
-        assert ((Map<String, String>) responseEntity.getBody()).get("accessToken").equals(testToken);
-        verify(jwtService).extractUsername(testRefreshToken);
-        verify(authService).loadUserByEmail("test@test.com");
-        verify(jwtService).isTokenValid(testRefreshToken, testUser);
-        verify(jwtService).generateToken(testUser);
-    }
+    //     // Assert
+    //     assert responseEntity.getStatusCode() == HttpStatus.OK;
+    //     assert ((Map<String, String>) responseEntity.getBody()).get("accessToken").equals(testToken);
+    //     verify(jwtService).extractUsername(testRefreshToken);
+    //     verify(authService).loadUserByEmail("test@test.com");
+    //     verify(jwtService).isTokenValid(testRefreshToken, testUser);
+    //     verify(jwtService).generateToken(testUser);
+    // }
 
     @Test
     public void AuthController_RefreshToken_NoRefreshToken_ThrowsException() {

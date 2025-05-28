@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@heroui/button";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { getFewEvents } from "../services/eventService";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -16,10 +17,50 @@ import featuresData from "../data/features.json";
 
 export default function Home() {
   const { t } = useTranslation();
-
+  const [events, setEvents] = useState([]);
   const howSteps = t("how_steps", { returnObjects: true }) || [];
   const organizerSteps = t("organizers_steps", { returnObjects: true });
   const navigate = useNavigate();
+
+  function formatEventDate(start, end) {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+  
+    const sameDay = startDate.getDate() === endDate.getDate();
+    const sameMonth = startDate.getMonth() === endDate.getMonth();
+    const sameYear = startDate.getFullYear() === endDate.getFullYear();
+  
+    const dayStart = startDate.getDate();
+    const dayEnd = endDate.getDate();
+    const month = startDate.toLocaleString("default", { month: "short" });
+    const year = startDate.getFullYear();
+  
+    if (sameDay) {
+      return `${dayStart} ${month}, ${year}`;
+    } else if (sameMonth && sameYear) {
+      return `${dayStart}-${dayEnd} ${month}, ${year}`;
+    } else {
+      const endMonth = endDate.toLocaleString("default", { month: "short" });
+      const endYear = endDate.getFullYear();
+      return `${dayStart} ${month}, ${year} - ${dayEnd} ${endMonth}, ${endYear}`;
+    }
+  }
+  
+
+
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+        const fetchedEvents = await getFewEvents(6);
+        setEvents(fetchedEvents);
+    }
+
+    fetchEvents();
+
+
+  }, []);
+
+
 
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -71,15 +112,15 @@ export default function Home() {
             </h1>
             <p className="text-xl text-[#F3F0FA] mb-8">{t("hero_subtitle")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button as="a" href="/events" className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
+              <Button as="a" onPress={() => navigate("/login")} className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
                 {t("explore_events")}
               </Button>
-              <Button
+              {/* <Button
                 variant="outline"
                 className="border-[#D7A6F3] text-[#F3F0FA] hover:bg-[#D7A6F3]/20 text-lg px-8 py-6"
               >
                 {t("buy_tickets")}
-              </Button>
+              </Button> */}
             </div>
           </motion.div>
         </div>
@@ -115,7 +156,7 @@ export default function Home() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {eventsData.map((event, index) => (
+            {events.map((event, index) => (
               <motion.div
                 key={event.id}
                 className="bg-white rounded-xl overflow-hidden shadow-lg border border-[#A28CD4]/20"
@@ -130,8 +171,8 @@ export default function Home() {
               >
                 <div className="relative h-48 overflow-hidden">
                   <motion.img
-                    src={event.image}
-                    alt={event.title}
+                    // src={event.image}
+                    src={event?.photos?.length > 0 ? event.photos[0].url : "/placeholder.svg?height=200&width=300"}
                     className="w-full h-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
@@ -144,22 +185,23 @@ export default function Home() {
                   </div>
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="text-[#F3F0FA] text-sm font-medium">
-                      {event.date}
+                      {formatEventDate(event.startDate, event.endDate)}
                     </div>
                     <div className="text-[#F3F0FA] text-sm">
-                      {event.location}
+                      {event.location.name}
                     </div>
                   </div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-[#2E1A47] mb-2">
-                    {event.title}
+                    {event.name}
                   </h3>
                   <p className="text-[#5C3D8D] font-medium mb-4">
-                    {t("event.from_price")} {event.price.replace(/^Desde\s*/i, "")}
+                    {t("event.from_price")} 
+                    
                   </p>
-                  <Button className="w-full bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
-                    {t("buy_tickets")}
+                  <Button className="w-full bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onPress={() => navigate(`/login`)}>
+                    {t("view_details")}
                   </Button>
                 </div>
               </motion.div>
@@ -175,7 +217,10 @@ export default function Home() {
           >
             <Button
               as="a"
-              href="/events"
+              onPress={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                navigate("/login");
+              }}
               variant="outline"
               className="border-[#5C3D8D] text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
             >
@@ -282,7 +327,7 @@ export default function Home() {
                 ))}
               </ul>
 
-              <Button as="a" href="/events" className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
+              <Button as="a" onPress={() => navigate("/login")} className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
                 {t("explore_events")}
               </Button>
             </motion.div>
@@ -296,7 +341,7 @@ export default function Home() {
             >
               <div className="relative z-10 rounded-xl overflow-hidden shadow-2xl border-8 border-white">
                 <img
-                  src="/placeholder.svg?height=600&width=800"
+                  src="/home.png"
                   alt="EvoTickets App"
                   className="w-full"
                 />
@@ -321,7 +366,7 @@ export default function Home() {
             >
               <div className="relative z-10 rounded-xl overflow-hidden shadow-2xl border-8 border-white">
                 <img
-                  src="/placeholder.svg?height=600&width=800"
+                  src="/dashboardManager.png"
                   alt="EvoTickets para Organizadores"
                   className="w-full"
                 />
@@ -381,7 +426,7 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
-                  onClick={() => navigate("/register-manager")}
+                  onPress={() => navigate("/register-manager")}
                   className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white"
                 >
                   {t("contact_support")}
@@ -411,7 +456,7 @@ export default function Home() {
             </h2>
             <p className="text-xl text-[#D7A6F3] mb-8">{t("cta_subtitle")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button as="a" href="/events" className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
+              <Button as="a" onPress={()=> navigate("/login")} className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
                 {t("explore_events")}
               </Button>
             </div>

@@ -59,6 +59,11 @@ public class ArtistEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "followers")
+    @Builder.Default
+    private int followers = 0;
+
+
     @Column(name="artistic_name")
     private String artisticName;
 

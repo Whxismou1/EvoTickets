@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.evotickets.entities.UserEntity;
 import com.evotickets.entities.enums.UserRole;
 
 import io.jsonwebtoken.Claims;
@@ -18,7 +19,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
 @Service
 public class JwtService {
     @Value("${security.jwt.secret-key}")
@@ -36,6 +36,13 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+    public String generateToken(UserEntity user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", user.getUserRole().toString());
+        claims.put("userId", user.getId()); 
+        return buildToken(claims, user.getEmail(), jwtExpirationTime);
+    }
+
     public String generateToken(UserDetails user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", user.getAuthorities().stream()
@@ -46,19 +53,21 @@ public class JwtService {
     }
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails user) {
-        return buildToken(extraClaims, user, jwtExpirationTime);
+        return buildToken(extraClaims, user.getUsername(), jwtExpirationTime);
+    }
+
+    private String buildToken(Map<String, Object> extraClaims, String subject, long expirationTime) {
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
     public long getJwtExpirationTime() {
         return jwtExpirationTime;
-    }
-
-    private String buildToken(Map<String, Object> extraClaims, UserDetails user,
-            long expirationTime) {
-        return Jwts.builder().setClaims(extraClaims).setSubject(user.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
     public boolean isTokenValid(String token, UserDetails user) {

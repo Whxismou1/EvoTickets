@@ -21,11 +21,15 @@ export function AlertProvider({ children }) {
     isVisible: false,
     type: ALERT_TYPES.INFO,
     message: "",
+    onConfirm: null,
+    onCancel: null,
+    confirmText: "Confirmar",
+    cancelText: "Cancelar",
   })
 
   // Cerrar la alerta
   const closeAlert = useCallback(() => {
-    setAlertState(prev => ({ ...prev, isVisible: false }))
+    setAlertState((prev) => ({ ...prev, isVisible: false }))
   }, [])
 
   // Mostrar una alerta
@@ -34,8 +38,36 @@ export function AlertProvider({ children }) {
       isVisible: true,
       type,
       message,
+      onConfirm: null,
+      onCancel: null,
+      confirmText: "Confirmar",
+      cancelText: "Cancelar",
     })
   }, [])
+
+  // Mostrar alerta de confirmación
+  const showConfirm = useCallback(
+    ({ message, onConfirm, onCancel, confirmText = "Eliminar", cancelText = "Cancelar" }) => {
+      return new Promise((resolve) => {
+        setAlertState({
+          isVisible: true,
+          type: ALERT_TYPES.CONFIRM,
+          message,
+          onConfirm: () => {
+            onConfirm?.()
+            resolve(true)
+          },
+          onCancel: () => {
+            onCancel?.()
+            resolve(false)
+          },
+          confirmText,
+          cancelText,
+        })
+      })
+    },
+    [],
+  )
 
   // Funciones de conveniencia para diferentes tipos de alertas
   const success = useCallback(
@@ -82,6 +114,18 @@ export function AlertProvider({ children }) {
     [showAlert],
   )
 
+  // Función de confirmación para eliminar
+  const confirmDelete = useCallback(
+    (message = "¿Estás seguro de que quieres eliminar este elemento?") => {
+      return showConfirm({
+        message,
+        confirmText: "Eliminar",
+        cancelText: "Cancelar",
+      })
+    },
+    [showConfirm],
+  )
+
   // Valor del contexto
   const value = {
     showAlert,
@@ -90,6 +134,8 @@ export function AlertProvider({ children }) {
     error,
     warning,
     info,
+    showConfirm,
+    confirmDelete,
   }
 
   return (
@@ -100,6 +146,10 @@ export function AlertProvider({ children }) {
         message={alertState.message}
         isVisible={alertState.isVisible}
         onClose={closeAlert}
+        onConfirm={alertState.onConfirm}
+        onCancel={alertState.onCancel}
+        confirmText={alertState.confirmText}
+        cancelText={alertState.cancelText}
       />
     </AlertContext.Provider>
   )
