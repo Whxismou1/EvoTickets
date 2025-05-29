@@ -13,7 +13,6 @@ export default function EventCard({ event, compact = false }) {
     e.stopPropagation()
     setIsLiked(!isLiked)
   }
-
   if (compact) {
     return (
       <Link to={`/events/${event.id}`} className="block h-full">

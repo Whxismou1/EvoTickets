@@ -16,6 +16,18 @@ export const getAllEvents = async () => {
   return await res.json();
 };
 
+export const getFewEvents = async (limit) => {
+  const res = await fetch(`${BASE_URL}/limit`,{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",    },
+    body: JSON.stringify(limit ),
+  });
+  if (!res.ok) throw new Error("Error fetching events");
+  return await res.json();
+};
+
+
 export const getEventById = async (id) => {
   const res = await fetch(`${BASE_URL}/${id}`);
   if (!res.ok) throw new Error(await res.text());
@@ -51,16 +63,15 @@ export const modifyEvent = async (id, eventUpdate) => {
 export const deleteEvent = async (id) => {
   const res = await fetch(`${BASE_URL}?id=${id}`, {
     method: "DELETE",
-    headers: getAuthHeaders(),
   });
   if (!res.ok) throw new Error(await res.text());
   return await res.text();
 };
 
-export const getEventsByOrganizer = async (organizerId) => {
-  const res = await fetch(`${BASE_URL}/organizer?organizerId=${organizerId}`);
+export const getEventsOrganizedByUser = async (userId) => {
+  const res = await fetch(`${BASE_URL}/user/${userId}`, {
+    method: "GET",
+  });
   if (!res.ok) throw new Error(await res.text());
   return await res.json();
-};
-
-
+}

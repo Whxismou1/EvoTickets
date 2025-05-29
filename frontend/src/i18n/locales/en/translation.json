@@ -1,6 +1,7 @@
 {
   "events": "Events",
   "login": "Log in",
+  "view_details": "View Details",
   "signup": "Sign up",
   "hero_title1": "Discover and Live",
   "hero_title2": "Unique Experiences",
@@ -168,6 +169,7 @@
     "settings": "Setting",
     "close_session": "Close Session"
   },
+  "artists" :"Artists",
   "home":{
     "welcome": "¡Welcome back!",
     "discover": "Discover the most popular events this week",
@@ -178,8 +180,9 @@
     "see": "See",
     "followed_artist": "Artists you follow",
     "see_all": "See All",
-
+    "visit_artist": "Visit Artist",
     "see_event": "See Event",
+    "no_followed_artists" : "You haven't followed any artists yet.",
     "trending": "Trendings",
     "see_more": "See More"
   },

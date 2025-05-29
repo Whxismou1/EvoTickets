@@ -23,6 +23,7 @@ public class ArtistDTO {
     private LocalDateTime showsUpAt;
     private String day;
     private boolean isTrue;
+    private int followers;
     private String role;
     private String time;
     
@@ -37,6 +38,7 @@ public class ArtistDTO {
             .profileBanner(artist.getProfileBanner())
             .profileDescription(artist.getProfileDescription())
             .artistDescription(artist.getArtistDescription())
+            .followers(artist.getFollowers())
             .build();
     }
 }

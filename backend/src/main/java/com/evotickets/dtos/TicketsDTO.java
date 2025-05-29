@@ -10,6 +10,5 @@ import lombok.Data;
 public class TicketsDTO {
     public String description;
     public String name;
-    public String limit;
     public String price;
 }

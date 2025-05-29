@@ -1,9 +1,11 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useParams, Link } from "react-router-dom"
-import { motion } from "framer-motion"
-import { Button } from "@heroui/button"
+import { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Button } from "@heroui/button";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import {
   Calendar,
   Clock,
@@ -20,14 +22,23 @@ import {
   User,
   ImageIcon,
   ExternalLink,
-} from "lucide-react"
-import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
-import { useTranslation } from "react-i18next"
-import { getEventById } from "../services/eventService"
+} from "lucide-react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { useTranslation } from "react-i18next";
+import { getEventById } from "../services/eventService";
+import { useAuthStore } from "../store/authStore";
+import {
+  removeFavorite,
+  addFavorite,
+  getUserById,
+} from "../services/userService";
+import useAlert from "../hooks/useAlert";
+import Alert from "../components/Alert";
 
 export default function EventDetail() {
-  // Todos los hooks se llaman incondicionalmente
+  const { alert, showAlert, hideAlert } = useAlert();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { id } = useParams();
   const [eventData, setEventData] = useState(null);
@@ -35,25 +46,34 @@ export default function EventDetail() {
   const [isLiked, setIsLiked] = useState(false);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
   const [showAllArtists, setShowAllArtists] = useState(false);
-
   useEffect(() => {
-    if (id) {
-      getEventById(id)
-        .then((data) => {
-          setEventData(data)
-        })
-        .catch((error) => {
-          console.error("Error fetching event:", error)
-        })
-        .finally(() => {
-          setIsLoading(false)
-        })
-    }
-  }, [id])
+    const fetchEventAndCheckFavorite = async () => {
+      if (!id) return;
+
+      const userId = useAuthStore.getState().userId;
+
+      try {
+        const event = await getEventById(id);
+        setEventData(event);
+        console.log("Event data fetched successfully:", event);
+
+        const userData = await getUserById(userId);
+
+        const favoritos = userData.favoriteEventIds || [];
+        setIsLiked(favoritos.includes(parseInt(id)));
+      } catch (error) {
+        console.error("Error al cargar evento o favoritos:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEventAndCheckFavorite();
+  }, [id]);
 
   const FAQItem = ({ faq, index }) => {
     const [open, setOpen] = useState(false);
-    
+
     return (
       <motion.div
         key={index}
@@ -77,19 +97,20 @@ export default function EventDetail() {
       </motion.div>
     );
   };
-  // Retornos condicionales basados en el estado
   if (isLoading) {
     return (
       <>
         <Navbar isAuthenticated={true} />
         <main className="min-h-screen bg-[#F3F0FA] pt-16 flex items-center justify-center">
-          <p className="text-center text-[#5C3D8D]">Cargando detalles del evento...</p>
+          <p className="text-center text-[#5C3D8D]">
+            Cargando detalles del evento...
+          </p>
         </main>
         <Footer />
       </>
-    )
+    );
   }
-  
+
   if (!eventData) {
     return (
       <>
@@ -101,7 +122,7 @@ export default function EventDetail() {
             </p>
             <Button
               as={Link}
-              to="/events"
+              onPress={() => navigate("/events")}
               className="bg-[#5C3D8D] text-white hover:bg-[#2E1A47]"
             >
               Volver a la lista de eventos
@@ -110,57 +131,76 @@ export default function EventDetail() {
         </main>
         <Footer />
       </>
-    )
+    );
   }
 
   const relatedGroups = [];
   if (eventData.relatedEvents && eventData.relatedEvents.length > 0) {
     const groupsMap = new Map();
-    eventData.relatedEvents.forEach(ev => {
+    eventData.relatedEvents.forEach((ev) => {
       const year = new Date(ev.startDate).getFullYear();
       if (!groupsMap.has(year)) {
         groupsMap.set(year, []);
       }
       groupsMap.get(year).push(ev);
     });
-    // Convierte a array y opcionalmente ordénalo (por ejemplo, de menor a mayor año)
-    relatedGroups.push(...Array.from(groupsMap, ([year, events]) => ({ year, events })));
+    relatedGroups.push(
+      ...Array.from(groupsMap, ([year, events]) => ({ year, events }))
+    );
     relatedGroups.sort((a, b) => a.year - b.year);
   }
 
-  const toggleLike = () => {
-    setIsLiked(!isLiked)
-  }
+  const toggleLike = async () => {
+    const userId = useAuthStore.getState().userId;
+    if (!userId) {
+      showAlert({
+        type: "error",
+        message: t("alert.notAuthenticated"),
+      });
+      return;
+    }
+
+    try {
+      if (isLiked) {
+        await removeFavorite(userId, eventData.id);
+      } else {
+        await addFavorite(userId, eventData.id);
+      }
+    } catch (error) {
+      console.error("Error al guardar el evento:", error);
+    }
+
+    setIsLiked(!isLiked);
+  };
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString)
+    const date = new Date(dateString);
     return date.toLocaleDateString("es-ES", {
       weekday: "long",
       day: "numeric",
       month: "long",
       year: "numeric",
-    })
-  }
+    });
+  };
 
   const formatTime = (dateString) => {
-    const date = new Date(dateString)
+    const date = new Date(dateString);
     return date.toLocaleTimeString("es-ES", {
       hour: "2-digit",
       minute: "2-digit",
-    })
-  }
+    });
+  };
 
   const formatYear = (dateString) => {
-    const date = new Date(dateString)
+    const date = new Date(dateString);
     return date.toLocaleDateString("es-ES", {
       year: "numeric",
-    })
-  }
+    });
+  };
 
-
-  const displayedArtists = showAllArtists 
-    ? eventData.artists 
-    : eventData.artists?.slice(0, 4) || []
+  const displayedArtists = showAllArtists
+    ? eventData.artists
+    : eventData.artists?.slice(0, 4) || [];
 
   return (
     <>
@@ -190,7 +230,9 @@ export default function EventDetail() {
                     <div>
                       <div className="flex items-center gap-2 mb-2">
                         <span className="bg-[#5C3D8D]/10 text-[#5C3D8D] text-xs font-medium px-2.5 py-0.5 rounded-full">
-                          {eventData.category === "festivals" ? "Festival" : eventData.category}
+                          {eventData.category === "festivals"
+                            ? "Festival"
+                            : eventData.category}
                         </span>
                         <span className="bg-[#D7A6F3]/20 text-[#5C3D8D] text-xs font-medium px-2.5 py-0.5 rounded-full flex items-center">
                           <Star className="h-3 w-3 mr-1" />
@@ -203,36 +245,42 @@ export default function EventDetail() {
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[#5C3D8D]">
                         <div className="flex items-center">
                           <Calendar className="h-4 w-4 mr-1.5" />
-                          {/* //TODO formatear la hora que viene junto al dia en el mismo parametro startDate*/}
-                          <span className="text-sm">{formatDate(eventData.startDate)}</span>
+                          <span className="text-sm">
+                            {formatDate(eventData.startDate)}
+                          </span>
                         </div>
                         <div className="flex items-center">
                           <Clock className="h-4 w-4 mr-1.5" />
-                          <span className="text-sm">{formatTime(eventData.startDate)}</span>
+                          <span className="text-sm">
+                            {formatTime(eventData.startDate)}
+                          </span>
                         </div>
                         <div className="flex items-center">
-                            <MapPin className="h-4 w-4 mr-1.5" />
-                            <span className="text-sm">
-                                {typeof eventData.location === 'object' ? eventData.location.name : "Aun sin determinar"}
-                            </span>
+                          <MapPin className="h-4 w-4 mr-1.5" />
+                          <span className="text-sm">
+                            {typeof eventData.location === "object"
+                              ? eventData.location.name
+                              : "Aun sin determinar"}
+                          </span>
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 mt-4 md:mt-0">
                       <Button
                         variant="light"
-                        className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
-                        startContent={<Share2 size={18} />}
-                      >
-                        Compartir
-                      </Button>
-                      <Button
-                        variant="light"
-                        className={isLiked ? "text-red-500 hover:bg-red-50" : "text-[#5C3D8D] hover:bg-[#5C3D8D]/10"}
-                        startContent={<Heart size={18} className={isLiked ? "fill-red-500" : ""} />}
+                        className={
+                          isLiked
+                            ? "text-red-500 hover:bg-red-50"
+                            : "text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
+                        }
+                        startContent={
+                          <Heart
+                            size={18}
+                            className={isLiked ? "fill-red-500" : ""}
+                          />
+                        }
                         onPress={toggleLike}
                       >
-                        {/* //TODO: Llamar a una función que guarde en la base de datos el evento si se guarda por el usuario*/}
                         {isLiked ? "Guardado" : "Guardar"}
                       </Button>
                     </div>
@@ -245,6 +293,7 @@ export default function EventDetail() {
                       </div>
                       <div className="mt-6">
                         <Button
+                          onPress={() => {navigate(`/ticket-selection/${eventData.id}`, { state: { eventData } })}}
                           className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white w-full md:w-auto"
                           size="lg"
                           startContent={<Ticket size={18} />}
@@ -254,53 +303,71 @@ export default function EventDetail() {
                       </div>
                     </div>
                     <div className="md:w-1/3 bg-[#F3F0FA] rounded-lg p-4">
-                        <h3 className="font-semibold text-[#2E1A47] mb-3">Precios</h3>
-                        <ul className="space-y-2">
-                          {/*//TODO: Modificar el rango de precios cuando se implemente en el backend */}
-                        {eventData.priceRanges && eventData.priceRanges.length > 0 && (
-                        <ul className="space-y-2">
-                            {eventData.priceRanges.map((range, index) => (
-                            <li key={index} className="flex justify-between items-center text-sm">
-                                <span className="text-[#5C3D8D]">{range.type}</span>
-                                <span className="font-medium text-[#2E1A47]">{range.price}</span>
-                            </li>
-                            ))}
-                        </ul>
-                        )}
+                      <h3 className="font-semibold text-[#2E1A47] mb-3">
+                        Precios
+                      </h3>
+                      <ul className="space-y-2">
+                        {/*//TODO: Modificar el rango de precios cuando se implemente en el backend */}
+                        {eventData.priceRanges &&
+                          eventData.priceRanges.length > 0 && (
+                            <ul className="space-y-2">
+                              {eventData.priceRanges.map((range, index) => (
+                                <li
+                                  key={index}
+                                  className="flex justify-between items-center text-sm"
+                                >
+                                  <span className="text-[#5C3D8D]">
+                                    {range.type}
+                                  </span>
+                                  <span className="font-medium text-[#2E1A47]">
+                                    {range.price}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                       </ul>
                       <div className="border-t border-[#5C3D8D]/20 my-3"></div>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-[#5C3D8D]">Organizador</span>
-                          <span className="font-medium text-[#2E1A47]">{`${eventData.organizer.firstName} ${eventData.organizer.lastName}`}</span>
+                          <span className="font-medium text-[#2E1A47]">{`${eventData.organizer} `}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#5C3D8D]">Capacidad</span>
-                            {eventData.capacity ? (
-                                <span className="font-medium text-[#2E1A47]">
-                                {eventData.capacity.toLocaleString()} personas
-                                </span>
-                            ) : (
-                                <span className="font-medium text-[#2E1A47]">
-                                No definida
-                                </span>
-                            )}
+                          {eventData.capacity ? (
+                            <span className="font-medium text-[#2E1A47]">
+                              {eventData.capacity.toLocaleString()} personas
+                            </span>
+                          ) : (
+                            <span className="font-medium text-[#2E1A47]">
+                              No definida
+                            </span>
+                          )}
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#5C3D8D]">Edad mínima</span>
-                          <span className="font-medium text-[#2E1A47]">+{eventData.minAge} años</span>
+                          <span className="font-medium text-[#2E1A47]">
+                            +{eventData.minAge} años
+                          </span>
                         </div>
                       </div>
                       <div className="mt-4">
-                        <a
-                          href={eventData.website.startsWith("http") ? eventData.website : `https://${eventData.website}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#5C3D8D] hover:text-[#2E1A47] text-sm flex items-center"
-                        >
-                          Visitar sitio web oficial
-                          <ExternalLink className="h-3 w-3 ml-1" />
-                        </a>
+                        {eventData?.website && (
+                          <a
+                            href={
+                              eventData.website.startsWith("http")
+                                ? eventData.website
+                                : `https://${eventData.website}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#5C3D8D] hover:text-[#2E1A47] text-sm flex items-center"
+                          >
+                            Visitar sitio web oficial
+                            <ExternalLink className="h-3 w-3 ml-1" />
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -311,13 +378,15 @@ export default function EventDetail() {
         </section>
 
         {/* Artists Section */}
-        { eventData.artists && eventData.artists.length > 0 && (
+        {eventData.artists && eventData.artists.length > 0 && (
           <section className="py-8 px-4">
             <div className="container mx-auto max-w-6xl">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <User className="h-5 w-5 text-[#5C3D8D]" />
-                  <h2 className="text-xl font-bold text-[#2E1A47]">Invitados</h2>
+                  <h2 className="text-xl font-bold text-[#2E1A47]">
+                    Invitados
+                  </h2>
                 </div>
                 {eventData.artists && eventData.artists.length > 4 && (
                   <Button
@@ -358,7 +427,8 @@ export default function EventDetail() {
                       <div className="text-xs text-[#5C3D8D]">
                         <div>{artist.role}</div>
                         <div>
-                          {formatDate(artist.showsUpAt)} • {formatTime(artist.showsUpAt)}
+                          {formatDate(artist.showsUpAt)} •{" "}
+                          {formatTime(artist.showsUpAt)}
                         </div>
                       </div>
                     </div>
@@ -380,19 +450,21 @@ export default function EventDetail() {
           <div className="container mx-auto max-w-6xl">
             <div className="flex items-center gap-2 mb-6">
               <Info className="h-5 w-5 text-[#5C3D8D]" />
-              <h2 className="text-xl font-bold text-[#2E1A47]">Detalles del evento</h2>
+              <h2 className="text-xl font-bold text-[#2E1A47]">
+                Detalles del evento
+              </h2>
             </div>
 
             <div className="prose max-w-none text-[#2E1A47]/80">
-                {eventData.longDescription && eventData.longDescription.trim() ? (
-                    eventData.longDescription.split("\n\n").map((paragraph, i) => (
-                    <p key={i} className="mb-4">
-                        {paragraph}
-                    </p>
-                    ))
-                ) : (
-                    <p className="mb-4">No hay detalles disponibles.</p>
-                )}
+              {eventData.longDescription && eventData.longDescription.trim() ? (
+                eventData.longDescription.split("\n\n").map((paragraph, i) => (
+                  <p key={i} className="mb-4">
+                    {paragraph}
+                  </p>
+                ))
+              ) : (
+                <p className="mb-4">No hay detalles disponibles.</p>
+              )}
             </div>
 
             <div className="mt-8">
@@ -402,19 +474,35 @@ export default function EventDetail() {
                   <MapPin className="h-5 w-5 text-[#5C3D8D] mt-0.5 mr-2" />
                   <div>
                     <div className="font-medium text-[#2E1A47]">
-                        {typeof eventData.location === 'object' ? eventData.location.name : eventData.location}
+                      {typeof eventData.location === "object"
+                        ? eventData.location.name
+                        : eventData.location}
                     </div>
                   </div>
                 </div>
               </div>
               <div className="rounded-lg overflow-hidden h-64 bg-[#F3F0FA]">
-                {/* Aquí iría un mapa real */}
-                <div className="w-full h-full flex items-center justify-center bg-[#F3F0FA]">
-                  <div className="text-center">
-                    <MapPin className="h-8 w-8 text-[#5C3D8D] mx-auto mb-2" />
-                    <p className="text-[#5C3D8D]">Mapa de ubicación</p>
-                  </div>
-                </div>
+                <MapContainer
+                  center={[
+                    eventData.location.latitude,
+                    eventData.location.longitude,
+                  ]}
+                  zoom={15}
+                  className="w-full h-full"
+                >
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution="&copy; OpenStreetMap contributors"
+                  />
+                  <Marker
+                    position={[
+                      eventData.location.latitude,
+                      eventData.location.longitude,
+                    ]}
+                  >
+                    <Popup>Ubicación del evento</Popup>
+                  </Marker>
+                </MapContainer>
               </div>
             </div>
           </div>
@@ -427,7 +515,9 @@ export default function EventDetail() {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <ImageIcon className="h-5 w-5 text-[#5C3D8D]" />
-                  <h2 className="text-xl font-bold text-[#2E1A47]">Ediciones anteriores</h2>
+                  <h2 className="text-xl font-bold text-[#2E1A47]">
+                    Ediciones anteriores
+                  </h2>
                 </div>
                 <div className="flex items-center gap-2">
                   <Button
@@ -436,14 +526,18 @@ export default function EventDetail() {
                     className="text-[#5C3D8D] hover:bg-[#5C3D8D]/10 p-2"
                     onPress={() =>
                       setActiveGalleryIndex(
-                        (prev) => (prev - 1 + relatedGroups.length) % relatedGroups.length
+                        (prev) =>
+                          (prev - 1 + relatedGroups.length) %
+                          relatedGroups.length
                       )
                     }
                   >
                     <ChevronLeft className="h-5 w-5" />
                   </Button>
                   {/* Se muestra el año del grupo activo */}
-                  <span className="text-[#5C3D8D]">{relatedGroups[activeGalleryIndex].year}</span>
+                  <span className="text-[#5C3D8D]">
+                    {relatedGroups[activeGalleryIndex].year}
+                  </span>
                   <Button
                     variant="light"
                     isIconOnly
@@ -460,9 +554,6 @@ export default function EventDetail() {
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {/*
-                  Para el grupo activo, se recorren todos sus eventos y se muestran todas sus fotos.
-                */}
                 {relatedGroups[activeGalleryIndex].events.map((ev) =>
                   ev.photos.map((image, index) => (
                     <motion.div
@@ -489,7 +580,9 @@ export default function EventDetail() {
           <div className="container mx-auto max-w-6xl">
             <div className="flex items-center gap-2 mb-6">
               <Users className="h-5 w-5 text-[#5C3D8D]" />
-              <h2 className="text-xl font-bold text-[#2E1A47]">Preguntas frecuentes</h2>
+              <h2 className="text-xl font-bold text-[#2E1A47]">
+                Preguntas frecuentes
+              </h2>
             </div>
             <div className="space-y-4">
               {(eventData.faqs || []).map((faq, index) => (
@@ -499,27 +592,8 @@ export default function EventDetail() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-12 px-4 bg-gradient-to-r from-[#5C3D8D] to-[#2E1A47]">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">¿Listo para vivir esta experiencia?</h2>
-              <p className="text-[#D7A6F3] mb-6 max-w-2xl mx-auto">
-                No te pierdas la oportunidad de asistir a uno de los eventos más esperados del año. ¡Consigue tus
-                entradas ahora!
-              </p>
-              <Button
-                className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47]"
-                size="lg"
-                startContent={<Ticket size={18} />}
-              >
-                Conseguir Entradas
-              </Button>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </>
-  )
+  );
 }

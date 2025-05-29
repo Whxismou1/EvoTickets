@@ -1,6 +1,5 @@
 package com.evotickets.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +37,17 @@ public class EventController {
         List<EventDTO> events = eventService.getAllServices();
         return !events.isEmpty() ? ResponseEntity.ok(events)
              : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay eventos disponibles");
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getAllEventsByUser(@PathVariable Long id){
+        List<EventDTO> events = eventService.getAllInfo(id);
+        return ResponseEntity.ok(events);
+    }
+
+    @PostMapping("/limit")
+    public ResponseEntity<?> getAllEventsWithLimit(@RequestBody Integer limit) {
+        return ResponseEntity.ok().body(eventService.getAllServicesLimited(limit.intValue()));
     }
 
     @GetMapping("/{id}")

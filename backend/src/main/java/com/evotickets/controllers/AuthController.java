@@ -36,7 +36,7 @@ public class AuthController {
 
     private final JwtService jwtService;
 
-    private AuthService authService;
+    private final AuthService authService;
 
     public AuthController(JwtService jwtService, AuthService authService, PDFStorageService pdfStorageService) {
         this.jwtService = jwtService;
@@ -64,7 +64,7 @@ public class AuthController {
         response.addCookie(refreshTokenCookie);
 
         LoginResponse loginResponse = new LoginResponse(token, jwtService.getJwtExpirationTime());
-
+        System.out.println("loginResponse: " + loginResponse);
         return ResponseEntity.ok(loginResponse);
     }
 

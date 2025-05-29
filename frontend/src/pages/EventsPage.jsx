@@ -1,15 +1,17 @@
 "use client";
-import {Link} from "react-router-dom";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import Navbar from "../components/Navbar";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import { getAllEvents } from "../services/eventService";
+import { useAuthStore } from "../store/authStore";
 
 export default function EventsPage() {
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -102,7 +104,7 @@ export default function EventsPage() {
 
   return (
     <>
-      <Navbar isAuthenticated={true} />
+      <Navbar isAuthenticated={Boolean(useAuthStore.getState().userId)} />
       <main className="min-h-screen bg-[#F3F0FA] pt-16">
         <section className="container mx-auto max-w-6xl px-4 py-8">
           <h1 className="text-3xl font-bold text-[#2E1A47] mb-6">Eventos</h1>
@@ -146,11 +148,9 @@ export default function EventsPage() {
                   <div className="p-4">
                     <h2 className="text-lg font-bold text-[#2E1A47] mb-2">{event.name}</h2>
                     <p className="text-sm text-[#5C3D8D] mb-4">{event.description.slice(0, 100)}...</p>
-                    <Link to={`/events/${event.id}`}>
-                      <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white w-full">
+                      <Button className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white w-full" onPress={() => {navigate(`/events/${event.id}`)}}>
                         Ver detalles
                       </Button>
-                    </Link>
                   </div>
                 </motion.div>
               ))}

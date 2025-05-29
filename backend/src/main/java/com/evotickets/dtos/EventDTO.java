@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.evotickets.entities.LocationEntity;
+import com.evotickets.entities.TicketTypeEntity;
 import com.evotickets.entities.enums.EventCategory;
 
 import jakarta.validation.constraints.Size;
@@ -47,6 +48,8 @@ public class EventDTO {
     private List<FaqsDTO> faqs;
 
     private List<TicketsDTO> tickets;
+
+    private List<TicketTypeEntity> ticketTypes;
 
     private String image;
 

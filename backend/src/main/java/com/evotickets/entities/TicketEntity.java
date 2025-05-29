@@ -1,6 +1,5 @@
 package com.evotickets.entities;
 
-import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,18 +28,12 @@ public class TicketEntity {
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name = "event_id", nullable = false)
-    private EventEntity event;
+    @JoinColumn(name = "ticket_type_id", nullable = false)
+    private TicketTypeEntity ticketType;
     
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
-    
-    @Column(nullable = false, length = 50)
-    private String quality;
-    
-    @Column(nullable = false, precision = 20, scale = 5)
-    private BigDecimal price;
     
     @Column(length = 10)
     private String seat;
