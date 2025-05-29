@@ -161,7 +161,6 @@ public class StripeService {
 
                         String pdfPath = "/tmp/ticket_" + ticketNumber + ".pdf";
                         String fullName = user.getFirstName() + " " + user.getLastName();
-
                         PDFGenerator.createTicketPDFWithHtmlTemplate(
                                 pdfPath,
                                 ticketType.getEvent().getName(),

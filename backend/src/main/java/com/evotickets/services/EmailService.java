@@ -153,7 +153,7 @@ public class EmailService {
             emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{TICKET_URL}}", ticketUrl);
             emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{EVENT_LOCATION}}", eventLocation);
             emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{TICKET_NUMBER}}", ticketNumber);
-            emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{QR_CODE_URL}}", qrCodeUrl);
+            // emailContent = emailTemplateService.replacePlaceholders(emailContent, "{{QR_CODE_URL}}", qrCodeUrl);
     
             helper.setText(emailContent, true);
     
