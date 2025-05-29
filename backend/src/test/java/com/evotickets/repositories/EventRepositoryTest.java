@@ -109,9 +109,10 @@ public class EventRepositoryTest {
         EventEntity event = createSampleEvent("Evento Org", user, location);
         eventRepository.save(event);
 
-        List<EventEntity> foundEvents = eventRepository.findByOrganizerId(user.getId());
+        List<EventEntity> foundEvents = eventRepository.findAllByOrganizerId(user.getId());
 
         Assertions.assertThat(foundEvents).isNotEmpty();
         Assertions.assertThat(foundEvents.get(0).getOrganizer().getId()).isEqualTo(user.getId());
     }
+
 }

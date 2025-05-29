@@ -1,5 +1,6 @@
 package com.evotickets.services;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -53,7 +54,7 @@ public class EmailServiceTests {
 
         when(emailTemplateService.loadTemplate("verificationEmail.html")).thenReturn(templateContent);
         when(emailTemplateService.replacePlaceholders(templateContent, "{{VERIFICATION_CODE}}", TEST_TOKEN))
-            .thenReturn(expectedContent);
+                .thenReturn(expectedContent);
 
         // Act
         emailService.sedVerificationEmail(TEST_EMAIL, EmailType.VERIFICATION, TEST_TOKEN);
@@ -70,7 +71,7 @@ public class EmailServiceTests {
 
         when(emailTemplateService.loadTemplate("forgotPassword.html")).thenReturn(templateContent);
         when(emailTemplateService.replacePlaceholders(templateContent, "{{URL}}", TEST_URL))
-            .thenReturn(expectedContent);
+                .thenReturn(expectedContent);
 
         // Act
         emailService.sendForgotPasswordEmail(TEST_EMAIL, EmailType.PASSWORD_RESET, TEST_URL);
@@ -96,7 +97,7 @@ public class EmailServiceTests {
 
         when(emailTemplateService.loadTemplate("verificationEmail.html")).thenReturn(templateContent);
         when(emailTemplateService.replacePlaceholders(templateContent, "{{VERIFICATION_CODE}}", TEST_TOKEN))
-            .thenReturn(expectedContent);
+                .thenReturn(expectedContent);
         doThrow(new RuntimeException("Failed to send message")).when(javaMailSender).send(any(MimeMessage.class));
 
         // Act & Assert
@@ -113,7 +114,7 @@ public class EmailServiceTests {
 
         when(emailTemplateService.loadTemplate("forgotPassword.html")).thenReturn(templateContent);
         when(emailTemplateService.replacePlaceholders(templateContent, "{{URL}}", TEST_URL))
-            .thenReturn(expectedContent);
+                .thenReturn(expectedContent);
         doThrow(new RuntimeException("Failed to send message")).when(javaMailSender).send(any(MimeMessage.class));
 
         // Act & Assert
@@ -132,4 +133,46 @@ public class EmailServiceTests {
             emailService.sendCustomNotificationEmail(TEST_EMAIL, TEST_TITLE, TEST_MESSAGE);
         });
     }
-} 
+
+    @Test
+    public void EmailService_SendContactEmail_SendsEmailSuccessfully() {
+        emailService.sendContactEmail("John Doe", TEST_EMAIL, "Soporte técnico", "Necesito ayuda con mi cuenta.");
+        verify(javaMailSender).send(any(MimeMessage.class));
+    }
+
+    @Test
+    public void EmailService_SendContactEmail_ThrowsException() {
+        doThrow(new RuntimeException("SMTP error")).when(javaMailSender).send(any(MimeMessage.class));
+
+        assertThrows(EmailSendingException.class, () -> {
+            emailService.sendContactEmail("John Doe", TEST_EMAIL, "Soporte técnico", "Necesito ayuda con mi cuenta.");
+        });
+    }
+
+    @Mock
+    private org.springframework.web.multipart.MultipartFile mockFile;
+
+    @Test
+    public void EmailService_SendWorkWithUsEmail_WithAttachment_SendsEmailSuccessfully() {
+        when(mockFile.isEmpty()).thenReturn(false);
+        when(mockFile.getOriginalFilename()).thenReturn("cv.pdf");
+
+        emailService.sendWorkWithUsEmail("Jane", TEST_EMAIL, "123456789", "Estoy interesada en el puesto.", mockFile);
+        verify(javaMailSender).send(any(MimeMessage.class));
+    }
+
+    @Test
+    public void EmailService_SendWorkWithUsEmail_WithAttachment_ThrowsException() {
+        when(mockFile.isEmpty()).thenReturn(false);
+        when(mockFile.getOriginalFilename()).thenReturn("cv.pdf");
+
+        doThrow(new RuntimeException("Send fail")).when(javaMailSender).send(any(MimeMessage.class));
+
+        assertThrows(EmailSendingException.class, () -> {
+            emailService.sendWorkWithUsEmail("Jane", TEST_EMAIL, "123456789", "Estoy interesada", mockFile);
+        });
+    }
+
+    
+
+}

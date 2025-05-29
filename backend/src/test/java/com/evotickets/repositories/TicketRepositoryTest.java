@@ -3,6 +3,7 @@ package com.evotickets.repositories;
 import com.evotickets.entities.EventEntity;
 import com.evotickets.entities.LocationEntity;
 import com.evotickets.entities.TicketEntity;
+import com.evotickets.entities.TicketTypeEntity;
 import com.evotickets.entities.UserEntity;
 import com.evotickets.entities.enums.EventCategory;
 
@@ -73,14 +74,16 @@ public class TicketRepositoryTest {
         // Arrange
         UserEntity user = createSampleUser();
         LocationEntity location = createSampleLocation();
-        EventEntity event = createSampleEvent(user, location);
+        TicketTypeEntity ticketType = TicketTypeEntity.builder()
+                .name("VIP")
+                .price(new Double("75.50"))
+                .quantity(100)
+                .build();
 
         TicketEntity ticket = TicketEntity.builder()
-                .event(event)
                 .user(user)
-                .quality("VIP")
+                .ticketType(ticketType)
                 .seat("A1")
-                .price(new BigDecimal("75.50"))
                 .build();
 
         // Act
@@ -89,12 +92,9 @@ public class TicketRepositoryTest {
         // Assert
         Assertions.assertThat(savedTicket).isNotNull();
         Assertions.assertThat(savedTicket.getId()).isGreaterThan(0);
-
-        TicketEntity found = ticketRepository.findById(savedTicket.getId()).orElse(null);
-        Assertions.assertThat(found).isNotNull();
-        Assertions.assertThat(found.getSeat()).isEqualTo("A1");
-        Assertions.assertThat(found.getQuality()).isEqualTo("VIP");
-        Assertions.assertThat(found.getPrice()).isEqualByComparingTo("75.50");
+        Assertions.assertThat(savedTicket.getSeat()).isEqualTo("A1");
+        Assertions.assertThat(savedTicket.getUser()).isEqualTo(user);
+        Assertions.assertThat(savedTicket.getTicketType().getName()).isEqualTo("VIP");
     }
 
     @Test
@@ -104,23 +104,25 @@ public class TicketRepositoryTest {
         LocationEntity location = createSampleLocation();
         EventEntity event = createSampleEvent(user, location);
 
-        TicketEntity ticket1 = TicketEntity.builder()
-                .event(event)
+        TicketTypeEntity ticketType = TicketTypeEntity.builder()
+                .name("VIP")
+                .price(new Double("75.50"))
+                .quantity(100)
+                .build();
+
+        TicketEntity ticket = TicketEntity.builder()
                 .user(user)
-                .quality("General")
-                .seat("B1")
-                .price(new BigDecimal("30.00"))
+                .ticketType(ticketType)
+                .seat("A1")
                 .build();
 
         TicketEntity ticket2 = TicketEntity.builder()
-                .event(event)
                 .user(user)
-                .quality("VIP")
+                .ticketType(ticketType)
                 .seat("A2")
-                .price(new BigDecimal("60.00"))
                 .build();
 
-        ticketRepository.save(ticket1);
+        ticketRepository.save(ticket);
         ticketRepository.save(ticket2);
 
         // Act & Assert

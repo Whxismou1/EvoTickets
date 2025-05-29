@@ -50,7 +50,6 @@ public class ArtistRepositoryTest {
     @Test
     public void ArtistRepository_SaveAndFindByUser_ReturnsArtist() {
         UserEntity user = createUser("artist@example.com");
-        ArtistEntity artist = createArtist(user);
 
         ArtistEntity found = artistRepository.findByUser(user);
 

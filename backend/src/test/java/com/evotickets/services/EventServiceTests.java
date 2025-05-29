@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class EventServiceTests {
@@ -23,14 +24,22 @@ public class EventServiceTests {
     @InjectMocks
     private EventService eventService;
 
-    @Mock private EventRepository eventRepository;
-    @Mock private EventHighlightsRepository eventHighlightsRepository;
-    @Mock private EventPhotosRepository eventPhotosRepository;
-    @Mock private LocationRepository locationRepository;
-    @Mock private UserRepository userRepository;
-    @Mock private FaqsRepository faqsRepository;
-    @Mock private ArtistEventRepository artistEventRepository;
-    @Mock private ArtistsRepository artistRepository;
+    @Mock
+    private EventRepository eventRepository;
+    @Mock
+    private EventHighlightsRepository eventHighlightsRepository;
+    @Mock
+    private EventPhotosRepository eventPhotosRepository;
+    @Mock
+    private LocationRepository locationRepository;
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private FaqsRepository faqsRepository;
+    @Mock
+    private ArtistEventRepository artistEventRepository;
+    @Mock
+    private ArtistsRepository artistRepository;
 
     private EventEntity eventEntity;
     private EventDTO eventDTO;
@@ -159,4 +168,62 @@ public class EventServiceTests {
         assertThatThrownBy(() -> eventService.deleteEvent(999L))
                 .isInstanceOf(NoSuchEventException.class);
     }
+
+    @Test
+    void getAllServices_ReturnsEventDTOList() {
+        when(eventRepository.findAll()).thenReturn(List.of(eventEntity));
+        when(artistEventRepository.findByEvent(any())).thenReturn(List.of());
+
+        List<EventDTO> result = eventService.getAllServices();
+
+        assertThat(result).isNotEmpty();
+        assertThat(result.get(0).getName()).isEqualTo("Test Event");
+    }
+
+    @Test
+    void getAllServicesLimited_WithLimit_ReturnsLimitedList() {
+        when(eventRepository.findLimited(any())).thenReturn(List.of(eventEntity));
+        when(artistEventRepository.findByEvent(any())).thenReturn(List.of());
+
+        List<EventDTO> result = eventService.getAllServicesLimited(1);
+
+        assertThat(result).hasSize(1);
+    }
+
+    @Test
+    void getEventById_ValidId_ReturnsEvent() {
+        when(eventRepository.findById(1L)).thenReturn(Optional.of(eventEntity));
+
+        EventEntity result = eventService.getEventById(1L);
+
+        assertThat(result).isEqualTo(eventEntity);
+    }
+
+    @Test
+    void getEventById_NotFound_ThrowsException() {
+        when(eventRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> eventService.getEventById(99L))
+                .isInstanceOf(NoSuchEventException.class);
+    }
+
+    @Test
+    void getEventsByLocation_NoEventsFound_ThrowsException() {
+        when(eventRepository.findByLocation(location)).thenReturn(new ArrayList<>());
+
+        assertThatThrownBy(() -> eventService.getEventsByLocation(location))
+                .isInstanceOf(NoSuchEventException.class);
+    }
+
+    @Test
+    void getAllInfo_WithValidOrganizerId_ReturnsEventDTOList() {
+        when(eventRepository.findAllByOrganizerId(41L)).thenReturn(List.of(eventEntity));
+        when(artistEventRepository.findByEvent(eventEntity)).thenReturn(List.of());
+
+        List<EventDTO> result = eventService.getAllInfo(41L);
+
+        assertThat(result).isNotEmpty();
+        assertThat(result.get(0).getName()).isEqualTo("Test Event");
+    }
+
 }

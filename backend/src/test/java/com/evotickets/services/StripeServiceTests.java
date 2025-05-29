@@ -105,5 +105,6 @@ public class StripeServiceTests {
             assertThatThrownBy(() -> stripeService.crearCheckoutSession(2L))
                     .isInstanceOf(StripeSessionCreationException.class);
         }
+        
     }
 }
