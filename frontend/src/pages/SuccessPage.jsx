@@ -86,7 +86,7 @@ export default function SuccessPage() {
 
               <div className="flex flex-col sm:flex-row gap-4 mt-8">
                 <Button
-                  onClick={() => navigate("/profile/tickets")}
+                  onClick={() => navigate("/profile?tab=tickets")}
                   className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white flex-1"
                   startContent={<Ticket size={18} />}
                 >

@@ -469,7 +469,7 @@ export default function Profile() {
                       <p className="text-sm text-[#5C3D8D]">
                         Eventos asistidos
                       </p>
-                      <p className="font-medium text-[#2E1A47]">12</p>
+                      <p className="font-medium text-[#2E1A47]">{tickets.length}</p>
                     </div>
                   )}
                 </div>

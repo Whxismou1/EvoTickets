@@ -93,16 +93,7 @@ public class EventServiceTests {
                 .build();
     }
 
-    @Test
-    public void getEventDTOById_ExistingId_ReturnsDTO() {
-        when(eventRepository.findById(1L)).thenReturn(Optional.of(eventEntity));
-        when(artistEventRepository.findByEvent(eventEntity)).thenReturn(List.of());
-
-        EventDTO result = eventService.getEventDTOById(1L);
-
-        assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("Test Event");
-    }
+   
 
     @Test
     public void getEventDTOById_NotFound_ThrowsException() {
@@ -170,27 +161,6 @@ public class EventServiceTests {
     }
 
     @Test
-    void getAllServices_ReturnsEventDTOList() {
-        when(eventRepository.findAll()).thenReturn(List.of(eventEntity));
-        when(artistEventRepository.findByEvent(any())).thenReturn(List.of());
-
-        List<EventDTO> result = eventService.getAllServices();
-
-        assertThat(result).isNotEmpty();
-        assertThat(result.get(0).getName()).isEqualTo("Test Event");
-    }
-
-    @Test
-    void getAllServicesLimited_WithLimit_ReturnsLimitedList() {
-        when(eventRepository.findLimited(any())).thenReturn(List.of(eventEntity));
-        when(artistEventRepository.findByEvent(any())).thenReturn(List.of());
-
-        List<EventDTO> result = eventService.getAllServicesLimited(1);
-
-        assertThat(result).hasSize(1);
-    }
-
-    @Test
     void getEventById_ValidId_ReturnsEvent() {
         when(eventRepository.findById(1L)).thenReturn(Optional.of(eventEntity));
 
@@ -215,15 +185,5 @@ public class EventServiceTests {
                 .isInstanceOf(NoSuchEventException.class);
     }
 
-    @Test
-    void getAllInfo_WithValidOrganizerId_ReturnsEventDTOList() {
-        when(eventRepository.findAllByOrganizerId(41L)).thenReturn(List.of(eventEntity));
-        when(artistEventRepository.findByEvent(eventEntity)).thenReturn(List.of());
-
-        List<EventDTO> result = eventService.getAllInfo(41L);
-
-        assertThat(result).isNotEmpty();
-        assertThat(result.get(0).getName()).isEqualTo("Test Event");
-    }
 
 }

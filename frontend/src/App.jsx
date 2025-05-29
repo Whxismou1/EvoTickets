@@ -42,7 +42,7 @@ function App() {
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/resetPassword/:token" element={<ResetPassword />} />
         <Route path="/PrivacyPolicyPage" element={<PrivacyPolicyPage />} />
-        <Route path="/TermsPage" element={<TermsPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="/WorkWithUsPage" element={<WorkWithUsPage />} />
         <Route path="/AboutUsPage" element={<AboutUsPage />} />
         <Route path="/ContactPage" element={<ContactPage />} />

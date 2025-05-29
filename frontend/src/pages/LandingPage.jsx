@@ -7,7 +7,7 @@ import { Button } from "@heroui/button";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { getFewEvents } from "../services/eventService";
-
+import { useAuthStore } from "../store/authStore";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import IconMapper from "../components/IconMapper";
@@ -22,19 +22,20 @@ export default function Home() {
   const organizerSteps = t("organizers_steps", { returnObjects: true });
   const navigate = useNavigate();
 
+
   function formatEventDate(start, end) {
     const startDate = new Date(start);
     const endDate = new Date(end);
-  
+
     const sameDay = startDate.getDate() === endDate.getDate();
     const sameMonth = startDate.getMonth() === endDate.getMonth();
     const sameYear = startDate.getFullYear() === endDate.getFullYear();
-  
+
     const dayStart = startDate.getDate();
     const dayEnd = endDate.getDate();
     const month = startDate.toLocaleString("default", { month: "short" });
     const year = startDate.getFullYear();
-  
+
     if (sameDay) {
       return `${dayStart} ${month}, ${year}`;
     } else if (sameMonth && sameYear) {
@@ -45,22 +46,15 @@ export default function Home() {
       return `${dayStart} ${month}, ${year} - ${dayEnd} ${endMonth}, ${endYear}`;
     }
   }
-  
-
-
 
   useEffect(() => {
     const fetchEvents = async () => {
-        const fetchedEvents = await getFewEvents(6);
-        setEvents(fetchedEvents);
-    }
+      const fetchedEvents = await getFewEvents(6);
+      setEvents(fetchedEvents);
+    };
 
     fetchEvents();
-
-
   }, []);
-
-
 
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -112,9 +106,28 @@ export default function Home() {
             </h1>
             <p className="text-xl text-[#F3F0FA] mb-8">{t("hero_subtitle")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button as="a" onPress={() => navigate("/login")} className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
+              {/* <Button as="a" onPress={() => navigate("/login")} className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
                 {t("explore_events")}
-              </Button>
+              </Button> */}
+
+              {useAuthStore.getState().userId ? (
+                <Button
+                  as="a"
+                  onPress={() => navigate("/events")}
+                  className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6"
+                >
+                  {t("see_all_events")}
+                </Button>
+              ) : (
+                <Button
+                  as="a"
+                  onPress={() => navigate("/login")}
+                  className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6"
+                >
+                  {t("explore_events")}
+                </Button>
+              )}
+
               {/* <Button
                 variant="outline"
                 className="border-[#D7A6F3] text-[#F3F0FA] hover:bg-[#D7A6F3]/20 text-lg px-8 py-6"
@@ -172,7 +185,11 @@ export default function Home() {
                 <div className="relative h-48 overflow-hidden">
                   <motion.img
                     // src={event.image}
-                    src={event?.photos?.length > 0 ? event.photos[0].url : "/placeholder.svg?height=200&width=300"}
+                    src={
+                      event?.photos?.length > 0
+                        ? event.photos[0].url
+                        : "/placeholder.svg?height=200&width=300"
+                    }
                     className="w-full h-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
@@ -180,7 +197,9 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#2E1A47]/70 to-transparent" />
                   <div className="absolute top-4 left-4">
                     <span className="bg-[#D7A6F3] text-[#2E1A47] px-3 py-1 rounded-full text-xs font-medium">
-                      {t(`category.${normalizeCategoryKey(event.category)}`, { defaultValue: event.category })}
+                      {t(`category.${normalizeCategoryKey(event.category)}`, {
+                        defaultValue: event.category,
+                      })}
                     </span>
                   </div>
                   <div className="absolute bottom-4 left-4 right-4">
@@ -197,10 +216,16 @@ export default function Home() {
                     {event.name}
                   </h3>
                   <p className="text-[#5C3D8D] font-medium mb-4">
-                    {t("event.from_price")} 
-                    
+                    {t("event.from_price")}
                   </p>
-                  <Button className="w-full bg-[#5C3D8D] hover:bg-[#2E1A47] text-white" onPress={() => navigate(`/login`)}>
+                  <Button
+                    className="w-full bg-[#5C3D8D] hover:bg-[#2E1A47] text-white"
+                    onPress={() =>
+                      useAuthStore.getState().userId
+                        ? navigate(`/events/${event.id}`)
+                        : navigate("/login")
+                    }
+                  >
                     {t("view_details")}
                   </Button>
                 </div>
@@ -219,7 +244,9 @@ export default function Home() {
               as="a"
               onPress={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
-                navigate("/login");
+                useAuthStore.getState().userId
+                  ? navigate("/events")
+                  : navigate("/login");
               }}
               variant="outline"
               className="border-[#5C3D8D] text-[#5C3D8D] hover:bg-[#5C3D8D]/10"
@@ -268,7 +295,9 @@ export default function Home() {
                 <h3 className="text-xl font-bold text-[#2E1A47] mb-2">
                   {t(`features.${feature.key}.title`)}
                 </h3>
-                <p className="text-[#5C3D8D]">{t(`features.${feature.key}.description`)}</p>
+                <p className="text-[#5C3D8D]">
+                  {t(`features.${feature.key}.description`)}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -327,7 +356,15 @@ export default function Home() {
                 ))}
               </ul>
 
-              <Button as="a" onPress={() => navigate("/login")} className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white">
+              <Button
+                as="a"
+                onPress={() => {
+                  useAuthStore.getState().userId
+                    ? navigate("/events")
+                    : navigate("/login");
+                }}
+                className="bg-[#5C3D8D] hover:bg-[#2E1A47] text-white"
+              >
                 {t("explore_events")}
               </Button>
             </motion.div>
@@ -340,11 +377,7 @@ export default function Home() {
               transition={{ duration: 0.6 }}
             >
               <div className="relative z-10 rounded-xl overflow-hidden shadow-2xl border-8 border-white">
-                <img
-                  src="/home.png"
-                  alt="EvoTickets App"
-                  className="w-full"
-                />
+                <img src="/home.png" alt="EvoTickets App" className="w-full" />
               </div>
               <div className="absolute -bottom-6 -right-6 w-2/3 h-2/3 bg-[#A28CD4]/20 rounded-xl -z-10" />
               <div className="absolute -top-6 -left-6 w-1/2 h-1/2 bg-[#D7A6F3]/30 rounded-xl -z-10" />
@@ -437,7 +470,6 @@ export default function Home() {
         </div>
       </section>
 
-
       {/* CTA Section */}
       <section
         id="contact"
@@ -456,7 +488,15 @@ export default function Home() {
             </h2>
             <p className="text-xl text-[#D7A6F3] mb-8">{t("cta_subtitle")}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button as="a" onPress={()=> navigate("/login")} className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6">
+              <Button
+                as="a"
+                onPress={() => {
+                  useAuthStore.getState().userId
+                    ? navigate("/events")
+                    : navigate("/login");
+                }}
+                className="bg-[#D7A6F3] hover:bg-[#A28CD4] text-[#2E1A47] text-lg px-8 py-6"
+              >
                 {t("explore_events")}
               </Button>
             </div>

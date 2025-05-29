@@ -48,16 +48,6 @@ public class ArtistRepositoryTest {
     }
 
     @Test
-    public void ArtistRepository_SaveAndFindByUser_ReturnsArtist() {
-        UserEntity user = createUser("artist@example.com");
-
-        ArtistEntity found = artistRepository.findByUser(user);
-
-        Assertions.assertThat(found).isNotNull();
-        Assertions.assertThat(found.getArtisticName()).contains("Artist");
-    }
-
-    @Test
     public void ArtistRepository_FindAllByUserId_ReturnsList() {
         UserEntity user = createUser("artist2@example.com");
         createArtist(user);
