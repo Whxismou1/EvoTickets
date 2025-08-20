@@ -1,5 +1,13 @@
-# 🎟️ EvoTickets
+## ⚠️ AVISO IMPORTANTE
 
+> **⚠️ Este repositorio está descontinuado y ya no se encuentra en mantenimiento.**
+>
+> El desarrollo de EvoTickets continúa en una nueva versión privada con más funcionalidades.
+>
+> 👉 Puedes acceder a la versión actual en: [https://evotickets.tech](https://evotickets.tech)
+
+
+# 🎟️ EvoTickets
 **EvoTickets** es una plataforma web para la compra y venta de entradas, así como la gestión integral de eventos. Permite a los usuarios explorar eventos, adquirir tickets de forma sencilla y a los organizadores gestionar la publicación, ventas y asistentes de sus eventos.
 
 ---
