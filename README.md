@@ -4,7 +4,7 @@
 >
 > El desarrollo de EvoTickets continúa en una nueva versión privada con más funcionalidades.
 >
-> 👉 Puedes acceder a la versión actual en: [https://evotickets.tech](https://evotickets.es)
+> 👉 Puedes acceder a la versión actual en: [https://evotickets.es](https://evotickets.es)
 
 
 # 🎟️ EvoTickets
